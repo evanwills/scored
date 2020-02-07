@@ -129,7 +129,7 @@ export interface IConfigDefault {
  *                         turns
  */
 export interface IConfigGame  extends IConfigDefault, IHasName {
-  id: number
+  id: number,
   allowNegative: boolean,
   endMode: END_MODE,
   minScore?: number,
@@ -189,6 +189,7 @@ export interface IGame {
  * @property start   Timestamp for when the game started
  */
 export interface IGameActive extends IGame {
+  id: number,
   end: number,
   config: IConfigGame,
   pause: IPause,
