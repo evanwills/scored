@@ -4,13 +4,13 @@ import { Store, createStore, combineReducers, applyMiddleware } from 'redux'
 // START: reducer imports
 
 
-import { gameConfigReducer, DefaultConfigReducer } from './game/config.reducer'
-import { startReducer, endReducer } from './game/start-end.reducer'
-import { pauseReducer } from './game/pause.reducer'
-import { gamePlayerReducer, allPlayerReducer } from './player/player.reducer'
-import { scoresReducer } from './score/scores.reducer'
-import { roundReducer } from './round/round.reducer'
-import { pastGameReducer } from './game/past-games.reducer'
+import { gameConfig__R, defaultConfig__R } from './game/config.reducer'
+import { start__R, end__R } from './game/start-end.reducer'
+import { pause__R } from './game/pause.reducer'
+import { gamePlayer__R, allPlayer__R } from './player/player.reducer'
+import { scores__R } from './score/scores.reducer'
+import { round__R } from './round/round.reducer'
+import { pastGame__R } from './game/past-games.reducer'
 
 
 //  END:  reducer imports
@@ -18,10 +18,10 @@ import { pastGameReducer } from './game/past-games.reducer'
 // START: middleware imports
 
 
-import { addNowToMetaMiddleware } from './middleware/add-now-to-action.middleware'
+import addNowToMetaMiddleware from './middleware/add-now-to-action.middleware'
 import { pauseResumeMiddleware } from './game/pause-resume.middleware'
-import { loggerMiddleware } from './middleware/logger.middleware'
-import crashReporter from './middleware/crash-reporter.middleware'
+import loggerMiddleware from './middleware/logger.middleware'
+// import crashReporter from './middleware/crash-reporter.middleware'
 import { roundMiddleWare } from './round/round.middleware'
 
 
@@ -32,22 +32,22 @@ import { roundMiddleWare } from './round/round.middleware'
 
 export const store : Store = createStore(
   combineReducers({
-    allPlayers: allPlayerReducer,
+    allPlayers: allPlayer__R,
     currentGame: combineReducers({
-      end: startReducer,
-      config: gameConfigReducer,
-      pause: pauseReducer,
-      players: gamePlayerReducer,
-      round: roundReducer,
-      scores: scoresReducer,
-      start: endReducer,
+      end: start__R,
+      config: gameConfig__R,
+      pause: pause__R,
+      players: gamePlayer__R,
+      round: round__R,
+      scores: scores__R,
+      start: end__R,
     }),
-    defautlConfig: DefaultConfigReducer,
-    PastGames: pastGameReducer
+    defautlConfig: defaultConfig__R,
+    PastGames: pastGame__R
   }),
   applyMiddleware(
     addNowToMetaMiddleware,
-    crashReporter,
+    // crashReporter,
     loggerMiddleware,
     pauseResumeMiddleware,
     roundMiddleWare

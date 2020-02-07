@@ -1,5 +1,5 @@
 import { IAction, IActionStamped } from '../utilities/types'
-import { Middleware, Store } from '../../node_modules/redux/index'
+import { Middleware, Store } from 'redux'
 
 /**
  * Redux middleware addNowToMetaMiddleware() appends a
@@ -11,8 +11,8 @@ import { Middleware, Store } from '../../node_modules/redux/index'
  *
  * @property {Date} now date object to be used
  */
-export const addNowToMetaMiddleware : Middleware = (store : Store) => (next) => (action : IAction | IActionStamped) => {
-  if (typeof action.meta.now !== 'number') {
+const addNowToMetaMiddleware : Middleware = (store) => (next) => (action) => {
+  if (action.meta.now > 0) {
     return next(action)
   } else {
     const _now = Date.now()
@@ -27,9 +27,11 @@ export const addNowToMetaMiddleware : Middleware = (store : Store) => (next) => 
       // Make sure the _meta object has a now property
       // (but don't replace the existing now property if
       //  there is one)
-      meta: (typeof _meta.now === 'undefined') ? { ..._meta, now: _now } : _meta
+      meta: (_meta === -1) ? { ..._meta, now: _now } : _meta
     }
 
     store.dispatch(_modifiedAction)
   }
 }
+
+export default addNowToMetaMiddleware

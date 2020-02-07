@@ -1,7 +1,7 @@
 import { Reducer } from 'redux'
-import { GAME_AT } from '../game/game.types'
+import { GAME__AT, IResumeGameAction, IResumeGameReducer } from '../game/game.types'
 import { IPause, IPauseLog, IPauseFailLog, IActionStamped, PAUSE_LOG_TYPE } from '../utilities/types'
-import { ERROR_AT } from '../errors/error.types'
+import { ERROR__AT } from '../errors/error.types'
 
 const initialPause : IPause = {
   start: -1,
@@ -12,11 +12,12 @@ const initialPause : IPause = {
   log: []
 }
 
-export const pauseReducer : Reducer = (state : IPause = initialPause, action : IActionStamped ) : IPause => {
+export const pause__R : Reducer = (state = initialPause, action) => {
   switch (action.type) {
-    case GAME_AT.PAUSE:
+    case GAME__AT.PAUSE:
+      const {type, payload, error, meta} = (action as IResumeGameAction)
       return {
-        start: action.meta.now,
+        start: (action.meta.now as number),
         end: -1,
         isPaused: true,
         log: [
@@ -31,8 +32,8 @@ export const pauseReducer : Reducer = (state : IPause = initialPause, action : I
         totalPauseTime: state.totalPauseTime,
       }
 
-    case GAME_AT.RESUME:
-      if (action.payload.pauseDuration > 0) {
+    case GAME__AT.RESUME:
+      if ((action.payload.pauseDuration as number) > 0) {
         const { pauseDuration } = action.payload
         return {
           start: -1,
@@ -60,7 +61,7 @@ export const pauseReducer : Reducer = (state : IPause = initialPause, action : I
         }
       }
 
-    case ERROR_AT.PAUSE_RESUME_FAILURE:
+    case ERROR__AT.PAUSE_RESUME_FAILURE:
       return {
         ...state,
         log: [

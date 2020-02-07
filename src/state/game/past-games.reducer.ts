@@ -1,6 +1,6 @@
-import { Reducer } from '../../node_modules/redux/index'
+import { Reducer } from 'redux'
 import { IGame, IAction } from "../utilities/types"
 
-export const pastGameReducer : Reducer = (state : IGame[] , action : IAction) : IGame[] => {
+export const pastGame__R : Reducer = (state , action) => {
   return state
 }

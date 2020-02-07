@@ -1,9 +1,10 @@
-import { IPayload, IAction } from '../utilities/types'
+import { IPayload, IAction, IPause } from '../utilities/types'
+import { Reducer } from 'redux'
 
 /**
  * Action types
  */
-export enum GAME_AT {
+export enum GAME__AT {
   INITIALISE = 'INITIALISE_GAME',
   START = 'START_GAME',
   PAUSE = 'PAUSE_GAME',
@@ -17,6 +18,10 @@ export interface IResumeGamePayload extends IPayload {
 }
 
 export interface IResumeGameAction extends IAction {
-  type: GAME_AT,
+  type: GAME__AT,
   payload: IResumeGamePayload
+}
+
+export interface IResumeGameReducer extends Reducer {
+  (state: IPause, action: IActionStamped | IResumeGameAction) : IPause
 }

@@ -1,9 +1,9 @@
 import { IConfigDefault, IConfigGame, IAction } from '../utilities/types'
-import { Reducer } from '../../node_modules/redux/index'
+import { Reducer } from 'redux'
 
-export const gameConfigReducer : Reducer = (state : IConfigGame , action: IAction) : IConfigGame => {
+export const gameConfig__R : Reducer = (state , action) => {
   return state
 }
-export const DefaultConfigReducer : Reducer = (state : IConfigDefault , action: IAction) : IConfigDefault => {
+export const defaultConfig__R : Reducer = (state, action) => {
   return state
 }

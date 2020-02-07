@@ -1,14 +1,14 @@
 import {IPayload, IPlayerSimple, IAction} from '../utilities/types'
 
 
-export enum ROUND_AT {
+export enum ROUND__AT {
   INITIALISE = 'INITIALISE_ROUND',
   ADD_TURN = 'ADD_TURN_TO_ROUND',
   UPDATE_TURN = 'UPDATE_ROUND_TURN',
   FINALISE = 'FINALISE_ROUND'
 }
 
-export enum TURN_AT {
+export enum TURN__AT {
   START = 'START_TURN',
   SCORE = 'SCORE_TURN',
   SCORE_END = 'SCORE_TURN_AND_END_AFTER_ROUND',

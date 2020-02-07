@@ -1,37 +1,49 @@
 import { IAction, IMeta } from '../utilities/types'
-import { TURN, IScoreTurnAction } from './round.types'
+import { TURN__AT, IScoreTurnAction } from './round.types'
 
 
 
-export const startTurnAC = () : IAction => {
+export const startTurn__AC = () : IAction => {
   return {
-    type: TURN.START,
-    payload: {}
+    type: TURN__AT.START,
+    payload: {},
+    error: false,
+    meta: {
+      now: -1
+    }
   }
 }
 
-export const pauseTurnAC = () : IAction => {
+export const pauseTurn__AC = () : IAction => {
   return {
-    type: TURN.PAUSE,
-    payload: {}
+    type: TURN__AT.PAUSE,
+    payload: {},
+    error: false,
+    meta: {
+      now: -1
+    }
   }
 }
 
-export const resumeTurnAC = () : IAction => {
+export const resumeTurn__AC = () : IAction => {
   return {
-    type: TURN.RESUME,
-    payload: {}
+    type: TURN__AT.RESUME,
+    payload: {},
+    error: false,
+    meta: {
+      now: -1
+    }
   }
 }
 
-export const scoreTurnAC = (
+export const scoreTurn__AC = (
   score : number,
   totalScore: number,
   meta: IMeta,
   dispatched: boolean = false
 ) : IScoreTurnAction => {
   return {
-    type: TURN.SCORE,
+    type: TURN__AT.SCORE,
     payload: {
       score: score,
       totalScore: totalScore
@@ -44,10 +56,14 @@ export const scoreTurnAC = (
   }
 }
 
-export const endTurnAC = () : IAction => {
+export const endTurn__AC = () : IAction => {
   return {
-    type: TURN.END,
-    payload: {}
+    type: TURN__AT.END,
+    payload: {},
+    error: false,
+    meta: {
+      now: -1
+    }
   }
 }
 

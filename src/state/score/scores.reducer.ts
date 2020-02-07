@@ -16,7 +16,7 @@ import { SCORE } from '../actions/score.action'
  *               turn objects
  * @param action FSA compliant Redux action
  */
-export const scoresReducer : Reducer = (state : ITurnComplete[] = [], action: IAction) => {
+export const scores__R : Reducer = (state : ITurnComplete[] = [], action: IAction) => {
   switch (action.type) {
     case SCORE.ADD:
       return [...state, ...action.payload.turns]

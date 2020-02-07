@@ -1,5 +1,5 @@
 
-import { ERROR_AT, E_LOG_TYPE } from "../errors/error.types";
+import { ERROR__AT, E_LOG_TYPE } from "../errors/error.types";
 import { AnyAction } from 'redux'
 // ========================================================
 // START: interface declarations
@@ -30,7 +30,7 @@ export interface IAction extends AnyAction {
   type: string,
   payload: IPayload,
   error?: boolean,
-  meta?: IMeta
+  meta: IMeta
 }
 
 /**
@@ -338,8 +338,6 @@ export interface IPauseFailLog extends IPauseLog {
  *
  */
 export interface IPayload {
-  action?: IAction,
-  dispatched?: boolean,
   id?: number,
   isPaused?: boolean
   message?: string,
@@ -354,6 +352,51 @@ export interface IPayload {
   totalScore?: number,
   turn?: ITurnComplete,
   turns?: ITurnComplete[],
+}
+
+export interface IIdPayload extends IPayload {
+  id: number
+}
+export interface INamePayload extends IPayload {
+  name: string
+}
+export interface IIdNamePayload extends IIdPayload {
+  id: number,
+  name: string
+}
+export interface IMessagePayload extends IPayload {
+  message: string
+}
+export interface IResumePayload extends IPayload {
+  pauseDuration: number
+}
+export interface IPlayerPayload extends IPayload {
+  player: IPlayerSimple
+}
+export interface IPlayersPayload extends IPayload {
+  players: IPlayerSimple[]
+}
+export interface IPlayOrderPayload extends IPayload {
+  playOrder: PLAY_ORDER
+}
+export interface IPositionPayload extends IIdPayload {
+  id: number,
+  position: number
+}
+export interface IScorePayload extends IIdPayload {
+  id: number,
+  score: number
+}
+export interface ITotalScorePayload extends IScorePayload {
+  id: number,
+  score: number,
+  totalScore: number
+}
+export interface ITurnCompletePayload extends IPayload {
+  turn: ITurnComplete
+}
+export interface ITurnsCompletePayload extends IPayload {
+  turns: ITurnComplete[],
 }
 
 //  END:  payload interfaces
@@ -405,7 +448,7 @@ export type playerGameJoin = {
   rank: number
 }
 
-export interface IPlayerResult extends IPlayerSimple{
+export interface IPlayerResult extends IPlayerSimple {
   id: number,
   name: string,
   score: number,
@@ -467,7 +510,7 @@ export type IRoundTurns = {
 
 export interface ITurn {
   id: number,
-  end?: number,
+  end: number,
   pauseDuration: number
   playerID: number,
   playOrder: number,
@@ -493,7 +536,7 @@ export interface ITurnComplete extends ITurn {
 
 export type ITurnScore = {
   round: number,
-  total?: number
+  total: number
 }
 
 export type ITurnRank = {
@@ -520,7 +563,7 @@ export type IWholeScored = {
 export type StateSlice = IConfigDefault | IConfigGame | IGame |
                          IGame[] | IPause | gamePlayers | playersAll |
                          IRound | IRoundTurns | ITurnComplete[] |
-                         ITurnRank | ITurnScore | number | null
+                         ITurnRank | ITurnScore | number
 
 //  END:  unions declarations
 // ========================================================
@@ -562,11 +605,11 @@ export enum END_MODE {
  * @const {object}
  */
 export enum PLAY_ORDER {
-  SEATING_POSTION = 'Seating position',
-  ROUND_WINNER = 'Round winner',
-  TRICK = 'Trick',
-  GAME_LEADER = 'Game leader',
-  NEXT = 'Next player'
+  SEATING_POSTION,
+  ROUND_WINNER,
+  TRICK,
+  GAME_LEADER,
+  NEXT
 }
 
 export enum PAUSE_ACTION {
@@ -581,8 +624,8 @@ export enum SCORE_SORT_METHOD {
 }
 
 export enum FILTER_BY_PROP {
-  id,
-  playerID
+  id = 'id',
+  playerID = 'playerID'
 }
 
 export enum PAUSE_LOG_TYPE {
@@ -591,11 +634,15 @@ export enum PAUSE_LOG_TYPE {
 }
 
 export enum TURN_SORT_FIELDS {
-  id,
-  end,
-  pauseDuration,
-  playerID,
-  playOrder,
-  roundIndex,
-  start
+  id = 'id',
+  end = 'end',
+  pauseDuration = 'pauseDuration',
+  playerID = 'playerID',
+  playOrder = 'playOrder',
+  roundIndex = 'roundIndex',
+  start = 'start'
 }
+
+
+//  END:   enum declarations
+// ========================================================

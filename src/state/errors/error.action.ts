@@ -1,33 +1,39 @@
 import { StateSlice, IActionStamped } from '../utilities/types'
-import { ERROR_AT, errorTypes, IErrorAction, ErrorInfo } from './error.types'
+import { ERROR__AT, errorTypes, IErrorType, IErrorAction, ErrorInfo } from './error.types'
 
-
-export const errorAC = (
-  replacements: string[],
-  errorType: ERROR_AT,
-  action: IActionStamped,
-  state: StateSlice = null
+/**
+ * Action creator for handling logging errors
+ * @param _replacements list of replacement strings to make
+ * @param _errorType
+ * @param _action
+ * @param _state
+ */
+export const error__AC = (
+  _replacements: string[],
+  _errorType: ERROR__AT,
+  _action: IActionStamped,
+  _state: StateSlice = null
 ) : IErrorAction => {
-  const {name, code, message, relacements, logType} = errorTypes[errorType] as ErrorInfo
+  const {name, code, message, replacements, logType} = errorTypes[_errorType] as ErrorInfo
 
   return {
     type: name,
     payload: {
-      action: action,
+      action: _action,
       code: code,
       message: printf(
-        replacements,
+        _replacements,
         message,
-        relacements
+        replacements
       ),
-      state: state,
-      type: errorType
+      state: _state,
+      type: _errorType
     },
     error: true,
     meta: {
-      ...action.meta,
+      ..._action.meta,
       code: code,
-      eType: errorType,
+      eType: _errorType,
       logType: logType
     }
   }
@@ -54,7 +60,7 @@ const printf = (replacements: string[], message: string, count: number) : string
   let output = message
 
   for (let a : number = 0; a < count; a += 1) {
-    const reg = new RegExp('\{\{' + (a + 1) + '\}\}', 'g')
+    const reg = new RegExp('\\$' + (a + 1), 'g')
     message = message.replace(reg, replacements[a])
   }
 

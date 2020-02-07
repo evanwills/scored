@@ -1,9 +1,9 @@
-import { Reducer } from '../../node_modules/redux/index'
+import { Reducer } from 'redux'
 import { IAction } from '../utilities/types'
 
-export const startReducer : Reducer = (state : number , action: IAction) : number => {
+export const start__R : Reducer = (state, action) => {
   return state
 }
-export const endReducer : Reducer = (state : number , action: IAction) : number => {
+export const end__R : Reducer = (state, action) => {
   return state
 }

@@ -1,11 +1,11 @@
 import { IAction } from '../utilities/types'
-import { GAME_AT, IResumeGameAction } from './game.types'
+import { GAME__AT, IResumeGameAction } from './game.types'
 /**
  * Set the game to paused (i.e. stop counting the time)
  */
-export const pauseGameAC = () => {
+export const pauseGame__AC = () => {
   return {
-    type: GAME_AT.PAUSE,
+    type: GAME__AT.PAUSE,
     payload: {}
   }
 }
@@ -13,13 +13,17 @@ export const pauseGameAC = () => {
 /**
  * Set the game to paused (i.e. stop counting the time)
  */
-export const resumeGameAC = (action: IAction, duration: number) : IResumeGameAction => {
+export const resumeGame__AC = (action: IAction, duration: number) : IResumeGameAction => {
   return {
     ...action,
-    type: GAME_AT.RESUME,
+    type: GAME__AT.RESUME,
     payload: {
       ...action.payload,
       pauseDuration: duration
+    },
+    error: false,
+    meta: {
+      now: -1
     }
   }
 }
@@ -27,10 +31,14 @@ export const resumeGameAC = (action: IAction, duration: number) : IResumeGameAct
 /**
  * Set the game to paused (i.e. stop counting the time)
  */
-export const endGameAC = () => {
+export const endGame__AC = () => {
   return {
-    type: GAME_AT.END,
-    payload: {}
+    type: GAME__AT.END,
+    payload: {},
+    error: false,
+    meta: {
+      now: -1
+    }
   }
 }
 
@@ -42,27 +50,35 @@ export const endGameAC = () => {
  * @param {string}  _endMode   How the game ends
  * @param {string}  _playOrder Play order for the start of each round.
  */
-export const initialiseGameAC = (_name, _clockwise, _endMode, _playOrder) => {
+export const initialiseGame__AC = (_name : string, _clockwise : string, _endMode : string, _playOrder: string) => {
   return {
-    type: GAME_AT.INITIALISE,
+    type: GAME__AT.INITIALISE,
     payload: {
       name: _name,
       clockWise: _clockwise,
       endMode: _endMode,
       playOrder: _playOrder
+    },
+    error: false,
+    meta: {
+      now: -1
     }
   }
 }
 
 /**
  *
- * @param {string}  _firstPlayer First player to take a turn
+ * @param {number} _id First player to take a turn
  */
-export const startGameAC = (_firstPlayer) => {
+export const startGame__AC = (_id: number) => {
   return {
-    type: GAME.START,
+    type: GAME__AT.START,
     payload: {
-      firstPlayer: _firstPlayer
+      id: _id
+    },
+    error: false,
+    meta: {
+      now: -1
     }
   }
 }

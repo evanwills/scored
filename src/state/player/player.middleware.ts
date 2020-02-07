@@ -1,23 +1,25 @@
 
-import { ALL_PLAYERS, GAME_PLAYER } from '../actions/player.action'
-import { IAction, IWholeScored, IPlayerSimple, IActionError } from '../utilities/types'
 import { Middleware, Store } from 'redux'
-import { ERROR_AT } from '../utilities/error.types'
+import { ALL_PLAYERS__AT, GAME_PLAYERS__AT } from './player.types'
+import { IAction, IWholeScored, IPlayerSimple } from '../utilities/types'
+import { ERROR__AT } from '../errors/error.types'
 import { getPlayerByID, isDuplicateName, sanitiseName } from '../utilities/name.utils'
-import { errorAC } from '../actions/error.action'
+import { error__AC } from '../errors/error.action'
+import { isIdPayload__TG } from '../utilities/typegards'
 
 
 // ========================================================
 // START: Redux reducer
 
-export const gamePlayersMiddleware : Middleware = (store : Store) => (next) => (action : IAction) => {
+export const gamePlayersMiddleware : Middleware = (store) => (next) => (action) => {
   switch (action.type) {
-    case GAME_PLAYER.ADD:
+    case GAME_PLAYERS__AT.ADD:
       const {allPlayers, currentGame} : IWholeScored = store.getState()
 
-      if (typeof action.payload.id === 'undefinded') {
-        throw
+      if (isIdPayload__TG(action.payload)) {
+        throw new Error('No ID has been specified')
       }
+
       const _playerID : number = action.payload.id
       // Get the player's basic details
       const _player : IPlayerSimple = getPlayerByID(
@@ -25,25 +27,26 @@ export const gamePlayersMiddleware : Middleware = (store : Store) => (next) => (
         allPlayers.players
       )
 
+      const _alreadyPlayer = getPlayerByID(_playerID, currentGame.players.playersSeatOrder)
       // Check whether the player is already listed in the game
-      if (getPlayerByID(_playerID, currentGame.players.all) !== null) {
+      if (_alreadyPlayer.id > 0) {
         // You're a duffa. You've already added that player
         store.dispatch(
-          errorAC(
+          error__AC(
             [_player.name, `{_playerID}`],
-            ERROR_AT.PLAYER_ALREADY_ADDED,
+            ERROR__AT.PLAYER_ALREADY_ADDED,
             action
           )
         )
-      } else if (_player === null) {
+      } else if (_player.id < 1) {
         // Check whether the player exists
 
         // That's odd! No player!
         // Send an error
         store.dispatch(
-          errorAC(
+          error__AC(
             [`{_playerID}`],
-            ERROR_AT.PLAYER_NOT_FOUND,
+            ERROR__AT.PLAYER_NOT_FOUND,
             action
           )
         )
@@ -51,9 +54,9 @@ export const gamePlayersMiddleware : Middleware = (store : Store) => (next) => (
         // Something weird is going on here.
         // Can't add an inactive player to a game
         store.dispatch(
-          errorAC(
+          error__AC(
             [_player.name, `{_playerID}`],
-            ERROR_AT.CANT_ADD_INACTIVE_PLAYER,
+            ERROR__AT.CANT_ADD_INACTIVE_PLAYER,
             action
           )
         )
@@ -77,17 +80,17 @@ export const gamePlayersMiddleware : Middleware = (store : Store) => (next) => (
  * Validate player names before adding them to the system
  * @param store
  */
-export const playersAllMiddleware : Middleware = (store : Store) => (next) => (action : IAction) => {
+export const playersAllMiddleware : Middleware = (store) => (next) => (action) => {
   switch (action.type) {
-    case ALL_PLAYERS.UPDATE:
-    case ALL_PLAYERS.ADD:
+    case ALL_PLAYERS__AT.UPDATE:
+    case ALL_PLAYERS__AT.ADD:
       const _name = action.payload.name.trim()
       const _sanitised = sanitiseName(_name)
       if (_name !== _sanitised) {
         store.dispatch(
-          errorAC(
+          error__AC(
             [_sanitised],
-            ERROR_AT.BAD_PLAYER_NAME,
+            ERROR__AT.BAD_PLAYER_NAME,
             action
           )
         )
@@ -97,9 +100,9 @@ export const playersAllMiddleware : Middleware = (store : Store) => (next) => (a
       if (isDuplicateName(_sanitised, _currentState.allPlayers.players)) {
         // Can't work around a duplicate name
         return next(
-          errorAC(
+          error__AC(
             [_sanitised],
-            ERROR_AT.DUPLICATE_PLAYER_NAME,
+            ERROR__AT.DUPLICATE_PLAYER_NAME,
             action
           )
         )

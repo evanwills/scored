@@ -117,11 +117,17 @@ export const getTotalScore = (playerID : number, allScores: ITurnComplete[]) => 
  */
 const sortTurnByScore = (
   whichScore : SCORE_SORT_METHOD = SCORE_SORT_METHOD.round
-) : ICompare => (
-  turnA : ITurnComplete,
-  turnB: ITurnComplete
-) : number => {
-  return turnB.score[whichScore] - turnA.score[whichScore]
+) : ICompare => {
+  const _whichScore = (whichScore === SCORE_SORT_METHOD.total) ? 'total' : 'round'
+  return ( turnA : ITurnComplete, turnB: ITurnComplete ) : number => {
+    if (turnB.score[_whichScore] < turnA.score[_whichScore]) {
+      return 1
+    } else if (turnB.score[_whichScore] > turnA.score[_whichScore]) {
+      return -1
+    } else {
+      return 0
+    }
+  }
 }
 
 const sortTurnByOther = (

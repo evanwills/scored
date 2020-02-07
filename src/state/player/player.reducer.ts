@@ -1,13 +1,13 @@
-import { Reducer } from '../../node_modules/redux/index'
+import { Reducer } from 'redux'
 import { gamePlayers, IAction, playersAll, IPlayerSimple } from '../utilities/types'
-import { ALL_PLAYERS, GAME_PLAYER } from '../actions/player.action'
-import { TURN } from '../actions/turns.action'
+import { ALL_PLAYERS__AT, GAME_PLAYERS__AT } from './player.action'
+import { TURN__AT } from '../round/round.types'
 
 
 
-export const gamePlayerReducer : Reducer = (state : gamePlayers , action: IAction) : gamePlayers => {
+export const gamePlayer__R : Reducer = (state, action) => {
   switch (action.type) {
-    case GAME_PLAYER.ADD:
+    case GAME_PLAYERS__AT.ADD:
       const player : IPlayerSimple = action.payload.player
       return {
         ...state,
@@ -27,10 +27,10 @@ export const gamePlayerReducer : Reducer = (state : gamePlayers , action: IActio
       }
 
 
-      case GAME_PLAYER.UPDATE_NAME:
-      case GAME_PLAYER.REARRANGE:
-      case GAME_PLAYER.DEACTIVATE:
-      case GAME_PLAYER.UPDATE_SCORE:
+      case GAME_PLAYERS__AT.UPDATE_NAME:
+      case GAME_PLAYERS__AT.REARRANGE:
+      case GAME_PLAYERS__AT.DEACTIVATE:
+      case GAME_PLAYERS__AT.UPDATE_SCORE:
   }
   return state
 }
@@ -40,9 +40,9 @@ export const gamePlayerReducer : Reducer = (state : gamePlayers , action: IActio
  * @param state
  * @param action
  */
-export const allPlayerReducer : Reducer = (state : playersAll , action: IAction) : playersAll => {
+export const allPlayer__R : Reducer = (state, action) => {
   switch (action.type) {
-    case ALL_PLAYERS.ADD:
+    case ALL_PLAYERS__AT.ADD:
       const _index = state.index + 1
       return {
         index: _index,
@@ -57,10 +57,10 @@ export const allPlayerReducer : Reducer = (state : playersAll , action: IAction)
         playerGames: state.playerGames
       }
 
-    case ALL_PLAYERS.UPDATE:
+    case ALL_PLAYERS__AT.UPDATE:
       return {
         ...state,
-        players: state.players.map(player => {
+        players: state.players.map((player : IPlayerSimple) => {
           if (player.id === action.payload.id) {
             return {
               ...player,
@@ -72,10 +72,10 @@ export const allPlayerReducer : Reducer = (state : playersAll , action: IAction)
         })
       }
 
-    case ALL_PLAYERS.DELETE:
+    case ALL_PLAYERS__AT.DELETE:
       return {
         ...state,
-        players: state.players.map(player => {
+        players: state.players.map((player : IPlayerSimple) => {
           if (player.id === action.payload.id) {
             return {
               ...player,

@@ -1,7 +1,7 @@
 import { IMeta, StateSlice, IPayload, IActionStamped } from '../utilities/types'
 
 
-export enum ERROR_AT {
+export enum ERROR__AT {
   BAD_PLAYER_NAME = 'BAD_PLAYER_NAME',
   PLAYER_ALREADY_ADDED = 'PLAYER_ALREADY_ADDED',
   CANT_ADD_INACTIVE_PLAYER = 'CANT_ADD_INACTIVE_PLAYER',
@@ -22,7 +22,7 @@ export interface IErrorMeta extends IMeta {
   now: number,
   logType: E_LOG_TYPE,
   code: number,
-  eType: ERROR_AT
+  eType: ERROR__AT
 }
 
 /**
@@ -46,7 +46,7 @@ export interface IErrorPayload extends IPayload {
   code: number,
   message: string,
   state?: StateSlice,
-  type: ERROR_AT
+  type: ERROR__AT
 }
 
 /**
@@ -102,8 +102,8 @@ export const errorTypes : IErrorType = {
 
   BAD_PLAYER_NAME: {
     code: 100,
-    name: ERROR_AT.BAD_PLAYER_NAME,
-    message: 'Player\'s name contained invalid characters or was too long (or both). Name has been cleand up before submission. Using: "{{1}}"',
+    name: ERROR__AT.BAD_PLAYER_NAME,
+    message: 'Player\'s name contained invalid characters or was too long (or both). Name has been cleand up before submission. Using: "$1"',
     replacements: 1,
     logType: E_LOG_TYPE.WARN
   },
@@ -113,15 +113,15 @@ export const errorTypes : IErrorType = {
   // START: Recoverable system errors
 
   PLAYER_ALREADY_ADDED: {
-    name: ERROR_AT.PLAYER_ALREADY_ADDED,
-    message: 'Player "{{1}}" (#{{2}}) has already been added to the game.',
+    name: ERROR__AT.PLAYER_ALREADY_ADDED,
+    message: 'Player "$1" (#$2) has already been added to the game.',
     code: 150,
     replacements: 2,
     logType: E_LOG_TYPE.WARN
   },
   CANT_ADD_INACTIVE_PLAYER: {
-    name: ERROR_AT.CANT_ADD_INACTIVE_PLAYER,
-    message: 'Cannot add an inactive player "{{1}}" (#{{2}}) to the game',
+    name: ERROR__AT.CANT_ADD_INACTIVE_PLAYER,
+    message: 'Cannot add an inactive player "$1" (#$2 to the game',
     code: 151,
     replacements: 2,
     logType: E_LOG_TYPE.WARN
@@ -140,8 +140,8 @@ export const errorTypes : IErrorType = {
   // START: Unrecoverable user input errors
 
   DUPLICATE_PLAYER_NAME: {
-    name: ERROR_AT.DUPLICATE_PLAYER_NAME,
-    message: 'A player with the name "{{1}}" (#{{2}}) already exists in the system.',
+    name: ERROR__AT.DUPLICATE_PLAYER_NAME,
+    message: 'A player with the name "$1" (#$2) already exists in the system.',
     code: 200,
     replacements: 2,
     logType: E_LOG_TYPE.ERROR
@@ -152,15 +152,15 @@ export const errorTypes : IErrorType = {
   // START: Unrecoverable system errors
 
   PLAYER_NOT_FOUND: {
-    name: ERROR_AT.PLAYER_NOT_FOUND,
-    message: 'Could not find player matching the specified ID: {{1}}',
+    name: ERROR__AT.PLAYER_NOT_FOUND,
+    message: 'Could not find player matching the specified ID: $1',
     code: 250,
     replacements: 1,
     logType: E_LOG_TYPE.ERROR
   },
   PAUSE_RESUME_FAILURE: {
-    name: ERROR_AT.PAUSE_RESUME_FAILURE,
-    message: '{{1}}',
+    name: ERROR__AT.PAUSE_RESUME_FAILURE,
+    message: '$1',
     code: 251,
     replacements: 0,
     logType: E_LOG_TYPE.ERROR

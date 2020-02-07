@@ -49,11 +49,16 @@ export const sanitiseName = (_name: string) : string => {
  * @param _id        ID of player to be retrieved
  * @param allPlayers list of players in the system
  */
-export const getPlayerByID = (_id : number, allPlayers: IPlayerSimple[]) : IPlayerSimple | null => {
+export const getPlayerByID = (_id : number, allPlayers: IPlayerSimple[]) : IPlayerSimple => {
   for (let a = 0; a < allPlayers.length; a += 1) {
     if (allPlayers[a].id === _id) {
       return allPlayers[0]
     }
   }
-  return null
+
+  return {
+    id: -1,
+    name: '',
+    active: false
+  }
 }

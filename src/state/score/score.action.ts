@@ -1,7 +1,7 @@
 
 import { IAction, ITurnComplete } from '../utilities/types'
 
-export const SCORE = {
+export const SCORE__AT = {
   ADD: 'Add score',
   UPDATE: 'Update past score'
 }
@@ -12,11 +12,15 @@ export const SCORE = {
  * @param playedTurns list of turns from the most recently
  *                    played round
  */
-export const scoresAddAC = (playedTurns: ITurnComplete[]) : IAction => {
+export const scoresAdd__AC = (playedTurns: ITurnComplete[]) : IAction => {
   return {
-    type: SCORE.ADD,
+    type: SCORE__AT.ADD,
     payload: {
       turns: playedTurns
+    },
+    error: false,
+    meta: {
+      now: -1
     }
   }
 }
@@ -27,12 +31,16 @@ export const scoresAddAC = (playedTurns: ITurnComplete[]) : IAction => {
  * @param turnID
  * @param newScore
  */
-export const scoresUpdateAC = (turnID: number, newScore: number) : IAction => {
+export const scoresUpdate__AC = (turnID: number, newScore: number) : IAction => {
   return {
-    type: SCORE.ADD,
+    type: SCORE__AT.ADD,
     payload: {
       id: turnID,
       score: newScore
+    },
+    error: false,
+    meta: {
+      now: -1
     }
   }
 }

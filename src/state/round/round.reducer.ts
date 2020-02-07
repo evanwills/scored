@@ -1,12 +1,12 @@
-import { Reducer } from '../../node_modules/redux/index'
-import { ROUND } from '../actions/round.action'
-import { TURN } from '../actions/turns.action'
-import { GAME } from '../actions/game.action'
-import { sortTurns } from '../utilities/score.utils'
+import { Reducer } from 'redux'
+import { ROUND__AT, TURN__AT } from './round.types'
+import { } from './turns.action'
+import { GAME__AT } from '../game/game.types'
+import { sortTurns } from '../score/score.utils'
 import { IAction, IRound, PLAY_ORDER, IPlayerSimple, IRoundTurns, ITurn, ITurnComplete, SCORE_SORT_METHOD } from '../utilities/types'
 
 const initialRound : IRound = {
-  firstPlayerID: null,
+  firstPlayerID: -1,
   index: 0,
   playersInOrder: [],
   playOrderIndex: 0,
@@ -32,17 +32,14 @@ const initialRound : IRound = {
  * @param state the slice of redux state concerned with rounds
  * @param action any action passing through redux
  */
-export const roundReducer : Reducer = (
-  state : IRound = initialRound,
-  action : IAction
-) : IRound => {
+export const round__R : Reducer = (state = initialRound, action) => {
   const {type, payload} = action
   switch (type) {
-    case ROUND.INITIALISE:
+    case ROUND__AT.INITIALISE:
       // --------------------------------------------------
       // START: initialisation
 
-      let playersInOrder : IPlayerSimple[] = null;
+      let playersInOrder : IPlayerSimple[] = [];
 
       switch (payload.playOrder) {
         case PLAY_ORDER.ROUND_WINNER:
@@ -73,7 +70,7 @@ export const roundReducer : Reducer = (
 
         case PLAY_ORDER.SEATING_POSTION:
         default:
-          playersInOrder = payload.players.filter(player => player.active)
+          playersInOrder = payload.players.filter((player : IPlayerSimple) => player.active)
           break;
       }
 
@@ -88,7 +85,7 @@ export const roundReducer : Reducer = (
       //  END:  initialisation
       // --------------------------------------------------
 
-    case ROUND.FINALISE:
+    case ROUND__AT.FINALISE:
       // --------------------------------------------------
       // START: finalisation
 
@@ -141,18 +138,18 @@ export const roundReducer : Reducer = (
       // END: finalisation
       // --------------------------------------------------
 
-    case TURN.START:
+    case TURN__AT.START:
       const _turnIndex = state.turns.index + 1
       const _playIndex = state.playOrderIndex + 1
       const _current : ITurn = {
         id: _turnIndex,
-        end: null,
+        end: -1,
         pauseDuration: 0,
         playerID: state.playersInOrder[0].id,
         playOrder: _playIndex,
         score: {
           round: 0,
-          total: null
+          total: 0
         },
         start: action.meta.now
       }
@@ -166,7 +163,7 @@ export const roundReducer : Reducer = (
       }
       break
 
-    case TURN.SCORE:
+    case TURN__AT.SCORE:
       return {
         ...state,
         turns: {
@@ -182,7 +179,7 @@ export const roundReducer : Reducer = (
       }
       break
 
-    case GAME.RESUME:
+    case GAME__AT.RESUME:
       return {
         ...state,
         turns: {
@@ -194,12 +191,12 @@ export const roundReducer : Reducer = (
         }
       }
 
-    case TURN.END:
+    case TURN__AT.END:
       // Create a complted turn
       const completedTurn : ITurnComplete = {
         ...state.turns.current,
         end: action.meta.now,
-        rank: null,
+        rank: -1,
         roundIndex: state.index
       }
       const _turns : IRoundTurns = {
@@ -214,11 +211,11 @@ export const roundReducer : Reducer = (
         // remove the current player from the list of
         // players yet to have their turn
         playersInOrder: state.playersInOrder.filter(
-          player => (player.id !== completedTurn.playerID)
+          (player : IPlayerSimple) => (player.id !== completedTurn.playerID)
         )
       }
 
-    case GAME.INITIALISE:
+    case GAME__AT.INITIALISE:
       // It is assumed that all players listed for the game
       // will play the first round
 
