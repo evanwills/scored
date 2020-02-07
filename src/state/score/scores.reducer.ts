@@ -1,6 +1,6 @@
-import { Reducer } from '../../node_modules/redux/index'
+import { Reducer } from 'redux'
 import { IAction, IGetTurns, ITurnComplete, SCORE_SORT_METHOD, TURN_SORT_FIELDS, FILTER_BY_PROP } from '../utilities/types'
-import { SCORE } from '../actions/score.action'
+import { SCORE__AT } from './score.action'
 
 
 // ========================================================
@@ -16,12 +16,12 @@ import { SCORE } from '../actions/score.action'
  *               turn objects
  * @param action FSA compliant Redux action
  */
-export const scores__R : Reducer = (state : ITurnComplete[] = [], action: IAction) => {
+export const scores__R : Reducer = (state = [], action) => {
   switch (action.type) {
-    case SCORE.ADD:
+    case SCORE__AT.ADD:
       return [...state, ...action.payload.turns]
 
-    case SCORE.UPDATE:
+    case SCORE__AT.UPDATE:
       const {id, score} = action.payload
       return state.map((thisTurn : ITurnComplete) => {
         if (thisTurn.id === id) {

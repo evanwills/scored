@@ -14,7 +14,6 @@ function li_dir {
 li_dir "errors";
 li_dir "game";
 li_dir "middleware";
-li_dir "pause";
 li_dir "player";
 li_dir "round";
 li_dir "score";

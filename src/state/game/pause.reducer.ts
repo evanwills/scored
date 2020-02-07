@@ -1,5 +1,5 @@
 import { Reducer } from 'redux'
-import { GAME__AT, IResumeGameAction, IResumeGameReducer } from '../game/game.types'
+import { GAME__AT, IResumeGameAction } from '../game/game.types'
 import { IPause, IPauseLog, IPauseFailLog, IActionStamped, PAUSE_LOG_TYPE } from '../utilities/types'
 import { ERROR__AT } from '../errors/error.types'
 
