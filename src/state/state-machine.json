@@ -1,0 +1,48 @@
+{
+  "game": {
+    "description": "",
+    "states": {
+      "initialised": {
+        "description": "Ready to accept player registration"
+      },
+      "ready": {
+        "description": "Has two or more players registered"
+      },
+      "started": {
+        "description": "players take turns (and are scored) in rounds",
+        "states": {
+          "playing": {
+            "description": "players take turns (and are scored) in rounds",
+            "states": {
+              "rounds": {
+                "description": "",
+                "states": {
+                  "initialised": {
+                    "description": "turns are sorted into the correct order based on game configuration and preceding rounds"
+                  },
+                  "takingTurns": {
+                    "description": "turns are taken scored and scored in order",
+                    "state": {
+                      "started"
+                      "paused"
+                      "scoring"
+                      "ended"
+                    }
+                  },
+                  "finalised": {
+                    "description": "rankings are worked out for the round and over all. each turn is stored in the list of all turns for the game"
+                  },
+                }
+              }
+            }
+          }
+          "paused": {
+            "description": "Players cannot have a turn out have their turn scored. However, players can be added to, or removed from, the game"
+          }
+        }
+      },
+      "ended":
+      "finalised":
+    }
+  }
+}
