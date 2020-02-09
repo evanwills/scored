@@ -4,6 +4,7 @@ import { initialiseRound__AC, finaliseRound__AC } from './round.action'
 import { getTotalScore } from '../score/score.utils'
 import { IWholeScored, IActionStamped } from '../utilities/types'
 import { Middleware } from 'redux'
+// import { initialRound, initialTurn } from './round.initital-states'
 
 export const roundMiddleWare : Middleware = (store) => (next) => (action) => {
   const currentState : IWholeScored = store.getState()
@@ -28,7 +29,7 @@ export const roundMiddleWare : Middleware = (store) => (next) => (action) => {
         // Now that the score has been processed, we can end the turn
         store.dispatch(endTurn__AC())
 
-        if (end === null) {
+        if (end === -1) {
           return next(startTurn__AC())
         } else {
           return next(finaliseRound__AC())

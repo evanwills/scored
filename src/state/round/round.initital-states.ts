@@ -3,6 +3,7 @@ import { ITurn, IRound } from '../utilities/types'
 export const initialTurn : ITurn = {
   id: -1,
   end: -1,
+  isBonusRound: false,
   pauseDuration: 0,
   playerID: -1,
   playOrder: -1,

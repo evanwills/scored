@@ -11,8 +11,7 @@ import { ERROR__AT, errorTypes, IErrorType, IErrorAction, ErrorInfo } from './er
 export const error__AC = (
   _replacements: string[],
   _errorType: ERROR__AT,
-  _action: IActionStamped,
-  _state: StateSlice = null
+  _action: IActionStamped
 ) : IErrorAction => {
   const {name, code, message, replacements, logType} = errorTypes[_errorType] as ErrorInfo
 
@@ -26,7 +25,6 @@ export const error__AC = (
         message,
         replacements
       ),
-      state: _state,
       type: _errorType
     },
     error: true,

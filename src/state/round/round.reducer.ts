@@ -4,18 +4,7 @@ import { } from './turns.action'
 import { GAME__AT } from '../game/game.types'
 import { sortTurns } from '../score/score.utils'
 import { IAction, IRound, PLAY_ORDER, IPlayerSimple, IRoundTurns, ITurn, ITurnComplete, SCORE_SORT_METHOD } from '../utilities/types'
-
-const initialRound : IRound = {
-  firstPlayerID: -1,
-  index: 0,
-  playersInOrder: [],
-  playOrderIndex: 0,
-  turns: {
-    index: 0,
-    current: null,
-    played: []
-  }
-}
+import { initialRound, initialTurn } from './round.initital-states'
 
 
 
@@ -97,15 +86,21 @@ export const round__R : Reducer = (state = initialRound, action) => {
       // on the position in the sorted array
       // Then sort the turns based on top score to get the
       // current overall game rankings
-      const _totalRank = sortTurns(_roundRank.map((turn: ITurnComplete, index : number) => {
-        return {
-          ...turn,
-          rank: {
-            ...turn.rank,
-            round: index + 1
+      const _totalRank = sortTurns(
+        _roundRank.map(
+          (turn: ITurnComplete, index : number) => {
+            // set the ranking for this round
+            return {
+              ...turn,
+              rank: {
+                round: index + 1,
+                overall: turn.rank.overall
+              }
+            }
           }
-        }
-      }), SCORE_SORT_METHOD.total)
+        )
+        ,SCORE_SORT_METHOD.total
+      )
 
       const _gameLeader = _totalRank[0].playerID
 
@@ -113,15 +108,21 @@ export const round__R : Reducer = (state = initialRound, action) => {
       // overall ranking for the this game
       // Then sort the turns back into their play order so
       // they can be stored in the scores list
-      const _rankedturns = sortTurns(_totalRank.map((turn : ITurnComplete, index: number) => {
-        return {
-          ...turn,
-          rank: {
-            ...turn.rank,
-            total: index + 1
+      const _rankedturns = sortTurns(
+        _totalRank.map(
+          (turn : ITurnComplete, index: number) => {
+            // set the overall game ranking
+            return {
+              ...turn,
+              rank: {
+                round: turn.rank.round,
+                overall: index + 1,
+              }
+            }
           }
-        }
-      }), SCORE_SORT_METHOD.round)
+        )
+        ,SCORE_SORT_METHOD.round
+      )
 
       return {
         ...state,
@@ -144,6 +145,7 @@ export const round__R : Reducer = (state = initialRound, action) => {
       const _current : ITurn = {
         id: _turnIndex,
         end: -1,
+        isBonusRound: false,
         pauseDuration: 0,
         playerID: state.playersInOrder[0].id,
         playOrder: _playIndex,
@@ -153,7 +155,7 @@ export const round__R : Reducer = (state = initialRound, action) => {
         },
         start: action.meta.now
       }
-      return {
+      return {  // should be IRound state
         ...state,
         turns: {
           ...state.turns,
@@ -201,7 +203,7 @@ export const round__R : Reducer = (state = initialRound, action) => {
       }
       const _turns : IRoundTurns = {
         index: state.turns.index,
-        current: null,
+        current: initialTurn,
         played: [...state.turns.played, completedTurn]
       }
 

@@ -43,7 +43,7 @@ export const store : Store = createStore(
       start: end__R,
     }),
     defautlConfig: defaultConfig__R,
-    PastGames: pastGame__R
+    pastGames: pastGame__R
   }),
   applyMiddleware(
     addNowToMetaMiddleware,

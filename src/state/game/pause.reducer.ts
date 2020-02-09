@@ -2,15 +2,8 @@ import { Reducer } from 'redux'
 import { GAME__AT, IResumeGameAction } from '../game/game.types'
 import { IPause, IPauseLog, IPauseFailLog, IActionStamped, PAUSE_LOG_TYPE } from '../utilities/types'
 import { ERROR__AT } from '../errors/error.types'
+import { initialPause } from './game.initial-state'
 
-const initialPause : IPause = {
-  start: -1,
-  end: -1,
-  isPaused: false,
-  pauses: [],
-  totalPauseTime: 0,
-  log: []
-}
 
 export const pause__R : Reducer = (state = initialPause, action) => {
   switch (action.type) {

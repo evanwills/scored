@@ -91,7 +91,8 @@ export const playersAllMiddleware : Middleware = (store) => (next) => (action) =
           error__AC(
             [_sanitised],
             ERROR__AT.BAD_PLAYER_NAME,
-            action
+            action,
+
           )
         )
       }

@@ -1,5 +1,5 @@
 
-import { ERROR__AT, E_LOG_TYPE } from "../errors/error.types";
+import { ERROR__AT, E_LOG_TYPE, IErrorPayload } from "../errors/error.types";
 import { AnyAction } from 'redux'
 // ========================================================
 // START: interface declarations
@@ -288,7 +288,6 @@ export type PastGames = {
  */
 export type IPause = {
   start: number,
-  end: number,
   isPaused: boolean,
   pauses: number[],
   totalPauseTime: number,
@@ -512,6 +511,7 @@ export type IRoundTurns = {
 export interface ITurn {
   id: number,
   end: number,
+  isBonusRound: boolean,
   pauseDuration: number
   playerID: number,
   playOrder: number,
@@ -547,13 +547,24 @@ export type ITurnRank = {
 
 //  END:  turn interfaces
 // ----------------------------------------------
+// STATE  ui state
+
+export type UIstate = {
+  route: string,
+  inPlayGameID: number
+}
+
+//  END:  ui state
+// ----------------------------------------------
 
 
 export type IWholeScored = {
   allPlayers: playersAll,
-  defaultConfig: IConfigDefault
+  gameConfigs: IGameConfig[],
   currentGame: IGameActive,
-  PastGames: PastGames,
+  pastGames: PastGames,
+  uiState: UIstate,
+  errorLog: IErrorPayload[]
 }
 
 

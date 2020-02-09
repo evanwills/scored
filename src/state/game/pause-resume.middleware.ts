@@ -20,17 +20,17 @@ import { Middleware, Store } from 'redux'
 export const pauseResumeMiddleware : Middleware = (store) => (next) => (action) => {
 
   const currentStore : IWholeScored = store.getState()
-  const game : IGameActive = currentStore.currentGame
+  const { pause } : IGameActive = currentStore.currentGame
 
   switch (action.type) {
     case GAME__AT.RESUME:
-      if (game.pause.start !== null && game.pause.isPaused === true) {
+      if (pause.start > 0 && pause.isPaused === true) {
         // dispatch an additional action to trigger unpausing of the
         // current turn
         return next(
           resumeGame__AC(
             action,
-            (action.meta.now - game.pause.start)
+            (action.meta.now - pause.start)
           )
         )
 
@@ -40,15 +40,14 @@ export const pauseResumeMiddleware : Middleware = (store) => (next) => (action) 
           error__AC(
             ['Resume failed because game was not paused'],
             ERROR__AT.PAUSE_RESUME_FAILURE,
-            action,
-            game.pause
+            action
           )
         )
       }
 
     case GAME__AT.PAUSE:
       // Test if the action is valid and trigger a log event if not.
-      if (game.pause.isPaused === true || game.pause.start !== null || game.pause.end !== null) {
+      if (pause.isPaused === true || pause.start > 0) {
         // no need to trigger an aditional action because
         // GAME.PAUSE actions already have all the info
         // they need for the TURN reducer to process them
@@ -56,8 +55,7 @@ export const pauseResumeMiddleware : Middleware = (store) => (next) => (action) 
           error__AC(
             ['Pause failed because game was already paused'],
             ERROR__AT.PAUSE_RESUME_FAILURE,
-            action,
-            game.pause
+            action
           )
         )
       }

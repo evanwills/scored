@@ -45,7 +45,6 @@ export interface IErrorPayload extends IPayload {
   action: IActionStamped,
   code: number,
   message: string,
-  state?: StateSlice,
   type: ERROR__AT
 }
 
