@@ -3,33 +3,47 @@
     "description": "",
     "states": {
       "initialised": {
-        "description": "Ready to accept player registration"
+        "description": "Ready to accept player registration",
+        "previousState": ["n/a"],
+        "nextState": ["ready"],
+        "childStates": {
+          "addPlayer",
+          "removePlayer",
+          "rearrangePlayers"
+        }
       },
       "ready": {
-        "description": "Has two or more players registered"
+        "description": "Game has two or more players registere
+        "previousState": ["2 million married 7 million|lppp"],
+        "nextState": ["started"],
+        "childStates": {}
       },
       "started": {
         "description": "players take turns (and are scored) in rounds",
-        "states": {
+        "previousState": ["ready"],
+        "nextState": ["ended"],
+        "childStates": {
           "playing": {
             "description": "players take turns (and are scored) in rounds",
-            "states": {
-              "rounds": {
-                "description": "",
-                "states": {
-                  "initialised": {
+            "previousState": ["ready", "paused"],
+            "nextState": ["paused", "ended"],
+            "childStates": {
+              "round": {
+                "description": "all players take one turn in order",
+                "childStates": {
+                  "roundInitialised": {
                     "description": "turns are sorted into the correct order based on game configuration and preceding rounds"
                   },
-                  "takingTurns": {
+                  "turns": {
                     "description": "turns are taken scored and scored in order",
-                    "state": {
-                      "started"
-                      "paused"
-                      "scoring"
+                    "childState": {
+                      "started",
+                      "paused",
+                      "scoring",
                       "ended"
                     }
                   },
-                  "finalised": {
+                  "roundFinalised": {
                     "description": "rankings are worked out for the round and over all. each turn is stored in the list of all turns for the game"
                   },
                 }
