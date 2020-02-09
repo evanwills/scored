@@ -4,8 +4,8 @@
     "states": {
       "initialised": {
         "description": "Ready to accept player registration",
-        "previousState": ["n/a"],
-        "nextState": ["ready"],
+        "previousStates": [],
+        "nextStates": ["ready"],
         "childStates": {
           "addPlayer",
           "removePlayer",
@@ -13,43 +13,70 @@
         }
       },
       "ready": {
-        "description": "Game has two or more players registere
-        "previousState": ["2 million married 7 million|lppp"],
-        "nextState": ["started"],
+        "description": "Game has two or more players registere",
+        "previousStates": ["2 million married 7 million|lppp"],
+        "nextStates": ["started"],
         "childStates": {}
       },
       "started": {
         "description": "players take turns (and are scored) in rounds",
-        "previousState": ["ready"],
-        "nextState": ["ended"],
+        "previousStates": ["ready"],
+        "nextStates": ["ended"],
         "childStates": {
           "playing": {
             "description": "players take turns (and are scored) in rounds",
-            "previousState": ["ready", "paused"],
-            "nextState": ["paused", "ended"],
+            "previousStates": ["ready", "paused"],
+            "nextStates": ["paused", "ended"],
             "childStates": {
               "round": {
                 "description": "all players take one turn in order",
                 "childStates": {
                   "roundInitialised": {
-                    "description": "turns are sorted into the correct order based on game configuration and preceding rounds"
+                    "description": "turns are sorted into the correct order based on game configuration and preceding rounds",
+                    "previousStates": ["ready", "roundFinalised"],
+                    "nextStates": ["turns"]
                   },
                   "turns": {
                     "description": "turns are taken scored and scored in order",
-                    "childState": {
-                      "started",
-                      "paused",
-                      "scoring",
-                      "ended"
-                    }
+                    "childStates": {
+                      "newTurn": {
+                        "description": "Timer has started for player's turn",
+                        "previousStates": ["roundInitialised", "turnEnded"],
+                        "nextStates": ["newTurn"]
+                      },
+                      "turnStarted": {
+                        "description": "Timer has started for player's turn",
+                        "previousStates": ["newTurn", "turnPaused"],
+                        "nextStates": ["turnPaused", "turnScoring"]
+                      },
+                      "turnPaused": {
+                        "description": "play is paused",
+                        "previousStates": ["turnStarted"],
+                        "nextStates": ["turnStarted"]
+                      },
+                      "turnScoring":  {
+                        "description": "play is paused",
+                        "previousStates": ["turnStarted"],
+                        "nextStates": ["turnEnded"]
+                      },
+                      "turnEnded": {
+                        "description": "play is paused",
+                        "previousStates": ["turnScoring"],
+                        "nextStates": ["newTurn", "roundFinalised", "gameEnded"]
+                      }
+                    },
+                    "previousStates": ["roundInitialised", "turns"],
+                    "nextStates": ["roundFinalised", ""]
                   },
                   "roundFinalised": {
-                    "description": "rankings are worked out for the round and over all. each turn is stored in the list of all turns for the game"
-                  },
+                    "description": "rankings are worked out for the round and over all. each turn is stored in the list of all turns for the game",
+                    "previousStates": ["turns"],
+                    "nextStates": ["roundInitialised"]
+                  }
                 }
               }
             }
-          }
+          },
           "paused": {
             "description": "Players cannot have a turn out have their turn scored. However, players can be added to, or removed from, the game"
           }
