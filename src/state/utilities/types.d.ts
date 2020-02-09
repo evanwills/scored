@@ -655,6 +655,34 @@ export enum TURN_SORT_FIELDS {
   start = 'start'
 }
 
+export enum GAME_STATES {
+  GAME_INITIALISED,
+  GAME_READY,
+  GAME_PLAYING,
+  GAME_PAUSED,
+  GAME_ENDED,
+  GAME_FINALISED,
+  GAME_STORED
+}
+
+export enum ROUND_STATES {
+  ROUND_INITIALISED,
+  ROUND_PLAYERS_ORDERED,
+  ROUND_TAKING_TURNS,
+  ROUND_ENDED,
+  ROUND_CALCULATING_RANKING,
+  ROUND_FINALISED
+}
+
+export enum TURN_STATES {
+  TURN_STARTED,
+  TURN_PAUSED,
+  TURN_SCORED,
+  TURN_ENDED,
+  TURN_RANKED,
+  TURN_STORED
+}
+
 
 //  END:   enum declarations
 // ========================================================

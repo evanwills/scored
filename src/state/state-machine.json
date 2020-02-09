@@ -7,21 +7,21 @@
         "previousStates": [],
         "nextStates": ["ready"],
         "childStates": {
-          "addPlayer",
-          "removePlayer",
-          "rearrangePlayers"
+          "addPlayer": "",
+          "removePlayer": "",
+          "rearrangePlayers": ""
         }
       },
       "ready": {
         "description": "Game has two or more players registere",
-        "previousStates": ["2 million married 7 million|lppp"],
+        "previousStates": ["addPlayer", "rearrangePlayers"],
         "nextStates": ["started"],
         "childStates": {}
       },
       "started": {
         "description": "players take turns (and are scored) in rounds",
         "previousStates": ["ready"],
-        "nextStates": ["ended"],
+        "nextStates": ["ended", "paused"],
         "childStates": {
           "playing": {
             "description": "players take turns (and are scored) in rounds",
@@ -82,8 +82,8 @@
           }
         }
       },
-      "ended":
-      "finalised":
+      "ended": "",
+      "finalised": ""
     }
   }
 }
