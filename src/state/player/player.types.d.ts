@@ -5,7 +5,8 @@ export enum GAME_PLAYERS__AT {
   UPDATE_NAME = 'Update game player\'s name',
   UPDATE_SCORE = 'Update player\'s score and rank',
   REARRANGE = 'Change the seating order of players',
-  DEACTIVATE = 'Stop player from having turns'
+  DEACTIVATE = 'Stop player from having turns',
+  REMOVE = 'Remove player who hasn\'t had a turn'
 }
 
 export enum ALL_PLAYERS__AT {

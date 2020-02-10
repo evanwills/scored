@@ -6,7 +6,7 @@ import { IWholeScored, IActionStamped } from '../utilities/types'
 import { Middleware } from 'redux'
 // import { initialRound, initialTurn } from './round.initital-states'
 
-export const roundMiddleWare : Middleware = (store) => (next) => (action) => {
+const roundMiddleWare : Middleware = (store) => (next) => (action) => {
   const currentState : IWholeScored = store.getState()
   const { config, end, players, round, scores } = currentState.currentGame
 
@@ -55,7 +55,7 @@ export const roundMiddleWare : Middleware = (store) => (next) => (action) => {
       break
 
     case TURN__AT.END:
-      if (round.playersInOrder.length === (players.all.length - 1)) {
+      if (round.playersInOrder.length === (players.playersSeatOrder.length - 1)) {
         return next(action)
       }
       break
@@ -74,3 +74,5 @@ export const roundMiddleWare : Middleware = (store) => (next) => (action) => {
   }
 
 }
+
+export default roundMiddleWare

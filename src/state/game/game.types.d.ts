@@ -5,7 +5,11 @@ import { Reducer } from 'redux'
  * Action types
  */
 export enum GAME__AT {
+  CHOOSING = 'CHOOSING_GAME',
   INITIALISE = 'INITIALISE_GAME',
+  ADD_PLAYERS = 'ADD_PLAYERS',
+  MOVE_PLAYER = 'MOVE_PLAYERS',
+  REMOVE_PLAYER = 'REMOVE_PLAYER',
   START = 'START_GAME',
   PAUSE = 'PAUSE_GAME',
   RESUME = 'RESUME_GAME',

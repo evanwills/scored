@@ -2,7 +2,7 @@ import { IAction, IActionStamped } from '../utilities/types'
 import { Middleware, Store } from 'redux'
 
 /**
- * Redux middleware addNowToMetaMiddleware() appends a
+ * Redux middleware addMetaToActionMiddleware() appends a
  * "now" property to an Iaction's payload object before
  * passing it to the next middleware.
  *
@@ -11,10 +11,11 @@ import { Middleware, Store } from 'redux'
  *
  * @property {Date} now date object to be used
  */
-const addNowToMetaMiddleware : Middleware = (store) => (next) => (action) => {
+const addMetaToActionMiddleware : Middleware = (store) => (next) => (action) => {
   if (action.meta.now > 0) {
     return next(action)
   } else {
+    const { currentGame } = store.getState()
     const _now = Date.now()
     // If the action already has a meta property we'll use
     // that to start with
@@ -27,11 +28,16 @@ const addNowToMetaMiddleware : Middleware = (store) => (next) => (action) => {
       // Make sure the _meta object has a now property
       // (but don't replace the existing now property if
       //  there is one)
-      meta: (_meta === -1) ? { ..._meta, now: _now } : _meta
+      meta: (_meta.now === -1) ? {
+         ..._meta,
+        now: _now,
+        gameState: currentGame.stateMachine,
+        roundState: currentGame.round.stateMachine
+     } : _meta
     }
 
     store.dispatch(_modifiedAction)
   }
 }
 
-export default addNowToMetaMiddleware
+export default addMetaToActionMiddleware

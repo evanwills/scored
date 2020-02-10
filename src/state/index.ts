@@ -18,11 +18,11 @@ import { pastGame__R } from './game/past-games.reducer'
 // START: middleware imports
 
 
-import addNowToMetaMiddleware from './middleware/add-now-to-action.middleware'
+import addMetaToActionMiddleware from './middleware/add-now-to-action.middleware'
 import { pauseResumeMiddleware } from './game/pause-resume.middleware'
 import loggerMiddleware from './middleware/logger.middleware'
 // import crashReporter from './middleware/crash-reporter.middleware'
-import { roundMiddleWare } from './round/round.middleware'
+import roundMiddleWare from './round/round.middleware'
 
 
 //  END:  middleware imports
@@ -46,7 +46,7 @@ export const store : Store = createStore(
     pastGames: pastGame__R
   }),
   applyMiddleware(
-    addNowToMetaMiddleware,
+    addMetaToActionMiddleware,
     // crashReporter,
     loggerMiddleware,
     pauseResumeMiddleware,

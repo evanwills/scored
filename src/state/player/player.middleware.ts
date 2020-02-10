@@ -11,7 +11,7 @@ import { isIdPayload__TG } from '../utilities/typegards'
 // ========================================================
 // START: Redux reducer
 
-export const gamePlayersMiddleware : Middleware = (store) => (next) => (action) => {
+export const GamePlayersMiddleware : Middleware = (store) => (next) => (action) => {
   switch (action.type) {
     case GAME_PLAYERS__AT.ADD:
       const {allPlayers, currentGame} : IWholeScored = store.getState()

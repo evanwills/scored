@@ -1,4 +1,4 @@
-import { ITurn, IRound } from '../utilities/types'
+import { ITurn, IRound, ROUND_STATES } from '../utilities/types'
 
 export const initialTurn : ITurn = {
   id: -1,
@@ -19,6 +19,7 @@ export const initialRound : IRound = {
   index: 0,
   playersInOrder: [],
   playOrderIndex: 0,
+  stateMachine: ROUND_STATES.ROUND_FINALISED,
   turns: {
     index: 0,
     current: initialTurn,

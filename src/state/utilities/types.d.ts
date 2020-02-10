@@ -164,7 +164,7 @@ export interface IGame {
   end: number,
   config: IConfigGame,
   pause: IPause,
-  players: gamePlayers,
+  players: GamePlayers,
   results?: IPlayerResult[],
   round?: IRound,
   scores: ITurnComplete[],
@@ -193,11 +193,11 @@ export interface IGameActive extends IGame {
   end: number,
   config: IConfigGame,
   pause: IPause,
-  players: gamePlayers,
+  players: GamePlayers,
   round: IRound,
   scores: ITurnComplete[],
   start: number,
-  state: GAME_STATE
+  stateMachine: GAME_STATE
 }
 
 /**
@@ -222,7 +222,7 @@ export interface IGameFinished extends IGame {
   end: number,
   config: IConfigGame,
   pause: IPause,
-  players: gamePlayers,
+  players: GamePlayers,
   results: IPlayerResult[],
   scores: ITurnComplete[],
   start: number
@@ -456,9 +456,7 @@ export interface IPlayerResult extends IPlayerSimple {
   rank: number
 }
 
-export type gamePlayers = {
-  index: number,
-  all: IPlayer[],
+export type GamePlayers = {
   playersSeatOrder: IPlayerSimple[]
   finalResult?: ITurnComplete[]
 }
@@ -492,6 +490,7 @@ export type IRound = {
   playOrderIndex: number,
   turns: IRoundTurns,
   winnerID?: number,
+  stateMachine: ROUND_STATES
 }
 
 /**
@@ -574,7 +573,7 @@ export type IWholeScored = {
 // START: unions declarations
 
 export type StateSlice = IConfigDefault | IConfigGame | IGame |
-                         IGame[] | IPause | gamePlayers | playersAll |
+                         IGame[] | IPause | GamePlayers | playersAll |
                          IRound | IRoundTurns | ITurnComplete[] |
                          ITurnRank | ITurnScore | number
 
@@ -669,6 +668,7 @@ export enum GAME_STATE {
 }
 
 export enum ROUND_STATES {
+  NO_ROUND = 'NO_ROUND',
   ROUND_INITIALISED = 'ROUND_INITIALISED',
   ROUND_PLAYERS_ORDERED = 'ROUND_PLAYERS_ORDERED',
   ROUND_TAKING_TURNS = 'ROUND_TAKING_TURNS',
@@ -678,6 +678,7 @@ export enum ROUND_STATES {
 }
 
 export enum TURN_STATES {
+  NO_TURN = 'NO_TURN',
   TURN_STARTED = 'TURN_STARTED',
   TURN_PAUSED = 'TURN_PAUSED',
   TURN_SCORED = 'TURN_SCORED',
@@ -688,6 +689,7 @@ export enum TURN_STATES {
 
 
 export type AllowableStates = GAME_STATE | ROUND_STATES | TURN_STATES
+export type AllEnums = END_MODE | PLAY_ORDER | PAUSE_ACTION | SCORE_SORT_METHOD | FILTER_BY_PROP | PAUSE_LOG_TYPE | TURN_SORT_FIELDS | GAME_STATE | ROUND_STATES | TURN_STATES
 
 export interface StateTransitions {
   next: Array<GAME_STATE, ROUND_STATES, TURN_STATES>,

@@ -1,4 +1,4 @@
-import { IGameActive, END_MODE, PLAY_ORDER, IPause, IConfigGame, IFiniteStateMachine, GAME_STATE, AllowableStates } from '../utilities/types'
+import { IGameActive, END_MODE, PLAY_ORDER, IPause, IConfigGame, IFiniteStateMachine, GAME_STATE, AllowableStates, GamePlayers } from '../utilities/types'
 import { initialRound } from '../round/round.initital-states'
 
 
@@ -8,6 +8,11 @@ export const initialPause : IPause = {
   pauses: [],
   totalPauseTime: 0,
   log: []
+}
+
+export const initialGamePlayers : GamePlayers = {
+  playersSeatOrder: [],
+  finalResult: []
 }
 
 export const intialGameConfig : IConfigGame = {
@@ -27,16 +32,11 @@ export const initialGame : IGameActive = {
   end: -1,
   config: intialGameConfig,
   pause: initialPause,
-  players: {
-    index: 0,
-    all: [],
-    playersSeatOrder: [],
-    finalResult: []
-  },
+  players: initialGamePlayers,
   round: initialRound,
   scores: [],
   start: -1,
-  state: GAME_STATE.NO_GAME
+  stateMachine: GAME_STATE.NO_GAME
 }
 
 /**
