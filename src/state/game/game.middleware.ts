@@ -3,12 +3,7 @@ import { Middleware } from 'redux'
 import { GAME_STATE, GamePlayers, IConfigGame } from '../utilities/types'
 import { GAME__AT } from './game.types'
 import { gameMachineState__AC, initialiseGameFull__AC } from './game.action'
-import {
-  initialPause,
-  initialGamePlayers,
-  intialGameConfig,
-  initialGame
-} from './game.initial-state'
+import { initialPause } from './game.initial-state'
 import error__AC from '../errors/error.action'
 import { ERROR__AT } from '../errors/error.types'
 import { GAME_PLAYERS__AT } from '../player/player.types'
@@ -127,7 +122,7 @@ const gameMiddleWare : Middleware = (store) => (next) => (action) => {
               [
                 stateMachine,
                 GAME_STATE.MANAGE_PLAYERS,
-                ' because you need more than one player to start a game'
+                'because you need more than one player to start a game'
               ],
               ERROR__AT.STATE_TRANSITION_FAILURE_SPECIAL,
               action
@@ -135,7 +130,13 @@ const gameMiddleWare : Middleware = (store) => (next) => (action) => {
           )
         }
       } else {
-
+        return next(
+          error__AC(
+            [stateMachine, GAME_STATE.PLAYING_GAME],
+            ERROR__AT.STATE_TRANSITION_FAILURE,
+            action
+          )
+        )
       }
 
     case GAME__AT.PAUSE:
@@ -152,7 +153,7 @@ const gameMiddleWare : Middleware = (store) => (next) => (action) => {
           )
         )
       } else {
-        return
+        return next(action)
       }
 
     case GAME__AT.RESUME:
@@ -176,6 +177,7 @@ const gameMiddleWare : Middleware = (store) => (next) => (action) => {
       } else {
         throw new Error('Cannot end game while game is not being played')
       }
+  }
 }
 
 
