@@ -1,6 +1,6 @@
 
 import { Middleware } from 'redux'
-import { GAME_STATE, IActionStamped } from '../utilities/types'
+import { GAME_STATE, GamePlayers, IConfigGame } from '../utilities/types'
 import { GAME__AT } from './game.types'
 import { gameMachineState__AC, initialiseGameFull__AC } from './game.action'
 import {
@@ -9,9 +9,12 @@ import {
   intialGameConfig,
   initialGame
 } from './game.initial-state'
-import { error__AC } from '../errors/error.action'
+import error__AC from '../errors/error.action'
 import { ERROR__AT } from '../errors/error.types'
 import { GAME_PLAYERS__AT } from '../player/player.types'
+import { getItemById } from '../utilities/item-by-id.utils'
+import { initialRound } from '../round/round.initital-states'
+import { incrementGameIndex__AC } from '../pastGames/past-game.actions'
 
 /**
  * gameMiddleware does validation for game related actions,
@@ -24,8 +27,8 @@ import { GAME_PLAYERS__AT } from '../player/player.types'
  * @param store
  */
 const gameMiddleWare : Middleware = (store) => (next) => (action) => {
-  const _currentState = store.getState()
-  const { stateMachine } = _currentState.currentGame
+  const { currentGame, gameConfigs, pastGames } = store.getState()
+  const { stateMachine } = currentGame
 
   switch (action.type) {
     case GAME__AT.CHOOSING:
@@ -47,49 +50,40 @@ const gameMiddleWare : Middleware = (store) => (next) => (action) => {
 
     case GAME__AT.INITIALISE:
       if (
-        stateMachine !== GAME_STATE.GAME_FINALISED &&stateMachine !== GAME_STATE.CHOOSING_GAME) {
-          return next(
-            error__AC(
-              [stateMachine, GAME_STATE.GAME_INITIALISED],
-              ERROR__AT.STATE_TRANSITION_FAILURE,
-              action
-            )
-          )
-        }
-        const gameConfig = (action.payload.id === -1) ? _currentState.currentGame.config : getGameConfigById(action.payload.id)
-        store.dispatch(
-          initialiseGameFull__AC(
-            pastGames.index + 1,
-            (action.payload.id === -1) ? _currentState.currentGame.config :
+        stateMachine !== GAME_STATE.GAME_FINALISED &&
+        stateMachine !== GAME_STATE.CHOOSING_GAME
+      ) {
+        return next(
+          error__AC(
+            [stateMachine, GAME_STATE.GAME_INITIALISED],
+            ERROR__AT.STATE_TRANSITION_FAILURE,
+            action
           )
         )
-        next(
+      }
+
+      // if configID === -1 assume game is a rematch
+      const gameConfig : IConfigGame = (action.payload.id === -1) ? currentGame.config : getItemById(action.payload.id, gameConfigs)
+
+      const players : GamePlayers = (currentGame.players.playersSeatOrder.length > 1) ? currentGame.players.playersSeatOrder : []
+
+      store.dispatch(incrementGameIndex__AC())
+
+      return next(
+        initialiseGameFull__AC(
           {
-            type: 'INCREMENT_PAST_GAME_INDEX',
-            payload: {},
-            error: false,
-            meta: { now: -1 }
+            id: pastGames.index + 1,
+            end: -1,
+            confg: gameConfig,
+            players: players,
+            pause: initialPause,
+            round: initialRound,
+            scores: [],
+            start: -1,
+            stateMachine: GAME_STATE.GAME_INITIALISED
           }
         )
-        return {
-          id: action.payload.id,
-          end: -1,
-          confg: state.config,
-          players: state.players,
-          round: initialRound,
-          start: -1,
-          stateMachine: GAME_STATE.GAME_INITIALISED
-        }
-      } else if (stateMachine === GAME_STATE.CHOOSING_GAME) {
-        return {
-          ...initialGame,
-          id: action.payload.id,
-          confg: action.payload.config,
-          stateMachine: GAME_STATE.GAME_INITIALISED
-        }
-      } else {
-        throw new Error ('Cannot inititalise game due to game being in progress')
-      }
+      )
 
     case GAME_PLAYERS__AT.ADD:
     case GAME_PLAYERS__AT.REARRANGE:
@@ -141,45 +135,44 @@ const gameMiddleWare : Middleware = (store) => (next) => (action) => {
           )
         }
       } else {
+
+      }
+
+    case GAME__AT.PAUSE:
+      if (stateMachine !== GAME_STATE.PLAYING_GAME) {
         return next(
           error__AC(
-            [stateMachine, GAME_STATE.PLAYING_GAME],
-            ERROR__AT.STATE_TRANSITION_FAILURE,
+            [
+              stateMachine,
+              GAME_STATE.PLAYING_GAME,
+              'game is not currently playing'
+            ],
+            ERROR__AT.STATE_TRANSITION_FAILURE_SPECIAL,
+            action
+          )
+        )
+      } else {
+        return
+      }
+
+    case GAME__AT.RESUME:
+      if (stateMachine !== GAME_STATE.GAME_PAUSED) {
+        return next(
+          error__AC(
+            [
+              stateMachine,
+              GAME_STATE.PLAYING_GAME,
+              'game is not currently paused'
+            ],
+            ERROR__AT.STATE_TRANSITION_FAILURE_SPECIAL,
             action
           )
         )
       }
 
-    case GAME__AT.PAUSE:
-      if (stateMachine !== GAME_STATE.PLAYING_GAME) {
-        throw new Error('Can\'t pause a game that is not being played')
-      }
-      return {
-        ...state,
-        pause: pause__R(state.pause, action),
-        round: round__R(state.round, action),
-        stateMachine: GAME_STATE.GAME_PAUSED
-      }
-
-    case GAME__AT.RESUME:
-      if (state.stateMachine !== GAME_STATE.GAME_PAUSED) {
-        throw new Error('Can\'t resume a game that is not paused')
-      }
-      return {
-        ...state,
-        pause: pause__R(state.pause, action),
-        round: round__R(state.round, action),
-        stateMachine: GAME_STATE.PLAYING_GAME
-      }
-
     case GAME__AT.END:
-      if (state.stateMachine === GAME_STATE.PLAYING_GAME) {
-        return {
-          ...state,
-          end: action.meta.now,
-          round: round__R(state.round, action),
-          stateMachine: GAME_STATE.GAME_ENDED
-        }
+      if (stateMachine === GAME_STATE.PLAYING_GAME) {
+        next(action)
       } else {
         throw new Error('Cannot end game while game is not being played')
       }

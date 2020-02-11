@@ -17,6 +17,7 @@ export const initialGamePlayers : GamePlayers = {
 
 export const intialGameConfig : IConfigGame = {
   id: -1,
+  active: false,
   allowNegative: false,
   endMode: END_MODE.CURRENT_PLAYER,
   minScore: 0,
@@ -29,8 +30,9 @@ export const intialGameConfig : IConfigGame = {
 
 export const initialGame : IGameActive = {
   id: -1,
-  end: -1,
   config: intialGameConfig,
+  end: -1,
+  name: '',
   pause: initialPause,
   players: initialGamePlayers,
   round: initialRound,

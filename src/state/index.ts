@@ -6,6 +6,7 @@ import { Store, createStore, combineReducers, applyMiddleware } from 'redux'
 
 import { start__R, end__R } from './game/start-end.reducer'
 import { pause__R } from './game/pause.reducer'
+import { gameStartEnd__R, gameID__R } from './game/game.reducer'
 import { gamePlayer__R, allPlayer__R } from './player/player.reducer'
 import { scores__R } from './score/scores.reducer'
 import { round__R } from './round/round.reducer'
@@ -36,13 +37,14 @@ export const store : Store = createStore(
   combineReducers({
     allPlayers: allPlayer__R,
     currentGame: combineReducers({
-      end: start__R,
+      id: gameID__R,
+      end: gameStartEnd__R,
       config: gameConfig__R,
       pause: pause__R,
       players: gamePlayer__R,
       round: round__R,
       scores: scores__R,
-      start: end__R,
+      start: gameStartEnd__R,
     }),
     errorLog: errorLog__R,      // fully implemented
     gameConfigs: gameConfig__R, // fully implemented
