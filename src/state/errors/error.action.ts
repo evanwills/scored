@@ -8,7 +8,7 @@ import { ERROR__AT, errorTypes, IErrorType, IErrorAction, ErrorInfo } from './er
  * @param _action
  * @param _state
  */
-export const error__AC = (
+const error__AC = (
   _replacements: string[],
   _errorType: ERROR__AT,
   _action: IActionStamped
@@ -64,3 +64,5 @@ const printf = (replacements: string[], message: string, count: number) : string
 
   return message
 }
+
+export default error__AC

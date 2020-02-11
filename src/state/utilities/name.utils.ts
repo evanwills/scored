@@ -5,7 +5,7 @@ import { IAction, IWholeScored, IHasName, IPlayerSimple } from '../utilities/typ
  * @param newName
  * @param items
  */
-export const isDuplicateName = (newName: string, items: IHasName[]) : boolean => {
+export const isDuplicateName = (newName: string, items: IHasName[]) : number => {
   // Q: Why use a for loop instead of Array.reduce()?
   // A: Mostly for readability and because I can terminate
   //    the loop as soon as I have a match.
@@ -14,10 +14,10 @@ export const isDuplicateName = (newName: string, items: IHasName[]) : boolean =>
 
   for (let a = 0; a < items.length; a += 1) {
     if (newName === items[a].name) {
-      return true;
+      return items[a].id;
     }
   }
-  return false
+  return -1
 }
 
 /**

@@ -88,11 +88,13 @@ export interface IActionStamped extends IAction {
  *                         time each player took for their
  *                         turns
  */
-export interface IConfigDefault {
+export interface IConfigGameDefault {
+  active: boolean,
   allowNegative: boolean,
   endMode: END_MODE,
   minScore?: number,
   maxScore?: number,
+  name: string,
   playOrder: PLAY_ORDER,
   scoreBonuses: boolean,
   trackTime: boolean
@@ -116,7 +118,7 @@ export interface IConfigDefault {
  *                         player reaches the maximum score
  *                         specified here, game is
  *                         automatically ended
- * @property name The      name of the game
+ * @property name          The name of the game
  * @property playOrder     the order in which players take
  *                         their turn for each round of the
  *                         game
@@ -128,8 +130,9 @@ export interface IConfigDefault {
  *                         time each player took for their
  *                         turns
  */
-export interface IConfigGame  extends IConfigDefault, IHasName {
+export interface IConfigGame  extends IConfigGameDefault, IHasName {
   id: number,
+  active: boolean,
   allowNegative: boolean,
   endMode: END_MODE,
   minScore?: number,
@@ -188,7 +191,7 @@ export interface IGame {
  *                   the game in order of play
  * @property start   Timestamp for when the game started
  */
-export interface IGameActive extends IGame {
+export interface IGameActive extends IGame, IHasName {
   id: number,
   end: number,
   config: IConfigGame,
@@ -339,6 +342,7 @@ export interface IPauseFailLog extends IPauseLog {
  *
  */
 export interface IPayload {
+  gameConfig?: IConfigGame | IConfigGameDefault,
   id?: number,
   isPaused?: boolean
   message?: string,
@@ -350,6 +354,7 @@ export interface IPayload {
   position?: number,
   score?: number,
   state?: StateSlice,
+  stateMachine?: GAME_STATE | ROUND_STATES
   totalScore?: number,
   turn?: ITurnComplete,
   turns?: ITurnComplete[],
@@ -392,6 +397,9 @@ export interface ITotalScorePayload extends IScorePayload {
   id: number,
   score: number,
   totalScore: number
+}
+export interface IStateMachinePayload extends IScorePayload {
+  stateMachine: GAME_STATE | ROUND_STATES
 }
 export interface ITurnCompletePayload extends IPayload {
   turn: ITurnComplete
@@ -572,7 +580,7 @@ export type IWholeScored = {
 // ========================================================
 // START: unions declarations
 
-export type StateSlice = IConfigDefault | IConfigGame | IGame |
+export type StateSlice = IConfigGameDefault | IConfigGame | IGame |
                          IGame[] | IPause | GamePlayers | playersAll |
                          IRound | IRoundTurns | ITurnComplete[] |
                          ITurnRank | ITurnScore | number

@@ -2,12 +2,14 @@ import { IMeta, StateSlice, IPayload, IActionStamped } from '../utilities/types'
 
 
 export enum ERROR__AT {
-  BAD_PLAYER_NAME = 'BAD_PLAYER_NAME',
+  BAD_NAME = 'BAD_NAME',
   PLAYER_ALREADY_ADDED = 'PLAYER_ALREADY_ADDED',
   CANT_ADD_INACTIVE_PLAYER = 'CANT_ADD_INACTIVE_PLAYER',
-  DUPLICATE_PLAYER_NAME = 'DUPLICATE_PLAYER_NAME',
+  DUPLICATE_NAME = 'DUPLICATE_NAME',
   PLAYER_NOT_FOUND = 'PLAYER_NOT_FOUND',
-  PAUSE_RESUME_FAILURE = 'PAUSE_RESUME_FAILURE'
+  PAUSE_RESUME_FAILURE = 'PAUSE_RESUME_FAILURE',
+  STATE_TRANSITION_FAILURE = 'STATE_TRANSITION_FAILURE',
+  STATE_TRANSITION_FAILURE_SPECIAL = 'STATE_TRANSITION_FAILURE_SPECIAL'
 }
 
 export enum E_LOG_TYPE {
@@ -99,11 +101,11 @@ export const errorTypes : IErrorType = {
   // --------------------------------------------
   // START: Recoverable user input errors
 
-  BAD_PLAYER_NAME: {
+  BAD_NAME: {
     code: 100,
-    name: ERROR__AT.BAD_PLAYER_NAME,
-    message: 'Player\'s name contained invalid characters or was too long (or both). Name has been cleand up before submission. Using: "$1"',
-    replacements: 1,
+    name: ERROR__AT.BAD_NAME,
+    message: '$1\'s name contained invalid characters or was too long (or both). Name has been cleand up before submission. Now using "$2" as name',
+    replacements: 2,
     logType: E_LOG_TYPE.WARN
   },
 
@@ -138,9 +140,9 @@ export const errorTypes : IErrorType = {
   // --------------------------------------------
   // START: Unrecoverable user input errors
 
-  DUPLICATE_PLAYER_NAME: {
-    name: ERROR__AT.DUPLICATE_PLAYER_NAME,
-    message: 'A player with the name "$1" (#$2) already exists in the system.',
+  DUPLICATE_NAME: {
+    name: ERROR__AT.DUPLICATE_NAME,
+    message: 'A $1 with the name "$2" (#$3) already exists in the system.',
     code: 200,
     replacements: 2,
     logType: E_LOG_TYPE.ERROR
@@ -162,6 +164,20 @@ export const errorTypes : IErrorType = {
     message: '$1',
     code: 251,
     replacements: 0,
+    logType: E_LOG_TYPE.ERROR
+  },
+  STATE_TRANSITION_FAILURE: {
+    name: ERROR__AT.STATE_MACHINE_TRANSITION_FAILURE,
+    massage: 'Cannot transition from $1 to $2 state',
+    code: 252,
+    replacements: 2,
+    logType: E_LOG_TYPE.ERROR
+  },
+  STATE_TRANSITION_FAILURE_SPECIAL: {
+    name: ERROR__AT.STATE_TRANSITION_FAILURE_SPECIAL,
+    massage: 'Cannot transition from $1 to $2 state because $3',
+    code: 253,
+    replacements: 3,
     logType: E_LOG_TYPE.ERROR
   }
 

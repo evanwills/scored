@@ -1,4 +1,4 @@
-import { IAction } from '../utilities/types'
+import { IAction, GAME_STATE, IConfigGame, IGameActive } from '../utilities/types'
 import { GAME__AT, IResumeGameAction } from './game.types'
 /**
  * Set the game to paused (i.e. stop counting the time)
@@ -44,21 +44,37 @@ export const endGame__AC = () => {
 
 /**
  *
+ * @param {string}  gameConfigID The ID for the game config to be used
+ * @param {boolean} _clockwise Whether turns a taken in a clockwise
+ *                             or counter clockwise order
+ * @param {string}  _endMode   How the game ends
+ * @param {string}  _playOrder Play order for the start of each round.
+ */
+export const initialiseGame__AC = (gameConfigID : number) => {
+  return {
+    type: GAME__AT.INITIALISE,
+    payload: {
+      id: gameConfigID
+    },
+    error: false,
+    meta: {
+      now: -1
+    }
+  }
+}
+
+/**
+ *
  * @param {string}  _name      Name of the game being played
  * @param {boolean} _clockwise Whether turns a taken in a clockwise
  *                             or counter clockwise order
  * @param {string}  _endMode   How the game ends
  * @param {string}  _playOrder Play order for the start of each round.
  */
-export const initialiseGame__AC = (_name : string, _clockwise : string, _endMode : string, _playOrder: string) => {
+export const initialiseGameFull__AC = (game : IGameActive) => {
   return {
     type: GAME__AT.INITIALISE,
-    payload: {
-      name: _name,
-      clockWise: _clockwise,
-      endMode: _endMode,
-      playOrder: _playOrder
-    },
+    payload: game,
     error: false,
     meta: {
       now: -1
@@ -75,6 +91,19 @@ export const startGame__AC = (_id: number) => {
     type: GAME__AT.START,
     payload: {
       id: _id
+    },
+    error: false,
+    meta: {
+      now: -1
+    }
+  }
+}
+
+export const gameMachineState__AC = (stateMachineState: GAME_STATE) : IAction => {
+  return {
+    type: GAME__AT.STATE_MACHINE,
+    payload: {
+      stateMachine: stateMachineState
     },
     error: false,
     meta: {

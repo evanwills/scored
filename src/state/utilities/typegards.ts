@@ -1,4 +1,5 @@
 import {
+  IHasName,
   IMessagePayload,
   IPayload,
   IIdPayload, IIdNamePayload, INamePayload,
@@ -11,6 +12,17 @@ import {
 } from './types'
 
 
+// ----------------------------------------------
+// START: generic typeguards
+
+export const isObjectWithID__TG = (item: IHasName) : boolean => {
+  return (
+    typeof (item as IIdPayload).id === 'number'
+    && (item as IIdPayload).id > 0
+  )
+}
+
+//  END:  generic typeguards
 // ----------------------------------------------
 // START: Payload typeguards
 

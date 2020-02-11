@@ -90,7 +90,7 @@ export const playersAllMiddleware : Middleware = (store) => (next) => (action) =
         store.dispatch(
           error__AC(
             [_sanitised],
-            ERROR__AT.BAD_PLAYER_NAME,
+            ERROR__AT.BAD_NAME,
             action,
 
           )
@@ -102,8 +102,8 @@ export const playersAllMiddleware : Middleware = (store) => (next) => (action) =
         // Can't work around a duplicate name
         return next(
           error__AC(
-            [_sanitised],
-            ERROR__AT.DUPLICATE_PLAYER_NAME,
+            ['player', _sanitised],
+            ERROR__AT.DUPLICATE_NAME,
             action
           )
         )
