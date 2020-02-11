@@ -9,7 +9,7 @@ import { pause__R } from './game/pause.reducer'
 import { gamePlayer__R, allPlayer__R } from './player/player.reducer'
 import { scores__R } from './score/scores.reducer'
 import { round__R } from './round/round.reducer'
-import { pastGame__R } from './game/past-games.reducer'
+import { pastGame__R } from './pastGames/past-games.reducer'
 import gameConfig__R from './gameConfig/gameConfig.reducer'
 import errorLog__R from './errors/errorLog.reducer'
 
