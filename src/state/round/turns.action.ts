@@ -1,4 +1,4 @@
-import { IAction, IMeta } from '../../types/types'
+import { IAction, IMeta } from '../../types/scored'
 import { TURN__AT, IScoreTurnAction } from '../../types/round.types'
 
 

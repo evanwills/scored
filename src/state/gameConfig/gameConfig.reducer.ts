@@ -1,6 +1,6 @@
 import { Reducer } from 'redux'
 import { GAME_CONFIG__AT } from './gameConfig.action'
-import { IConfigGame } from '../../types/types'
+import { IConfigGame } from '../../types/scored'
 
 const gameConfigs__R : Reducer = (state, action) => {
   // assume that all validation is done by

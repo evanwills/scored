@@ -1,4 +1,4 @@
-import { ITurn, IRound, ROUND_STATES } from '../../types/types'
+import { ITurn, IRound, ROUND_STATES } from '../../types/scored'
 
 export const initialTurn : ITurn = {
   id: -1,

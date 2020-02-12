@@ -1,5 +1,5 @@
 import { Reducer } from 'redux'
-// import { } from '../../types/types'
+// import { } from '../../types/scored'
 
 
 const errorLog__R : Reducer = (state, action) => {

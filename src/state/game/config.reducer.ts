@@ -1,4 +1,4 @@
-import { IConfigGameDefault, IConfigGame, IAction } from '../../types/types'
+import { IConfigGameDefault, IConfigGame, IAction } from '../../types/scored'
 import { Reducer } from 'redux'
 
 export const gameConfig__R : Reducer = (state , action) => {

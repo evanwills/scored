@@ -1,5 +1,5 @@
 import { Reducer } from 'redux'
-import { IAction, IGetTurns, ITurnComplete, SCORE_SORT_METHOD, TURN_SORT_FIELDS, FILTER_BY_PROP } from '../../types/types'
+import { IAction, IGetTurns, ITurnComplete, SCORE_SORT_METHOD, TURN_SORT_FIELDS, FILTER_BY_PROP } from '../../types/scored'
 import { SCORE__AT } from './score.action'
 
 

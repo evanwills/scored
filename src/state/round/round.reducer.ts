@@ -2,7 +2,7 @@ import { Reducer } from 'redux'
 
 import { GAME__AT } from '../../types/game.types'
 import { ROUND__AT, TURN__AT } from '../../types/round.types'
-import { IAction, IRound, PLAY_ORDER, IPlayerSimple, IRoundTurns, ITurn, ITurnComplete, SCORE_SORT_METHOD } from '../../types/types'
+import { IAction, IRound, PLAY_ORDER, IPlayerSimple, IRoundTurns, ITurn, ITurnComplete, SCORE_SORT_METHOD } from '../../types/scored'
 
 import { } from '../round/turns.action'
 import { sortTurns } from '../score/score.utils'

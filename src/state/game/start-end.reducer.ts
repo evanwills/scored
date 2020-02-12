@@ -1,5 +1,5 @@
 import { Reducer } from 'redux'
-import { IAction, GAME_STATE } from '../../types/types'
+import { IAction, GAME_STATE } from '../../types/scored'
 import { GAME__AT } from '../../types/game.types'
 import valueInEnum from '../utilities/value-in-enum'
 

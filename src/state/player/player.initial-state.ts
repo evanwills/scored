@@ -1,4 +1,4 @@
-import { playersAll } from '../../types/types'
+import { playersAll } from '../../types/scored'
 
 export const initialPlayers : playersAll = {
   index: 0,

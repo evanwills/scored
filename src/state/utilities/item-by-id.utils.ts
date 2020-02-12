@@ -1,5 +1,5 @@
-import { isObjectWithID__TG } from '../../types/typegards'
-import { IHasName } from '../../types/types'
+import { isObjectWithID__TG } from '../../types/typeguards'
+import { IHasName } from '../../types/scored'
 
 export const itemMatchesID = (id: number, items : IHasName[]) : boolean => {
   for (let a = 0; a < items.length; a += 1) {

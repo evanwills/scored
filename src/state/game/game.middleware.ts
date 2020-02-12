@@ -1,7 +1,7 @@
 
 import { Middleware } from 'redux'
 
-import { GAME_STATE, GamePlayers, IConfigGame, IGameActive, ERROR__AT } from '../../types/types'
+import { GAME_STATE, GamePlayers, IConfigGame, IGameActive, ERROR__AT } from '../../types/scored'
 import { GAME__AT } from '../../types/game.types'
 import { ROUND__AT, TURN__AT } from '../../types/round.types'
 import { GAME_PLAYERS__AT } from '../../types/player.types'

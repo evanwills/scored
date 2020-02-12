@@ -1,4 +1,4 @@
-import { IAction, IPlayerSimple } from '../../types/types'
+import { IAction, IPlayerSimple } from '../../types/scored'
 import { GAME_PLAYERS__AT, ALL_PLAYERS__AT } from '../../types/player.types'
 
 
