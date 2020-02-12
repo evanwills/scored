@@ -1,5 +1,5 @@
-import { IAction, GAME_STATE, IConfigGame, IGameActive } from '../utilities/types'
-import { GAME__AT, IResumeGameAction } from './game.types'
+import { IAction, GAME_STATE, IConfigGame, IGameActive, IMeta } from '/src/store/utilities/types'
+import { GAME__AT, IResumeGameAction } from '/src/store/game/game.types'
 /**
  * Set the game to paused (i.e. stop counting the time)
  */
@@ -71,14 +71,12 @@ export const initialiseGame__AC = (gameConfigID : number) => {
  * @param {string}  _endMode   How the game ends
  * @param {string}  _playOrder Play order for the start of each round.
  */
-export const initialiseGameFull__AC = (game : IGameActive) => {
+export const initialiseGameFull__AC = (_game : IGameActive, _meta : IMeta) => {
   return {
     type: GAME__AT.INITIALISE,
-    payload: game,
+    payload: _game,
     error: false,
-    meta: {
-      now: -1
-    }
+    meta: {..._meta}
   }
 }
 

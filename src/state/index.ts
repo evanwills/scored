@@ -4,14 +4,13 @@ import { Store, createStore, combineReducers, applyMiddleware } from 'redux'
 // START: reducer imports
 
 
-import { start__R, end__R } from './game/start-end.reducer'
 import { pause__R } from './game/pause.reducer'
-import { gameStartEnd__R, gameID__R } from './game/game.reducer'
+import { gameStartEnd__R, gameID__R, gameConfig__R, gameState__R } from './game/game.reducer'
 import { gamePlayer__R, allPlayer__R } from './player/player.reducer'
 import { scores__R } from './score/scores.reducer'
 import { round__R } from './round/round.reducer'
 import { pastGame__R } from './pastGames/past-games.reducer'
-import gameConfig__R from './gameConfig/gameConfig.reducer'
+import gameConfigs__R from './gameConfig/gameConfig.reducer'
 import errorLog__R from './errors/errorLog.reducer'
 
 
@@ -26,6 +25,7 @@ import loggerMiddleware from './middleware/logger.middleware'
 // import crashReporter from './middleware/crash-reporter.middleware'
 import roundMiddleWare from './round/round.middleware'
 import gameConfigMiddleware from './gameConfig/gameConfig.middleware'
+import gameMiddleWare from './game/game.middleware'
 
 
 //  END:  middleware imports
@@ -33,7 +33,7 @@ import gameConfigMiddleware from './gameConfig/gameConfig.middleware'
 // START: creating redux store
 
 
-export const store : Store = createStore(
+const scoredStore : Store = createStore(
   combineReducers({
     allPlayers: allPlayer__R,
     currentGame: combineReducers({
@@ -45,9 +45,10 @@ export const store : Store = createStore(
       round: round__R,
       scores: scores__R,
       start: gameStartEnd__R,
+      state: gameState__R
     }),
     errorLog: errorLog__R,      // fully implemented
-    gameConfigs: gameConfig__R, // fully implemented
+    gameConfigs: gameConfigs__R, // fully implemented
     pastGames: pastGame__R,
     // uiState: uiState__R
   }),
@@ -56,6 +57,7 @@ export const store : Store = createStore(
     // crashReporter,
     loggerMiddleware,
     gameConfigMiddleware,
+    gameMiddleWare, // handles validating game state transitions
     pauseResumeMiddleware,
     roundMiddleWare
   )
@@ -63,3 +65,5 @@ export const store : Store = createStore(
 
 //  END:  creating redux store
 // -------------------------------------
+
+export default scoredStore

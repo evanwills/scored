@@ -1,7 +1,8 @@
 import { Reducer } from 'redux'
-import { GAME__AT } from '../game/game.types'
+import { GAME__AT } from './game.types'
 import { GAME_STATE, IConfigGame } from '../utilities/types'
 // import { } from '../utilities/typegards'
+
 import { intialGameConfig } from './game.initial-state'
 
 

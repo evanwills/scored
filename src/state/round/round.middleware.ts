@@ -1,10 +1,10 @@
-import { TURN__AT, ROUND__AT } from './round.types'
-import { endTurn__AC, startTurn__AC, scoreTurn__AC } from './turns.action'
-import { initialiseRound__AC, finaliseRound__AC } from './round.action'
+import { TURN__AT, ROUND__AT } from '../round/round.types'
+import { endTurn__AC, startTurn__AC, scoreTurn__AC } from '../round/turns.action'
+import { initialiseRound__AC, finaliseRound__AC } from '../round/round.action'
 import { getTotalScore } from '../score/score.utils'
 import { IWholeScored, IActionStamped } from '../utilities/types'
 import { Middleware } from 'redux'
-// import { initialRound, initialTurn } from './round.initital-states'
+// import { initialRound, initialTurn } from '../round/round.initital-states'
 
 const roundMiddleWare : Middleware = (store) => (next) => (action) => {
   const currentState : IWholeScored = store.getState()

@@ -1,5 +1,4 @@
 import { IPayload, IAction, IPause } from '../utilities/types'
-import { Reducer } from 'redux'
 
 /**
  * Action types

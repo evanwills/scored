@@ -1,6 +1,6 @@
-
-import { ERROR__AT, E_LOG_TYPE, IErrorPayload } from "../errors/error.types";
 import { AnyAction } from 'redux'
+
+
 // ========================================================
 // START: interface declarations
 
@@ -54,6 +54,30 @@ export interface IActionStamped extends IAction {
   error?: boolean,
   meta: IMeta
 }
+
+
+/**
+ * These objects requre the error property to present
+ * (and true)
+ *
+ * @property type the type of action (used by middleware
+ *                and reducers) to work out what to do
+ * @property payload information used by reducers to do
+ *                   their job
+ * @property error   [required] whether or not this action
+ * @property meta    extra metadat useful for the action
+ *                   (mostly used by middleware to not
+ *                    apply duplicate data and functionality
+ *                    to actions that have already been
+ *                    passed throught the middle ware)
+ */
+export interface IErrorAction extends IActionStamped {
+  type: string,
+  payload: IErrorPayload,
+  error: boolean,
+  meta: IErrorMeta
+}
+
 
 //  END:  action interfaces
 // ----------------------------------------------
@@ -145,6 +169,26 @@ export interface IConfigGame  extends IConfigGameDefault, IHasName {
 
 //  END:  config (Redux) slice interfaces
 // ----------------------------------------------
+// START: errorInfo type
+
+/**
+ * @property code         Machine readable identifier for error
+ * @property message      Human readable explanation of the error
+ * @property name         Human readable identifier for the error
+ * @property replacements The number of replacement strings
+ *                        expected for this error
+ * @property logType      The type of console output for this error
+ */
+export type ErrorInfo = {
+  code: number,
+  message: string,
+  name: string,
+  replacements: number,
+  logType: E_LOG_TYPE
+}
+
+//  END:  errorInfo type
+// ----------------------------------------------
 // START: game (Redux) slice intefaces
 
 /**
@@ -191,7 +235,7 @@ export interface IGame {
  *                   the game in order of play
  * @property start   Timestamp for when the game started
  */
-export interface IGameActive extends IGame, IHasName {
+export interface IGameActive extends IGame, IHasId {
   id: number,
   end: number,
   config: IConfigGame,
@@ -241,6 +285,10 @@ export interface IHasName {
   name: string
 }
 
+export interface IHasId {
+  id: number
+}
+
 //  END:  hasName interface
 // ----------------------------------------------
 // START: meta inteface
@@ -261,6 +309,13 @@ export interface IMeta {
   now: number // Timestamp
 }
 
+
+export interface IErrorMeta extends IMeta {
+  now: number,
+  logType: E_LOG_TYPE,
+  code: number,
+  eType: ERROR__AT
+}
 
 //  END:  meta intefaces
 // ----------------------------------------------
@@ -295,7 +350,7 @@ export type IPause = {
   isPaused: boolean,
   pauses: number[],
   totalPauseTime: number,
-  log: Array<IPauseLog|IPauseFailLog>
+  log: IPauseLog[]
 }
 
 /**
@@ -309,27 +364,8 @@ export type IPause = {
  * @property type    either 'Pause' or 'Resume'
  */
 export interface IPauseLog {
-  message?: string,
-  time: number,
   mode: PAUSE_LOG_TYPE
-  error: boolean,
-}
-
-/**
- * Log entry generated each time the game is paused or
- * resumed
- *
- * @property message [optional] infomation about why the
- *                   game was paused or resumed
- * @property time    timestamp for when the game was paused
- *                   or resumed
- * @property type    either 'Pause' or 'Resume'
- */
-export interface IPauseFailLog extends IPauseLog {
-  message: string,
   time: number,
-  mode: PAUSE_LOG_TYPE
-  error: boolean
 }
 
 //  END:  pause interfaces
@@ -360,13 +396,13 @@ export interface IPayload {
   turns?: ITurnComplete[],
 }
 
-export interface IIdPayload extends IPayload {
+export interface IIdPayload extends IPayload, IHasId {
   id: number
 }
 export interface INamePayload extends IPayload {
   name: string
 }
-export interface IIdNamePayload extends IIdPayload {
+export interface IIdNamePayload extends IIdPayload, IHasName {
   id: number,
   name: string
 }
@@ -406,6 +442,13 @@ export interface ITurnCompletePayload extends IPayload {
 }
 export interface ITurnsCompletePayload extends IPayload {
   turns: ITurnComplete[],
+}
+
+export interface IErrorPayload extends IPayload {
+  action: IActionStamped,
+  code: number,
+  message: string,
+  type: ERROR__AT
 }
 
 //  END:  payload interfaces
@@ -516,7 +559,7 @@ export type IRoundTurns = {
 // ----------------------------------------------
 // START: turn interfaces
 
-export interface ITurn {
+export interface ITurn extends IHasId {
   id: number,
   end: number,
   isBonusRound: boolean,
@@ -604,6 +647,10 @@ export interface IGetTurns {
 
 export interface IReducer {
   (state : StateSlice, action : IAction) : StateSlice
+}
+
+export interface IErrorType {
+  [propName: string] : ErrorInfo
 }
 
 
@@ -695,6 +742,24 @@ export enum TURN_STATES {
   TURN_STORED = 'TURN_STORED'
 }
 
+export enum ERROR__AT {
+  BAD_NAME = 'BAD_NAME',
+  PLAYER_ALREADY_ADDED = 'PLAYER_ALREADY_ADDED',
+  CANT_ADD_INACTIVE_PLAYER = 'CANT_ADD_INACTIVE_PLAYER',
+  DUPLICATE_NAME = 'DUPLICATE_NAME',
+  PLAYER_NOT_FOUND = 'PLAYER_NOT_FOUND',
+  PAUSE_RESUME_FAILURE = 'PAUSE_RESUME_FAILURE',
+  STATE_TRANSITION_FAILURE = 'STATE_TRANSITION_FAILURE',
+  STATE_TRANSITION_FAILURE_SPECIAL = 'STATE_TRANSITION_FAILURE_SPECIAL'
+}
+
+export enum E_LOG_TYPE {
+  LOG,
+  INFO,
+  NOTICE,
+  WARN,
+  ERROR
+}
 
 export type AllowableStates = GAME_STATE | ROUND_STATES | TURN_STATES
 export type AllEnums = END_MODE | PLAY_ORDER | PAUSE_ACTION | SCORE_SORT_METHOD | FILTER_BY_PROP | PAUSE_LOG_TYPE | TURN_SORT_FIELDS | GAME_STATE | ROUND_STATES | TURN_STATES

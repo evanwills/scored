@@ -1,15 +1,17 @@
 
 import { Middleware } from 'redux'
-import { GAME_STATE, GamePlayers, IConfigGame } from '../utilities/types'
+
+import { GAME_STATE, GamePlayers, IConfigGame, IGameActive, ERROR__AT } from '../utilities/types'
 import { GAME__AT } from './game.types'
-import { gameMachineState__AC, initialiseGameFull__AC } from './game.action'
-import { initialPause } from './game.initial-state'
-import error__AC from '../errors/error.action'
-import { ERROR__AT } from '../errors/error.types'
+import { ROUND__AT, TURN__AT } from '../round/round.types'
 import { GAME_PLAYERS__AT } from '../player/player.types'
+
+import { gameMachineState__AC, initialiseGameFull__AC } from '../game/game.action'
+import { initialPause } from '../game/game.initial-state'
+import error__AC from '../errors/error.action'
 import { getItemById } from '../utilities/item-by-id.utils'
 import { initialRound } from '../round/round.initital-states'
-import { incrementGameIndex__AC } from '../pastGames/past-game.actions'
+import { incrementGameIndex__AC, PAST_GAME__AT } from '../pastGames/past-game.actions'
 
 /**
  * gameMiddleware does validation for game related actions,
@@ -69,14 +71,15 @@ const gameMiddleWare : Middleware = (store) => (next) => (action) => {
           {
             id: pastGames.index + 1,
             end: -1,
-            confg: gameConfig,
+            config: gameConfig,
             players: players,
             pause: initialPause,
             round: initialRound,
             scores: [],
             start: -1,
             stateMachine: GAME_STATE.GAME_INITIALISED
-          }
+          },
+          action.meta
         )
       )
 
@@ -92,8 +95,8 @@ const gameMiddleWare : Middleware = (store) => (next) => (action) => {
         stateMachine === GAME_STATE.GAME_INITIALISED ||
         stateMachine === GAME_STATE.MANAGE_PLAYERS
       ) {
-        store.dispatch(action)
-        return next(gameMachineState__AC(GAME_STATE.MANAGE_PLAYERS))
+        store.dispatch(gameMachineState__AC(GAME_STATE.MANAGE_PLAYERS))
+        return next(action)
       } else {
         return next(
           error__AC(
@@ -112,10 +115,10 @@ const gameMiddleWare : Middleware = (store) => (next) => (action) => {
     case GAME__AT.START:
       if (stateMachine === GAME_STATE.MANAGE_PLAYERS) {
         if (currentGame.players.playersSeatOrder.length >= 2) {
-          store.dispatch(action)
-          return next(
+          store.dispatch(
             gameMachineState__AC(GAME_STATE.PLAYING_GAME)
           )
+          return next(action)
         } else {
           return next(
             error__AC(
@@ -140,6 +143,18 @@ const gameMiddleWare : Middleware = (store) => (next) => (action) => {
       }
 
     case GAME__AT.PAUSE:
+    case ROUND__AT.INITIALISE:
+    case ROUND__AT.ADD_TURN:
+    case ROUND__AT.UPDATE_TURN:
+    case ROUND__AT.FINALISE:
+    case TURN__AT.START:
+    case TURN__AT.START:
+    case TURN__AT.SCORE:
+    case TURN__AT.SCORE_END:
+    case TURN__AT.SCORE_END_GAME:
+    case TURN__AT.END:
+    case TURN__AT.PAUSE:
+    case TURN__AT.RESUME:
       if (stateMachine !== GAME_STATE.PLAYING_GAME) {
         return next(
           error__AC(
@@ -169,14 +184,33 @@ const gameMiddleWare : Middleware = (store) => (next) => (action) => {
             action
           )
         )
+      } else {
+        return next(action)
       }
+
 
     case GAME__AT.END:
       if (stateMachine === GAME_STATE.PLAYING_GAME) {
-        next(action)
+        return next(action)
       } else {
         throw new Error('Cannot end game while game is not being played')
       }
+
+    case PAST_GAME__AT.INCREMENT_INDEX:
+      if (stateMachine === GAME_STATE.CHOOSING_GAME) {
+        return next(action)
+      } else {
+        throw new Error('Cannot end game while game is not being played')
+      }
+
+    case PAST_GAME__AT.ADD:
+      if (stateMachine === GAME_STATE.GAME_ENDED) {
+        store.dispatch(action)
+        return next(gameMachineState__AC(GAME_STATE.GAME_FINALISED))
+      } else {
+        throw new Error('Cannot end game while game is not being played')
+      }
+
   }
 }
 

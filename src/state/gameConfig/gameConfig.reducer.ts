@@ -2,7 +2,7 @@ import { Reducer } from 'redux'
 import { GAME_CONFIG__AT } from './gameConfig.action'
 import { IConfigGame } from '../utilities/types'
 
-const gameConfig__R : Reducer = (state, action) => {
+const gameConfigs__R : Reducer = (state, action) => {
   // assume that all validation is done by
   // gameConfigMiddleware()
 

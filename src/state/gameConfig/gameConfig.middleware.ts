@@ -1,11 +1,13 @@
 import { Middleware } from 'redux'
+
+import { IConfigGame, ERROR__AT } from '../utilities/types'
+
 import { itemMatchesID, getItemById } from '../utilities/item-by-id.utils'
 import { isDuplicateName, sanitiseName } from '../utilities/name.utils'
+
 import { GAME_CONFIG__AT } from './gameConfig.action'
 import error__AC from '../errors/error.action'
-import { ERROR__AT } from '../errors/error.types'
-import { IConfigGame } from '../utilities/types'
-import gameMiddleWare from '../game/game.middleware'
+// import gameMiddleWare from '../game/game.middleware'
 
 /**
  * pauseResume() handles adding the paused time (in seconds) to

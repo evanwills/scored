@@ -1,4 +1,5 @@
 import { IGameActive, END_MODE, PLAY_ORDER, IPause, IConfigGame, IFiniteStateMachine, GAME_STATE, AllowableStates, GamePlayers } from '../utilities/types'
+
 import { initialRound } from '../round/round.initital-states'
 
 
@@ -32,7 +33,6 @@ export const initialGame : IGameActive = {
   id: -1,
   config: intialGameConfig,
   end: -1,
-  name: '',
   pause: initialPause,
   players: initialGamePlayers,
   round: initialRound,

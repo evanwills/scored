@@ -1,10 +1,11 @@
-import { GAME__AT } from '../game/game.types'
-import { resumeGame__AC } from '../game/game.action'
-import { error__AC } from '../errors/error.action'
-import { ERROR__AT } from '../errors/error.types'
-import { TURN__AT } from '../round/round.types'
-import { IActionStamped, IWholeScored, IGameActive } from '../utilities/types'
 import { Middleware, Store } from 'redux'
+
+import { IActionStamped, IWholeScored, IGameActive, ERROR__AT } from '../utilities/types'
+import { GAME__AT } from './game.types'
+// import { TURN__AT } from '../round/round.types'
+
+import { resumeGame__AC } from './game.action'
+import error__AC from '../errors/error.action'
 
 /**
  * pauseResume() handles adding the paused time (in seconds) to
