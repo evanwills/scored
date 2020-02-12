@@ -1,4 +1,4 @@
-import { IPayload } from './types'
+import { IPayload } from './scored'
 
 
 export enum GAME_PLAYERS__AT {

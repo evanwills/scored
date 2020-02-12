@@ -78,6 +78,12 @@ export interface IErrorAction extends IActionStamped {
   meta: IErrorMeta
 }
 
+export interface IResumeGameAction extends IAction {
+  type: GAME__AT,
+  payload: IResumeGamePayload
+}
+
+
 
 //  END:  action interfaces
 // ----------------------------------------------
@@ -451,6 +457,10 @@ export interface IErrorPayload extends IPayload {
   type: ERROR__AT
 }
 
+export interface IResumeGamePayload extends IPayload {
+  pauseDuration: number
+}
+
 //  END:  payload interfaces
 // ----------------------------------------------
 // START: player(s) intefaces
@@ -653,6 +663,9 @@ export interface IErrorType {
   [propName: string] : ErrorInfo
 }
 
+export interface IResumeGameReducer extends Reducer {
+  (state: IPause, action: IActionStamped | IResumeGameAction) : IPause
+}
 
 //  END:  function interfaces
 // ========================================================
@@ -708,6 +721,23 @@ export enum TURN_SORT_FIELDS {
   playOrder = 'playOrder',
   roundIndex = 'roundIndex',
   start = 'start'
+}
+
+/**
+ * Action types
+ */
+export enum GAME__AT {
+  CHOOSING = 'CHOOSING_GAME',
+  INITIALISE = 'INITIALISE_GAME',
+  CONFIG = 'UPDATE_GAME_CONFIG',
+  ADD_PLAYERS = 'ADD_PLAYERS',
+  MOVE_PLAYER = 'MOVE_PLAYERS',
+  REMOVE_PLAYER = 'REMOVE_PLAYER',
+  START = 'START_GAME',
+  PAUSE = 'PAUSE_GAME',
+  RESUME = 'RESUME_GAME',
+  END = 'END_GAME',
+  STATE_MACHINE = 'UPDATE_STATE_MACHINE'
 }
 
 export enum GAME_STATE {

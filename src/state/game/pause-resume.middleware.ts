@@ -1,8 +1,6 @@
 import { Middleware, Store } from 'redux'
 
-import { IActionStamped, IWholeScored, IGameActive, ERROR__AT } from '../../types/scored'
-import { GAME__AT } from '../../types/game.types'
-// import { TURN__AT } from '../../types/round.types'
+import { IActionStamped, IWholeScored, IGameActive, ERROR__AT, GAME__AT } from '../../types/scored'
 
 import { resumeGame__AC } from './game.action'
 import error__AC from '../errors/error.action'

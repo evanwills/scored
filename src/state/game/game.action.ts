@@ -1,5 +1,5 @@
-import { IAction, GAME_STATE, IConfigGame, IGameActive, IMeta } from '../../types/scored'
-import { GAME__AT, IResumeGameAction } from '../../types/game.types'
+import { IAction, GAME_STATE, IConfigGame, IGameActive, IMeta, GAME__AT, IResumeGameAction } from '../../types/scored'
+// import { } from '../../types/game.types'
 /**
  * Set the game to paused (i.e. stop counting the time)
  */

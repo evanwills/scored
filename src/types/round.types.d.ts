@@ -1,4 +1,4 @@
-import {IPayload, IPlayerSimple, IAction} from './types'
+import {IPayload, IPlayerSimple, IAction} from './scored'
 
 export enum ROUND__AT {
   INITIALISE = 'INITIALISE_ROUND',
