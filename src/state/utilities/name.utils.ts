@@ -1,23 +1,16 @@
 import { IAction, IWholeScored, IHasName, IPlayerSimple } from '../../types/scored'
 
+
 /**
  * Check whether a given name is already in use
  * @param newName
  * @param items
  */
 export const isDuplicateName = (newName: string, items: IHasName[]) : number => {
-  // Q: Why use a for loop instead of Array.reduce()?
-  // A: Mostly for readability and because I can terminate
-  //    the loop as soon as I have a match.
-  //    I could also use filter but again you have to
-  //    process the whole array.
+  const findFunc = (item : IHasName) : boolean => (item.name === newName)
+  const index = items.findIndex(findFunc)
 
-  for (let a = 0; a < items.length; a += 1) {
-    if (newName === items[a].name) {
-      return items[a].id;
-    }
-  }
-  return -1
+  return (index > -1 ) ? items[index].id : -1
 }
 
 /**

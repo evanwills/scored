@@ -1,10 +1,10 @@
 
 import { Middleware, Store } from 'redux'
 
-import { IAction, IWholeScored, IPlayerSimple, ERROR__AT } from '../../types/scored'
-import { ALL_PLAYERS__AT, GAME_PLAYERS__AT } from '../../types/player.types'
+import { IAction, IWholeScored, IPlayerSimple, ERROR__AT, ALL_PLAYERS__AT, GAME_PLAYERS__AT } from '../../types/scored'
 
-import { getPlayerByID, isDuplicateName, sanitiseName } from '../utilities/name.utils'
+import { isDuplicateName, sanitiseName } from '../utilities/name.utils'
+import { getItemById, itemMatchesID } from '../utilities/item-by-id.utils'
 import error__AC from '../errors/error.action'
 import { isIdPayload__TG } from '../../types/typeguards'
 
@@ -23,14 +23,13 @@ export const GamePlayersMiddleware : Middleware = (store) => (next) => (action) 
 
       const _playerID : number = action.payload.id
       // Get the player's basic details
-      const _player : IPlayerSimple = getPlayerByID(
+      const _player : IPlayerSimple = getItemById(
         _playerID,
         allPlayers.players
       )
 
-      const _alreadyPlayer = getPlayerByID(_playerID, currentGame.players.playersSeatOrder)
       // Check whether the player is already listed in the game
-      if (_alreadyPlayer.id > 0) {
+      if (itemMatchesID(_playerID, currentGame.players.playersSeatOrder)) {
         // You're a duffa. You've already added that player
         store.dispatch(
           error__AC(

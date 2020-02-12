@@ -9,7 +9,7 @@ import {
   IScorePayload, ITotalScorePayload,
   PLAY_ORDER,
   ITurn, ITurnComplete, ITurnCompletePayload, ITurnsCompletePayload
-} from './types'
+} from './scored'
 
 
 // ----------------------------------------------
