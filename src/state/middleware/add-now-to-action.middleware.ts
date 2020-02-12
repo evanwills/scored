@@ -1,4 +1,4 @@
-import { IAction, IActionStamped } from '../utilities/types'
+import { IAction, IActionStamped } from '../../types/types'
 import { Middleware, Store } from 'redux'
 
 /**

@@ -1,5 +1,4 @@
-import {IPayload, IPlayerSimple, IAction} from '../utilities/types'
-
+import {IPayload, IPlayerSimple, IAction} from './types'
 
 export enum ROUND__AT {
   INITIALISE = 'INITIALISE_ROUND',
@@ -24,7 +23,7 @@ export interface IPlayerPayload extends IPayload {
 }
 
 export interface IPlayerAction extends IAction {
-  type: ROUND,
+  type: ROUND__AT,
   payload: IPlayerPayload
 }
 

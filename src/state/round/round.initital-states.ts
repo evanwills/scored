@@ -1,4 +1,4 @@
-import { ITurn, IRound, ROUND_STATES } from '../utilities/types'
+import { ITurn, IRound, ROUND_STATES } from '../../types/types'
 
 export const initialTurn : ITurn = {
   id: -1,

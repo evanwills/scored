@@ -1,7 +1,7 @@
 import { Reducer } from 'redux'
 
-import { GAME__AT, IResumeGameAction } from './game.types'
-import { IPause, IPauseLog, IActionStamped, PAUSE_LOG_TYPE,GAME_STATE } from '../utilities/types'
+import { GAME__AT, IResumeGameAction } from '../../types/game.types'
+import { IPause, IPauseLog, IActionStamped, PAUSE_LOG_TYPE,GAME_STATE } from '../../types/types'
 
 import { initialPause } from './game.initial-state'
 

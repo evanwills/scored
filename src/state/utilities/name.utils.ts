@@ -1,4 +1,4 @@
-import { IAction, IWholeScored, IHasName, IPlayerSimple } from '../utilities/types'
+import { IAction, IWholeScored, IHasName, IPlayerSimple } from '../../types/types'
 
 /**
  * Check whether a given name is already in use

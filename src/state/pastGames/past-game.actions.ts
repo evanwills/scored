@@ -1,4 +1,4 @@
-import { IAction } from '../utilities/types'
+import { IAction } from '../../types/types'
 
 export enum PAST_GAME__AT {
   INCREMENT_INDEX = 'INCREMENT_PAST_GAME_INDEX',

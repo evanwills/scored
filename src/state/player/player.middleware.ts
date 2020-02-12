@@ -1,12 +1,12 @@
 
 import { Middleware, Store } from 'redux'
 
-import { IAction, IWholeScored, IPlayerSimple, ERROR__AT } from '../utilities/types'
-import { ALL_PLAYERS__AT, GAME_PLAYERS__AT } from './player.types'
+import { IAction, IWholeScored, IPlayerSimple, ERROR__AT } from '../../types/types'
+import { ALL_PLAYERS__AT, GAME_PLAYERS__AT } from '../../types/player.types'
 
 import { getPlayerByID, isDuplicateName, sanitiseName } from '../utilities/name.utils'
 import error__AC from '../errors/error.action'
-import { isIdPayload__TG } from '../utilities/typegards'
+import { isIdPayload__TG } from '../../types/typegards'
 
 
 // ========================================================

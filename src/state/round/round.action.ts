@@ -1,6 +1,6 @@
 
-import { IPlayerSimple, PLAY_ORDER} from '../utilities/types'
-import { IPlayerAction, ROUND__AT} from '../round/round.types'
+import { IPlayerSimple, PLAY_ORDER} from '../../types/types'
+import { IPlayerAction, ROUND__AT} from '../../types/round.types'
 
 
 

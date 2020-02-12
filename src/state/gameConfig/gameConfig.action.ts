@@ -1,4 +1,4 @@
-import { IConfigGame, IConfigGameDefault, IAction } from '../utilities/types'
+import { IConfigGame, IConfigGameDefault, IAction } from '../../types/types'
 
 export enum GAME_CONFIG__AT {
   ADD = 'ADD_NEW_GAME_CONGIG',

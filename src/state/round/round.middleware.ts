@@ -1,8 +1,8 @@
-import { TURN__AT, ROUND__AT } from '../round/round.types'
+import { TURN__AT, ROUND__AT } from '../../types/round.types'
 import { endTurn__AC, startTurn__AC, scoreTurn__AC } from '../round/turns.action'
 import { initialiseRound__AC, finaliseRound__AC } from '../round/round.action'
 import { getTotalScore } from '../score/score.utils'
-import { IWholeScored, IActionStamped } from '../utilities/types'
+import { IWholeScored, IActionStamped } from '../../types/types'
 import { Middleware } from 'redux'
 // import { initialRound, initialTurn } from '../round/round.initital-states'
 

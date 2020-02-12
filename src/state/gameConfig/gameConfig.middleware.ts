@@ -1,6 +1,6 @@
 import { Middleware } from 'redux'
 
-import { IConfigGame, ERROR__AT } from '../utilities/types'
+import { IConfigGame, ERROR__AT } from '../../types/types'
 
 import { itemMatchesID, getItemById } from '../utilities/item-by-id.utils'
 import { isDuplicateName, sanitiseName } from '../utilities/name.utils'

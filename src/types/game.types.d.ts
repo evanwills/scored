@@ -1,4 +1,4 @@
-import { IPayload, IAction, IPause } from '../utilities/types'
+import { IPayload, IAction, IPause } from './types'
 
 /**
  * Action types

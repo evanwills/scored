@@ -1,8 +1,8 @@
 import { Reducer } from 'redux'
 
-import { GamePlayers, IAction, playersAll, IPlayerSimple } from '../utilities/types'
-import { ALL_PLAYERS__AT, GAME_PLAYERS__AT } from '../player/player.types'
-// import { TURN__AT } from '.state/round/round.types'
+import { GamePlayers, IAction, playersAll, IPlayerSimple } from '../../types/types'
+import { ALL_PLAYERS__AT, GAME_PLAYERS__AT } from '../../types/player.types'
+// import { TURN__AT } from '../../types/round.types'
 
 
 

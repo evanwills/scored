@@ -1,3 +1,4 @@
+import { IPayload } from './types'
 
 
 export enum GAME_PLAYERS__AT {

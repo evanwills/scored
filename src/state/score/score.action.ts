@@ -1,5 +1,5 @@
 
-import { IAction, ITurnComplete } from '../utilities/types'
+import { IAction, ITurnComplete } from '../../types/types'
 
 export const SCORE__AT = {
   ADD: 'Add score',
