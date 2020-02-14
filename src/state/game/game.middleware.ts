@@ -1,7 +1,7 @@
 
 import { Middleware } from 'redux'
 
-import { GamePlayers, IConfigGame, IGameActive } from '../types/scored'
+import { GamePlayers, IConfigGame } from '../types/scored'
 import { GAME_STATE, ERROR__AT, GAME__AT, GAME_PLAYERS__AT, ROUND__AT, TURN__AT } from '../types/scored-enums'
 // import { } from '../../types/round.types'
 // import {  } from '../../types/player.types'
@@ -90,7 +90,7 @@ const gameMiddleWare : Middleware = (store) => (next) => (action) => {
       // These four changes effect the state machine's state
       // So they need to be handled differently
       if (stateMachine === GAME_STATE.GAME_PAUSED) {
-        store.dispatch(action)
+        return next(action)
       } else if (
         stateMachine === GAME_STATE.GAME_INITIALISED ||
         stateMachine === GAME_STATE.MANAGE_PLAYERS
@@ -147,7 +147,6 @@ const gameMiddleWare : Middleware = (store) => (next) => (action) => {
     case ROUND__AT.ADD_TURN:
     case ROUND__AT.UPDATE_TURN:
     case ROUND__AT.FINALISE:
-    case TURN__AT.START:
     case TURN__AT.START:
     case TURN__AT.SCORE:
     case TURN__AT.SCORE_END:

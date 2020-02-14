@@ -9,7 +9,7 @@ import { Middleware } from 'redux'
  */
 const loggerMiddleware : Middleware = (store) => (next) => (action) => {
   console.group(action.type)
-  let func = 'info'
+  // let func = 'info'
   if (action.error === true) {
     if (action.meta.code > 200) {
       console.error('dispatching', action)

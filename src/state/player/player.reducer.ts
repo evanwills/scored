@@ -1,6 +1,6 @@
 import { Reducer } from 'redux'
 
-import { GamePlayers, IAction, PlayersAll, IPlayerSimple } from '../types/scored'
+import { IPlayerSimple } from '../types/scored'
 import { ALL_PLAYERS__AT, GAME_PLAYERS__AT } from '../types/scored-enums'
 // import { } from '../../types/player.types'
 // import { TURN__AT } from '../../types/round.types'

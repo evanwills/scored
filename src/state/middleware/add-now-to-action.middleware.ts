@@ -1,5 +1,5 @@
-import { IAction, IActionStamped } from '../types/scored'
-import { Middleware, Store } from 'redux'
+import { IActionStamped } from '../types/scored'
+import { Middleware } from 'redux'
 
 /**
  * Redux middleware addMetaToActionMiddleware() appends a

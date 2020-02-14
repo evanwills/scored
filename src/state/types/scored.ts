@@ -277,6 +277,7 @@ export interface IGameActive extends IGame, IHasId {
  * @property start   Timestamp for when the game started
  */
 export interface IGameFinished extends IGame {
+  id: number,
   end: number,
   config: IConfigGame,
   pause: IPause,
@@ -390,7 +391,8 @@ export interface IPauseLog {
  *
  */
 export interface IPayload {
-  gameConfig?: IConfigGame | IConfigGameDefault,
+  gameConfig?: IConfigGame,
+  endedGame?: IGameFinished,
   id?: number,
   isPaused?: boolean
   message?: string,
@@ -410,6 +412,18 @@ export interface IPayload {
 
 export interface IIdPayload extends IPayload, IHasId {
   id: number
+}
+export interface IConfigGamePayload extends IPayload {
+  gameConfig: IConfigGame
+}
+export interface IConfigGameAction extends IAction {
+  type: string,
+  payload: IConfigGamePayload,
+  error: boolean,
+  meta: IMeta
+}
+export interface IGameFinishedPayload extends IPayload {
+  endedGame: IGameFinished,
 }
 export interface INamePayload extends IPayload {
   name: string
@@ -537,7 +551,8 @@ export interface IPlayerSimple extends IHasName {
 export type playerGameJoin = {
   playerID: number,
   gameID: number,
-  seatingOrder: number,
+  playOrder: number,
+  score: number,
   rank: number
 }
 
@@ -550,7 +565,7 @@ export interface IPlayerResult extends IPlayerSimple {
 
 export type GamePlayers = {
   playersSeatOrder: IPlayerSimple[],
-  finalResult?: ITurnComplete[]
+  finalResult: ITurnComplete[]
 }
 
 export type PlayersAll = {

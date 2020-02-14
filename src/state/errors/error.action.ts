@@ -76,11 +76,11 @@ export const errorTypes : IErrorType = {
   // --------------------------------------------
   // START: Unrecoverable system errors
 
-  PLAYER_NOT_FOUND: {
-    name: ERROR__AT.PLAYER_NOT_FOUND,
-    message: 'Could not find player matching the specified ID: $1',
+  NOT_FOUND_BY_ID: {
+    name: ERROR__AT.NOT_FOUND_BY_ID,
+    message: 'Could not find $1 matching the specified ID: $2',
     code: 250,
-    replacements: 1,
+    replacements: 2,
     logType: E_LOG_TYPE.ERROR
   },
   PAUSE_RESUME_FAILURE: {
@@ -172,8 +172,6 @@ const printf = (replacements: string[], message: string, count: number) : string
       replacements.length
     )
   }
-
-  let output = message
 
   for (let a : number = 0; a < count; a += 1) {
     const reg = new RegExp('\\$' + (a + 1), 'g')

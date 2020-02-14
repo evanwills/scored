@@ -1,5 +1,5 @@
 
-import { IAction, IGetTurns, ITurnComplete } from '../types/scored'
+import { IGetTurns, ITurnComplete } from '../types/scored'
 import { SCORE_SORT_METHOD, TURN_SORT_FIELDS, FILTER_BY_PROP } from '../types/scored-enums'
 import { pureSort, ICompare } from '../utilities/functional-sort'
 

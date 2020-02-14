@@ -1,7 +1,7 @@
 import { Reducer } from 'redux'
 
-import { IPause, IPauseLog, IActionStamped, IResumeGameAction } from '../types/scored'
-import { PAUSE_LOG_TYPE, GAME_STATE, GAME__AT } from '../types/scored-enums'
+// import { IPause, IPauseLog, IActionStamped, IResumeGameAction } from '../types/scored'
+import { PAUSE_LOG_TYPE, GAME__AT } from '../types/scored-enums'
 
 import { initialPause } from './game.initial-state'
 
@@ -41,7 +41,8 @@ export const pause__R : Reducer = (state = initialPause, action) => {
         }
       }
 
-    default:
-      return state
+    // default:
+    //   return state
   }
+  return state
 }

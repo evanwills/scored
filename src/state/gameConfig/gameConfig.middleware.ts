@@ -1,12 +1,11 @@
 import { Middleware } from 'redux'
 
-import { IConfigGame } from '../types/scored'
-import { ERROR__AT } from '../types/scored-enums'
+// import { IConfigGame } from '../types/scored'
+import { ERROR__AT, GAME_CONFIG__AT } from '../types/scored-enums'
 
-import { itemMatchesID, getItemById } from '../utilities/item-by-id.utils'
+import { itemMatchesID } from '../utilities/item-by-id.utils'
 import { isDuplicateName, sanitiseName } from '../utilities/name.utils'
 
-import { GAME_CONFIG__AT } from './gameConfig.action'
 import error__AC from '../errors/error.action'
 // import gameMiddleWare from '../game/game.middleware'
 
@@ -65,6 +64,7 @@ const gameConfigMiddleware : Middleware = (store) => (next) => (action) => {
 
     case GAME_CONFIG__AT.CLONE:
       if (itemMatchesID(payload.id, gameConfigs)) {
+        sanitised = sanitiseName(payload.name)
         if (sanitised !== payload.name) {
           store.dispatch(
             error__AC(
@@ -83,6 +83,14 @@ const gameConfigMiddleware : Middleware = (store) => (next) => (action) => {
         } else {
           return next(action)
         }
+      } else {
+        return next(
+          error__AC(
+            ['game config', payload.id],
+            ERROR__AT.NOT_FOUND_BY_ID,
+            action
+          )
+        )
       }
 
     default:

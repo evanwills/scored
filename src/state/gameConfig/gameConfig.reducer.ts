@@ -1,5 +1,5 @@
 import { Reducer } from 'redux'
-import { GAME_CONFIG__AT } from './gameConfig.action'
+import { GAME_CONFIG__AT } from '../types/scored-enums'
 import { IConfigGame } from '../types/scored'
 
 const gameConfigs__R : Reducer = (state = [], action) => {

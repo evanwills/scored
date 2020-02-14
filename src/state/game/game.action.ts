@@ -1,4 +1,4 @@
-import { IAction, IConfigGame, IGameActive, IMeta, IResumeGameAction } from '../types/scored'
+import { IAction, IGameActive, IMeta, IResumeGameAction } from '../types/scored'
 import { GAME_STATE, GAME__AT } from '../types/scored-enums'
 // import { } from '../../types/game.types'
 /**

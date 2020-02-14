@@ -1,4 +1,4 @@
-import { IAction, IWholeScored, IHasName, IPlayerSimple } from '../types/scored'
+import { IHasName, IPlayerSimple } from '../types/scored'
 
 
 /**

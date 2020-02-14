@@ -1,6 +1,6 @@
-import { Middleware, Store } from 'redux'
+import { Middleware } from 'redux'
 
-import { IActionStamped, IWholeScored, IGameActive } from '../types/scored'
+import { IWholeScored, IGameActive } from '../types/scored'
 import { ERROR__AT, GAME__AT } from '../types/scored-enums'
 
 import { resumeGame__AC } from './game.action'

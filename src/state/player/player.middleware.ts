@@ -73,8 +73,8 @@ export const GamePlayersMiddleware : Middleware = (store) => (next) => (action) 
         // Send an error
         store.dispatch(
           error__AC(
-            [`{_playerID}`],
-            ERROR__AT.PLAYER_NOT_FOUND,
+            ['player', `{_playerID}`],
+            ERROR__AT.NOT_FOUND_BY_ID,
             action
           )
         )

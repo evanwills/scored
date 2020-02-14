@@ -1,5 +1,5 @@
 import { Reducer } from 'redux'
-import { IAction } from '../types/scored'
+// import { IAction } from '../types/scored'
 import { GAME_STATE, GAME__AT } from '../types/scored-enums'
 
 import valueInEnum from '../utilities/value-in-enum'
@@ -38,7 +38,7 @@ export const stateMachine__R : Reducer = (state, action) => {
 
   switch (action.type) {
     case GAME__AT.CHOOSING:
-      return
+      return state
     case GAME__AT.INITIALISE:
     case GAME__AT.ADD_PLAYERS:
     case GAME__AT.MOVE_PLAYER:
@@ -49,11 +49,11 @@ export const stateMachine__R : Reducer = (state, action) => {
     case GAME__AT.END:
       // The assumption here is that any transition errors
       // would have been picked up
-      if (valueInEnum(gameState, GAME_STATE)) {
+      // if (valueInEnum(gameState, GAME_STATE)) {
         return gameState
-      } else {
-        throw new Error('Invalid game state given ("' + gameState + ')')
-      }
+      // } else {
+      //   throw new Error('Invalid game state given ("' + gameState + ')')
+      // }
 
     default:
       return state

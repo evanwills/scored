@@ -1,5 +1,6 @@
 import { Reducer } from 'redux'
-import { IGame, IAction, PastGames } from "../types/scored"
+import { PastGames, IGameFinished, IGameFinishedPayload, ITurnComplete, playerGameJoin } from "../types/scored"
+import { PAST_GAME__AT } from './past-game.actions'
 
 export const pastGamesInitialState : PastGames = {
   index: 0,
@@ -7,6 +8,38 @@ export const pastGamesInitialState : PastGames = {
   playerGames: []
 }
 
-export const pastGame__R : Reducer = (state = pastGamesInitialState, action) => {
-  return state
+export const pastGame__R : Reducer = (state : PastGames = pastGamesInitialState, action) => {
+  switch (action.type) {
+    case PAST_GAME__AT.ADD:
+      const game : IGameFinished = (action.payload as IGameFinishedPayload).endedGame
+      const joins : playerGameJoin[] = game.players.finalResult.map((finalTurn : ITurnComplete, index: number) : playerGameJoin => {
+        return {
+          playerID: finalTurn.playerID,
+          gameID: game.id,
+          score: finalTurn.score.total,
+          playOrder: index + 1,
+          rank: finalTurn.rank.overall
+        }
+      })
+      return {
+        index: state.index,
+        games: [
+          ...state.games,
+          game,
+        ],
+        playerGames: {
+          ...state.playerGames,
+          ...joins
+        }
+      }
+
+    case PAST_GAME__AT.INCREMENT_INDEX:
+      return {
+          ...state,
+          index: state.index + 1
+      }
+
+    default:
+      return state
+  }
 }

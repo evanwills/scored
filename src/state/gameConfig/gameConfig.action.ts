@@ -1,20 +1,20 @@
-import { IConfigGame, IConfigGameDefault, IAction } from '../types/scored'
+import { IConfigGame, IAction, IConfigGameAction, IConfigGameDefault, IPayload } from '../types/scored'
 
-export enum GAME_CONFIG__AT {
-  ADD = 'ADD_NEW_GAME_CONGIG',
-  UPDATE = 'UPDATE_GAME_CONFIG',
-  REMOVE = 'ARCHIVE_GAME_CONFIG',
-  CLONE = 'CLONE_GAME_CONFIG',
-}
+import { GAME_CONFIG__AT } from '../types/scored-enums'
 
-export const newGameConf__AC = (config: IConfigGameDefault) : IAction => {
-  // I'll leave validation of min & max to
-  // gameConfigMiddleware()
+/**
+ * Helper function because add and update have the same payload but
+ * are treated differently by the reducer.
+ *
+ * @param _type   Type value for the action (ADD or UPDATE)
+ * @param _config Game config to be added or updated.
+ */
+const addUpdateConf = (_type : GAME_CONFIG__AT, _config: IConfigGame) : IConfigGameAction => {
   return {
-    type: GAME_CONFIG__AT.ADD,
+    type: _type,
     payload: {
       gameConfig: {
-        ...config
+        ..._config
       }
     },
     error: false,
@@ -24,26 +24,23 @@ export const newGameConf__AC = (config: IConfigGameDefault) : IAction => {
   }
 }
 
+export const newGameConf__AC = (config: IConfigGame) : IAction => {
+  // I'll leave validation of min & max to
+  // gameConfigMiddleware()
+  return addUpdateConf(GAME_CONFIG__AT.ADD, config)
+}
+
 export const updateGameConf__AC = (config: IConfigGame) : IAction => {
   // I'll leave validation of min & max to
   // gameConfigMiddleware()
-  return {
-    type: GAME_CONFIG__AT.UPDATE,
-    payload: {
-      gameConfig: {...config}
-    },
-    error: false,
-    meta: {
-      now: -1
-    }
-  }
+  return addUpdateConf(GAME_CONFIG__AT.UPDATE, config)
 }
 
 export const removeGameConf__AC = (_id: number) : IAction => {
   // I'll leave validation of min & max to
   // gameConfigMiddleware()
   return {
-    type: GAME_CONFIG__AT.UPDATE,
+    type: GAME_CONFIG__AT.REMOVE,
     payload: {
       id: _id
     },
