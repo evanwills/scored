@@ -1,10 +1,10 @@
 
 import { Middleware } from 'redux'
 
-import { GAME_STATE, GamePlayers, IConfigGame, IGameActive, ERROR__AT } from '../utilities/types'
-import { GAME__AT } from './game.types'
-import { ROUND__AT, TURN__AT } from '../round/round.types'
-import { GAME_PLAYERS__AT } from '../player/player.types'
+import { GamePlayers, IConfigGame, IGameActive } from '../types/scored'
+import { GAME_STATE, ERROR__AT, GAME__AT, GAME_PLAYERS__AT, ROUND__AT, TURN__AT } from '../types/scored-enums'
+// import { } from '../../types/round.types'
+// import {  } from '../../types/player.types'
 
 import { gameMachineState__AC, initialiseGameFull__AC } from '../game/game.action'
 import { initialPause } from '../game/game.initial-state'

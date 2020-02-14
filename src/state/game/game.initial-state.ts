@@ -1,4 +1,6 @@
-import { IGameActive, END_MODE, PLAY_ORDER, IPause, IConfigGame, IFiniteStateMachine, GAME_STATE, AllowableStates, GamePlayers } from '../utilities/types'
+import { IGameActive, IPause, IConfigGame, IFiniteStateMachine, GamePlayers } from '../types/scored'
+import { END_MODE, PLAY_ORDER, GAME_STATE } from '../types/scored-enums'
+import { AllowableStates } from '../types/scored-unions'
 
 import { initialRound } from '../round/round.initital-states'
 

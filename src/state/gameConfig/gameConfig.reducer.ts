@@ -1,8 +1,8 @@
 import { Reducer } from 'redux'
 import { GAME_CONFIG__AT } from './gameConfig.action'
-import { IConfigGame } from '../utilities/types'
+import { IConfigGame } from '../types/scored'
 
-const gameConfigs__R : Reducer = (state, action) => {
+const gameConfigs__R : Reducer = (state = [], action) => {
   // assume that all validation is done by
   // gameConfigMiddleware()
 
@@ -69,4 +69,4 @@ const gameConfigs__R : Reducer = (state, action) => {
   }
 }
 
-export default gameConfig__R
+export default gameConfigs__R

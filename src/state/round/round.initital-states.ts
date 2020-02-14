@@ -1,4 +1,5 @@
-import { ITurn, IRound, ROUND_STATES } from '../utilities/types'
+import { ITurn, IRound } from '../types/scored'
+import { ROUND_STATES } from '../types/scored-enums'
 
 export const initialTurn : ITurn = {
   id: -1,

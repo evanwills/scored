@@ -1,4 +1,5 @@
-import { IActionStamped, ERROR__AT, IErrorType, IErrorAction, ErrorInfo, E_LOG_TYPE } from '../utilities/types'
+import { IActionStamped, IErrorType, IErrorAction, ErrorInfo } from '../types/scored'
+import { ERROR__AT, E_LOG_TYPE } from '../types/scored-enums'
 
 /**
  * This represents a definitive list of errors the *scored*

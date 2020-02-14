@@ -1,10 +1,11 @@
 
-import { IPlayerSimple, PLAY_ORDER} from '../utilities/types'
-import { IPlayerAction, ROUND__AT} from '../round/round.types'
+import { IPlayerSimple, IPlayersAction } from '../types/scored'
+import { PLAY_ORDER, ROUND__AT} from '../types/scored-enums'
+// import {} from '../../types/round.types'
 
 
 
-export const initialiseRound__AC = (playersSeatOrder : IPlayerSimple[], playOrder: PLAY_ORDER ) : IPlayerAction => {
+export const initialiseRound__AC = (playersSeatOrder : IPlayerSimple[], playOrder: PLAY_ORDER ) : IPlayersAction => {
   return {
     type: ROUND__AT.INITIALISE,
     payload: {

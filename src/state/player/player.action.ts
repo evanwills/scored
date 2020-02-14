@@ -1,5 +1,6 @@
-import { IAction, IPlayerSimple } from '../utilities/types'
-import { GAME_PLAYERS__AT, ALL_PLAYERS__AT } from '../player/player.types'
+import { IAction, IPlayerSimple } from '../types/scored'
+import { GAME_PLAYERS__AT, ALL_PLAYERS__AT } from '../types/scored-enums'
+// import { } from '../../types/player.types'
 
 
 export const addPlayerToGame__AC = (_player: IPlayerSimple) : IAction => {

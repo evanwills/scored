@@ -1,4 +1,6 @@
-import { AllEnums } from './types'
+import { AllEnums } from "../types/scored-unions"
+
+// import { AllEnums } from '../types/scored-unions'
 
 
 /**
@@ -8,9 +10,9 @@ import { AllEnums } from './types'
  * @param needle     String to be tested
  * @param haystack Enum to test against
  */
-const itemInEnum = (needle: string, haystack: any) : boolean => {
-  for (let straw in haystack as any) {
-    if (straw === needle) {
+const itemInEnum = <T extends AllEnums>(needle: string, haystack: T) : boolean => {
+  for (let straw in haystack as T) {
+    if ((straw as string) === needle) {
       return true
     }
   }

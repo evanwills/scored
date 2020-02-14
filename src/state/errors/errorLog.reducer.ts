@@ -1,8 +1,8 @@
 import { Reducer } from 'redux'
-// import { } from '../utilities/types'
+// import { } from '../types/scored'
 
 
-const errorLog__R : Reducer = (state, action) => {
+const errorLog__R : Reducer = (state = [], action) => {
   // We only get errors when some validation has failed so
   // we can assume that the payload is an IErrorPayload
   //

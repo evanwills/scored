@@ -1,6 +1,7 @@
 import { Reducer } from 'redux'
-import { IAction, GAME_STATE } from '../utilities/types'
-import { GAME__AT } from './game.types'
+import { IAction } from '../types/scored'
+import { GAME_STATE, GAME__AT } from '../types/scored-enums'
+
 import valueInEnum from '../utilities/value-in-enum'
 
 export const start__R : Reducer = (state, action) => {

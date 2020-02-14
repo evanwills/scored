@@ -1,5 +1,6 @@
-import { IAction, IMeta } from '../utilities/types'
-import { TURN__AT, IScoreTurnAction } from './round.types'
+import { IAction, IMeta, IScoreTurnAction } from '../types/scored'
+import { TURN__AT } from '../types/scored-enums'
+// import { } from '../../types/round.types'
 
 
 

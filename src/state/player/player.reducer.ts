@@ -1,13 +1,15 @@
 import { Reducer } from 'redux'
 
-import { GamePlayers, IAction, playersAll, IPlayerSimple } from '../utilities/types'
-import { ALL_PLAYERS__AT, GAME_PLAYERS__AT } from '../player/player.types'
-// import { TURN__AT } from '.state/round/round.types'
+import { GamePlayers, IAction, PlayersAll, IPlayerSimple } from '../types/scored'
+import { ALL_PLAYERS__AT, GAME_PLAYERS__AT } from '../types/scored-enums'
+// import { } from '../../types/player.types'
+// import { TURN__AT } from '../../types/round.types'
+import { initialPlayers, initialGamePlayers } from './player.initial-state'
 
 
 
 
-export const gamePlayer__R : Reducer = (state, action) => {
+export const gamePlayer__R : Reducer = (state = initialPlayers, action) => {
   switch (action.type) {
     case GAME_PLAYERS__AT.ADD:
       const player : IPlayerSimple = action.payload.player
@@ -42,7 +44,7 @@ export const gamePlayer__R : Reducer = (state, action) => {
  * @param state
  * @param action
  */
-export const allPlayer__R : Reducer = (state, action) => {
+export const allPlayer__R : Reducer = (state = initialGamePlayers, action) => {
   switch (action.type) {
     case ALL_PLAYERS__AT.ADD:
       const _index = state.index + 1
