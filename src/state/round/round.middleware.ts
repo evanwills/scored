@@ -14,6 +14,7 @@ const roundMiddleWare : Middleware = (store) => (next) => (action) => {
   const currentState : IWholeScored = store.getState()
   const { config, end, players, round, scores } = currentState.currentGame
 
+  console.log('inside roundMiddleWare()')
   switch (action.type) {
     case TURN__AT.SCORE:
       // We don't want an infinite loop so lets add
@@ -48,7 +49,7 @@ const roundMiddleWare : Middleware = (store) => (next) => (action) => {
         store.dispatch(finaliseRound__AC())
 
         // Better get everything ready for the next round
-        store.dispatch(
+        return next(
           initialiseRound__AC(
             players.playersSeatOrder,
             config.playOrder
@@ -65,16 +66,16 @@ const roundMiddleWare : Middleware = (store) => (next) => (action) => {
       break
 
     case ROUND__AT.INITIALISE:
-      break
+      return next(action)
 
     case ROUND__AT.ADD_TURN:
-      break
+      return next(action)
 
     case ROUND__AT.UPDATE_TURN:
-      break
+      return next(action)
 
     case ROUND__AT.FINALISE:
-      break;
+      return next(action)
   }
 
 }

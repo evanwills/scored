@@ -27,6 +27,7 @@ const gameMiddleWare : Middleware = (store) => (next) => (action) => {
   const { currentGame, gameConfigs, pastGames } = store.getState()
   const { stateMachine } = currentGame
 
+  console.log('inside gameMiddleWare()', action)
   switch (action.type) {
     case GAME__AT.CHOOSING:
       if (
@@ -209,7 +210,6 @@ const gameMiddleWare : Middleware = (store) => (next) => (action) => {
       } else {
         throw new Error('Cannot end game while game is not being played')
       }
-
   }
 }
 

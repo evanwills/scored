@@ -9,4 +9,5 @@ const stateMachineMiddleware : Middleware = (store) => (next) => (action) => {
   switch (action.type) {
 
   }
+  return next(action)
 }

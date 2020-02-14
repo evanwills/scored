@@ -10,6 +10,7 @@ import { initialPlayers, initialGamePlayers } from './player.initial-state'
 
 
 export const gamePlayer__R : Reducer = (state = initialPlayers, action) => {
+  console.log('inside gamePlayer__R()')
   switch (action.type) {
     case GAME_PLAYERS__AT.ADD:
       const player : IPlayerSimple = action.payload.player

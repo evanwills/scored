@@ -24,6 +24,7 @@ const gameConfigMiddleware : Middleware = (store) => (next) => (action) => {
   const { gameConfigs } = store.getState()
   let sanitised : string = ''
   let payload = action.payload
+  console.log('inside gameConfigMiddleware()', action)
 
   switch (action.type) {
     case GAME_CONFIG__AT.ADD:

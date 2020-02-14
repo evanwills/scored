@@ -3,7 +3,8 @@ import { Reducer } from 'redux'
 
 
 const errorLog__R : Reducer = (state = [], action) => {
-  // We only get errors when some validation has failed so
+  console.log('inside errorLog__R()')
+  // We only get errors when some validation has faidled so
   // we can assume that the payload is an IErrorPayload
   //
   // For the moment if the action's error property is TRUE

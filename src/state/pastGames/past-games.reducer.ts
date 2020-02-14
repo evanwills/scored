@@ -9,6 +9,7 @@ export const pastGamesInitialState : PastGames = {
 }
 
 export const pastGame__R : Reducer = (state : PastGames = pastGamesInitialState, action) => {
+  console.log('inside gamePlayer__R()')
   switch (action.type) {
     case PAST_GAME__AT.ADD:
       const game : IGameFinished = (action.payload as IGameFinishedPayload).endedGame

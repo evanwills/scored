@@ -22,6 +22,8 @@ export const pauseResumeMiddleware : Middleware = (store) => (next) => (action) 
   const currentStore : IWholeScored = store.getState()
   const { pause } : IGameActive = currentStore.currentGame
 
+  console.log('inside pauseResumeMiddleware()')
+
   switch (action.type) {
     case GAME__AT.RESUME:
       if (pause.start > 0 && pause.isPaused === true) {

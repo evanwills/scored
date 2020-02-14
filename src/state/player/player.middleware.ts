@@ -32,7 +32,7 @@ export const GamePlayersMiddleware : Middleware = (store) => (next) => (action) 
           _playerID,
           currentGame.players.playersSeatOrder
         )
-        store.dispatch(
+        return next(
           error__AC(
             [(_alreadyPlayer as IPlayerSimple).name, `{_playerID}`],
             ERROR__AT.PLAYER_ALREADY_ADDED,
@@ -60,7 +60,7 @@ export const GamePlayersMiddleware : Middleware = (store) => (next) => (action) 
         } else {
           // Something weird is going on here.
           // Can't add an inactive player to a game
-          store.dispatch(
+          return next(
             error__AC(
               [(_player as IHasName).name, `{_playerID}`],
               ERROR__AT.CANT_ADD_INACTIVE_PLAYER,
@@ -71,7 +71,7 @@ export const GamePlayersMiddleware : Middleware = (store) => (next) => (action) 
       } else {
         // That's odd! No player!
         // Send an error
-        store.dispatch(
+        return next(
           error__AC(
             ['player', `{_playerID}`],
             ERROR__AT.NOT_FOUND_BY_ID,
@@ -79,7 +79,6 @@ export const GamePlayersMiddleware : Middleware = (store) => (next) => (action) 
           )
         )
       }
-      break;
 
     default:
       next(action)
@@ -117,20 +116,18 @@ export const PlayersAllMiddleware : Middleware = (store) => (next) => (action) =
             action
           )
         )
+      } else {
+        return next({
+          ...action,
+          payload: {
+            ...action.payload,
+            name: _sanitised
+          }
+        })
       }
 
-
-
-      return next({
-        ...action,
-        payload: {
-          ...action.payload,
-          name: _sanitised
-        }
-      })
-
     default:
-      next(action)
+      return next(action)
   }
 }
 

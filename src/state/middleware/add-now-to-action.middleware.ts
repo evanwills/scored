@@ -35,8 +35,8 @@ const addMetaToActionMiddleware : Middleware = (store) => (next) => (action) => 
         roundState: currentGame.round.stateMachine
      } : _meta
     }
-
-    store.dispatch(_modifiedAction)
+    console.log('_modifiedAction:', _modifiedAction)
+    return next(_modifiedAction)
   }
 }
 

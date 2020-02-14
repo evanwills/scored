@@ -1,4 +1,4 @@
-import { IConfigGame, IAction, IConfigGameAction, IConfigGameDefault, IPayload } from '../types/scored'
+import { IConfigGame, IAction, IConfigGameAction } from '../types/scored'
 
 import { GAME_CONFIG__AT } from '../types/scored-enums'
 

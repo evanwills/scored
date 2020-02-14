@@ -2,16 +2,19 @@ import { Reducer } from 'redux'
 import { GAME_CONFIG__AT } from '../types/scored-enums'
 import { IConfigGame } from '../types/scored'
 
-const gameConfigs__R : Reducer = (state = [], action) => {
+const gameConfigs : Reducer = (state = [], action) => {
   // assume that all validation is done by
   // gameConfigMiddleware()
 
   // NOTE: adding, removing and updating game configuration
   //       can be done at any time as it doesn't affect the
   //       game state
+  console.log('inside gameConfigs()')
+  console.log('action.type: ', action.type)
 
   switch (action.type) {
     case GAME_CONFIG__AT.ADD:
+      console.log('inside GAME_CONFIG__AT.ADD (' + GAME_CONFIG__AT.ADD + ')')
       return [
         ...state,
         {
@@ -69,4 +72,4 @@ const gameConfigs__R : Reducer = (state = [], action) => {
   }
 }
 
-export default gameConfigs__R
+export default gameConfigs

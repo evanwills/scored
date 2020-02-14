@@ -12,6 +12,7 @@ import { round__R } from './round/round.reducer'
 import { pastGame__R } from './pastGames/past-games.reducer'
 import gameConfigs__R from './gameConfig/gameConfig.reducer'
 import errorLog__R from './errors/errorLog.reducer'
+import uiState__R from './ui-state/ui-state.reducer'
 
 
 //  END:  reducer imports
@@ -22,10 +23,10 @@ import errorLog__R from './errors/errorLog.reducer'
 import addMetaToActionMiddleware from './middleware/add-now-to-action.middleware'
 import { pauseResumeMiddleware } from './game/pause-resume.middleware'
 import loggerMiddleware from './middleware/logger.middleware'
-// import crashReporter from './middleware/crash-reporter.middleware'
 import roundMiddleWare from './round/round.middleware'
 import gameConfigMiddleware from './gameConfig/gameConfig.middleware'
 import gameMiddleWare from './game/game.middleware'
+import initialState from './initial-state'
 
 
 //  END:  middleware imports
@@ -50,8 +51,9 @@ const scoredStore : Store = createStore(
     errorLog: errorLog__R,      // fully implemented
     gameConfigs: gameConfigs__R, // fully implemented
     pastGames: pastGame__R,
-    // uiState: uiState__R
+    uiState: uiState__R
   }),
+  initialState,
   applyMiddleware(
     addMetaToActionMiddleware,
     // crashReporter,

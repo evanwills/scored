@@ -7,6 +7,7 @@ import { initialPause } from './game.initial-state'
 
 
 export const pause__R : Reducer = (state = initialPause, action) => {
+  console.log('inside pause__R()')
   switch (action.type) {
     case GAME__AT.PAUSE:
       return {
