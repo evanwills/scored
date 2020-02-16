@@ -1,13 +1,14 @@
 import { Reducer } from 'redux'
 
-import { IPlayerSimple, IRoundTurns, ITurn, ITurnComplete } from '../types/scored'
-import { PLAY_ORDER, SCORE_SORT_METHOD, GAME__AT, ROUND__AT, TURN__AT } from '../types/scored-enums'
+import { IPlayerSimple, IRoundTurns, ITurn, ITurnComplete, IRound } from '../types/scored'
+import { PLAY_ORDER, SCORE_SORT_METHOD, GAME__AT, ROUND__AT, TURN__AT, ROUND_STATES } from '../types/scored-enums'
 // import { } from '../../types/round.types'
 
 // import { } from '../round/turns.action'
 import { sortTurns } from '../score/score.utils'
 import { initialRound, initialTurn } from './round.initital-states'
 import { isPlayersPayload__TG } from '../types/typeguards'
+import { stateMachine__R } from '../game/start-end.reducer'
 // import { pastGames } from '../game/game.mocs'
 
 
@@ -25,21 +26,20 @@ import { isPlayersPayload__TG } from '../types/typeguards'
  * @param state the slice of redux state concerned with rounds
  * @param action any action passing through redux
  */
-export const round__R : Reducer = (state = initialRound, action) => {
+export const round__R : Reducer = (state = initialRound, action) : IRound => {
   const {type, payload} = action
   switch (type) {
+    // GAME__AT.START is handled differently because it just starts with
     case ROUND__AT.INITIALISE:
       // --------------------------------------------------
       // START: initialisation
 
-      let playersInOrder : IPlayerSimple[] = [];
+      let starterID : number = state.firstPlayerID
+      let increment : boolean = false
 
       switch (payload.playOrder) {
         case PLAY_ORDER.ROUND_WINNER:
-          playersInOrder = getPlayersInOrder(
-            payload.players,
-            state.winnerID
-          )
+          starterID = state.winnerID
           break;
 
         // case PLAY_ORDER.TRICK:
@@ -47,32 +47,28 @@ export const round__R : Reducer = (state = initialRound, action) => {
           // break;
 
         case PLAY_ORDER.GAME_LEADER:
-          playersInOrder = getPlayersInOrder(
-            payload.players,
-            state.leaderID
-          )
+          starterID = state.leaderID
           break;
 
         case PLAY_ORDER.NEXT:
-          playersInOrder = getPlayersInOrder(
-            payload.players,
-            state.firstPlayerID,
-            true
-          )
-          break;
-
-        case PLAY_ORDER.SEATING_POSTION:
-        default:
-          playersInOrder = payload.players.filter((player : IPlayerSimple) => player.active)
+          increment = true
           break;
       }
 
+      const playersInOrder = getPlayersInOrder(
+        payload.players,
+        starterID,
+        increment
+      )
+
       return {
-        ...initialRound,
+        ...state,
+        firstPlayerID: playersInOrder[0].id,
         index: state.index += 1,
-        playersInOrder: playersInOrder,
+        playersInOrder: playersInOrder.filter((player : IPlayerSimple) => player.active),
+        playOrderIndex: 1,
         // record the ID of the first player
-        firstPlayerID: playersInOrder[0].id
+        stateMachine: ROUND_STATES.ROUND_INITIALISED
       }
 
       //  END:  initialisation
@@ -130,14 +126,15 @@ export const round__R : Reducer = (state = initialRound, action) => {
 
       return {
         ...state,
+        // record the overall game leader
+        leaderID: _gameLeader,
+        stateMachine: ROUND_STATES.ROUND_FINALISED,
         turns: {
           ...state.turns,
           played: _rankedturns
         },
         // record the winner for the round
         winnerID: _roundWinner,
-        // record the overall game leader
-        leaderID: _gameLeader
       }
 
       // END: finalisation
@@ -226,10 +223,11 @@ export const round__R : Reducer = (state = initialRound, action) => {
       if (isPlayersPayload__TG(payload) && payload.players.length > 1) {
         return {
           ...initialRound,
-          index: 1,
+          firstPlayerID: payload.players[0].id,
+          index: 0,
           playersInOrder: payload.players,
           // record the ID of the first player
-          firstPlayerID: payload.players[0].id
+          stateMachine: ROUND_STATES.ROUND_INITIALISED
         }
       }
     }

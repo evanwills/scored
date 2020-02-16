@@ -1,17 +1,18 @@
 import { Middleware } from 'redux'
 
-import { IMeta } from '../types/scored'
-import { TURN__AT } from '../types/scored-enums'
+import { IMeta, IWholeScored } from '../types/scored'
+import { TURN__AT, ROUND__AT, ROUND_STATES, ERROR__AT } from '../types/scored-enums'
 import { getTotalScore } from '../score/score.utils'
 
 import { endTurn__AC, startTurn__AC, scoreTurn__AC } from '../round/turns.action'
 import { initialiseRound__AC, finaliseRound__AC } from '../round/round.action'
+import error__AC from '../errors/error.action'
 
 
 const round__MW : Middleware = (store) => (next) => (action) => {
-  // const currentState : IWholeScored = store.getState()
-  // const { config, end, players, round, scores } = currentState.currentGame
-  const { config, end, players, round, scores } = store.getState()
+  const currentState : IWholeScored = store.getState()
+  const { config, end, players, round, scores } = currentState.currentGame
+  // const { config, end, players, round, scores } = store.getState()
 
   switch (action.type) {
     case TURN__AT.SCORE:
@@ -35,7 +36,11 @@ const round__MW : Middleware = (store) => (next) => (action) => {
         if (end === -1) {
           return next(startTurn__AC())
         } else {
-          return next(finaliseRound__AC())
+          store.dispatch(finaliseRound__AC())
+          return next(initialiseRound__AC(
+            players.playersSeatOrder,
+            config.playOrder
+          ))
         }
       }
       break
@@ -65,8 +70,19 @@ const round__MW : Middleware = (store) => (next) => (action) => {
     //   }
     //   break
 
-    // case ROUND__AT.INITIALISE:
-    //   return next(action)
+    case ROUND__AT.INITIALISE:
+      if (round.stateMachine !== ROUND_STATES.NO_ROUND && round.stateMachine !== ROUND_STATES.ROUND_FINALISED) {
+        return next(
+          error__AC(
+            [round.stateMachine, ROUND_STATES.ROUND_INITIALISED],
+            ERROR__AT.STATE_TRANSITION_FAILURE_SPECIAL,
+            action
+          )
+        )
+      } else {
+        // store.dispatch()
+        return next(action)
+      }
 
     // case ROUND__AT.ADD_TURN:
     //   return next(action)

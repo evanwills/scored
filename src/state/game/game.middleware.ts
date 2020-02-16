@@ -10,6 +10,7 @@ import error__AC from '../errors/error.action'
 import { getItemById } from '../utilities/item-by-id.utils'
 import { initialRound } from '../round/round.initital-states'
 import { incrementGameIndex__AC, PAST_GAME__AT } from '../pastGames/past-game.actions'
+import { initialiseRound__AC } from '../round/round.action'
 
 // import { gameConfigs, pastGames} from './game.mocs'
 
@@ -124,7 +125,11 @@ const gameMiddleWare : Middleware = (store) => (next) => (action) => {
           store.dispatch(
             gameMachineState__AC(GAME_STATE.PLAYING_GAME)
           )
-          return next(action)
+          store.dispatch(action)
+          return next(initialiseRound__AC(
+            players.playersSeatOrder,
+            config.playOrder
+          ))
         } else {
           return next(
             error__AC(

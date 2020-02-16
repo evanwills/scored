@@ -18,6 +18,7 @@ export const initialTurn : ITurn = {
 export const initialRound : IRound = {
   firstPlayerID: -1,
   index: 0,
+  leaderID: -1,
   playersInOrder: [],
   playOrderIndex: 0,
   stateMachine: ROUND_STATES.NO_ROUND,
@@ -25,5 +26,6 @@ export const initialRound : IRound = {
     index: 0,
     current: initialTurn,
     played: []
-  }
+  },
+  winnerID: -1
 }

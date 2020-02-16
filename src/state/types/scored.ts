@@ -604,9 +604,9 @@ export type IRound = {
   leaderID?: number
   playersInOrder: IPlayerSimple[],
   playOrderIndex: number,
+  stateMachine: ROUND_STATES,
   turns: IRoundTurns,
-  winnerID?: number,
-  stateMachine: ROUND_STATES
+  winnerID?: number
 }
 
 /**
