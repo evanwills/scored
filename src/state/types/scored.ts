@@ -88,6 +88,14 @@ export interface IResumeGameAction extends IAction {
   payload: IResumeGamePayload
 }
 
+export type AppSettings = {
+  speak: {
+    playerName: boolean,
+    playerScore: boolean,
+    roundResults: boolean,
+    pauseResume: boolean
+  }
+}
 
 
 //  END:  action interfaces
@@ -668,6 +676,7 @@ export type UIstate = {
 
 export type IWholeScored = {
   allPlayers: PlayersAll,
+  appSettings: AppSettings,
   currentGame: IGameActive,
   errorLog: IErrorPayload[]
   gameConfigs: IConfigGame[],

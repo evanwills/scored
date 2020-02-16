@@ -93,11 +93,13 @@ const gameMiddleWare : Middleware = (store) => (next) => (action) => {
     case GAME__AT.REMOVE_PLAYER:
       // These four changes effect the state machine's state
       // So they need to be handled differently
-      if (stateMachine === GAME_STATE.GAME_PAUSED) {
+      if (
+        stateMachine === GAME_STATE.GAME_PAUSED ||
+        stateMachine === GAME_STATE.MANAGE_PLAYERS
+      ) {
         return next(action)
       } else if (
-        stateMachine === GAME_STATE.GAME_INITIALISED ||
-        stateMachine === GAME_STATE.MANAGE_PLAYERS
+        stateMachine === GAME_STATE.GAME_INITIALISED
       ) {
         store.dispatch(gameMachineState__AC(GAME_STATE.MANAGE_PLAYERS))
         return next(action)

@@ -13,6 +13,7 @@ import { pastGame__R } from './pastGames/past-games.reducer'
 import gameConfigs__R from './gameConfig/gameConfig.reducer'
 import errorLog__R from './errors/errorLog.reducer'
 import uiState__R from './ui-state/ui-state.reducer'
+import appSettings__R from './app-settings/app-settings.reducer'
 
 
 //  END:  reducer imports
@@ -38,6 +39,7 @@ import initialState from './initial-state'
 const scoredStore : Store = createStore(
   combineReducers({
     allPlayers: allPlayer__R,
+    appSettings: appSettings__R,
     currentGame: combineReducers({
       id: gameID__R,
       end: gameEnd__R,

@@ -7,6 +7,14 @@ import { gameConfigs } from './game/game.mocs'
 
 const initialState : IWholeScored = {
   allPlayers: initialPlayers,
+  appSettings: {
+    speak: {
+      playerName: false,
+      playerScore: false,
+      roundResults: false,
+      pauseResume: false
+    }
+  },
   currentGame: initialGame,
   errorLog: [],
   gameConfigs: gameConfigs,
