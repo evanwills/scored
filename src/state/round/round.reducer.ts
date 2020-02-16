@@ -4,9 +4,11 @@ import { IPlayerSimple, IRoundTurns, ITurn, ITurnComplete } from '../types/score
 import { PLAY_ORDER, SCORE_SORT_METHOD, GAME__AT, ROUND__AT, TURN__AT } from '../types/scored-enums'
 // import { } from '../../types/round.types'
 
-import { } from '../round/turns.action'
+// import { } from '../round/turns.action'
 import { sortTurns } from '../score/score.utils'
 import { initialRound, initialTurn } from './round.initital-states'
+import { isPlayersPayload__TG } from '../types/typeguards'
+// import { pastGames } from '../game/game.mocs'
 
 
 
@@ -17,7 +19,7 @@ import { initialRound, initialTurn } from './round.initital-states'
 
 /**
  *
- * NOTE: this reduce relies heavily on roundMiddleWare() to ensure
+ * NOTE: this reduce relies heavily on round__MW() to ensure
  *       it gets actions with the right data
  *
  * @param state the slice of redux state concerned with rounds
@@ -25,7 +27,6 @@ import { initialRound, initialTurn } from './round.initital-states'
  */
 export const round__R : Reducer = (state = initialRound, action) => {
   const {type, payload} = action
-  console.log('inside round__R()')
   switch (type) {
     case ROUND__AT.INITIALISE:
       // --------------------------------------------------
@@ -219,20 +220,20 @@ export const round__R : Reducer = (state = initialRound, action) => {
       }
 
     case GAME__AT.INITIALISE:
-      // It is assumed that all players listed for the game
-      // will play the first round
+      // It is assumed that all players listed for the
+      // previous game will play the first round
 
-      return {
-        ...initialRound,
-        index: 1,
-        playersInOrder: payload.players,
-        // record the ID of the first player
-        firstPlayerID: payload.players[0].id
+      if (isPlayersPayload__TG(payload) && payload.players.length > 1) {
+        return {
+          ...initialRound,
+          index: 1,
+          playersInOrder: payload.players,
+          // record the ID of the first player
+          firstPlayerID: payload.players[0].id
+        }
       }
-
-    default:
-      return state
-  }
+    }
+    return state
 }
 
 

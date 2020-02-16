@@ -78,7 +78,7 @@ export interface IActionStamped extends IAction {
 export interface IErrorAction extends IActionStamped {
   type: string,
   payload: IErrorPayload,
-  error: boolean,
+  error: true,
   meta: IErrorMeta
 }
 
@@ -132,7 +132,8 @@ export interface IConfigGameDefault {
   name: string,
   playOrder: PLAY_ORDER,
   scoreBonuses: boolean,
-  trackTime: boolean
+  trackTime: boolean,
+  url: string
 }
 
 /**
@@ -667,11 +668,11 @@ export type UIstate = {
 
 export type IWholeScored = {
   allPlayers: PlayersAll,
-  gameConfigs: IConfigGame[],
   currentGame: IGameActive,
+  errorLog: IErrorPayload[]
+  gameConfigs: IConfigGame[],
   pastGames: PastGames,
   uiState: UIstate,
-  errorLog: IErrorPayload[]
 }
 
 

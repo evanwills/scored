@@ -1,13 +1,24 @@
-import { IAction, IGameActive, IMeta, IResumeGameAction } from '../types/scored'
-import { GAME_STATE, GAME__AT } from '../types/scored-enums'
+import { IAction, IGameActive, IMeta, IResumeGameAction, IPlayerSimple } from '../types/scored'
+import { GAME_STATE, GAME__AT, GAME_PLAYERS__AT } from '../types/scored-enums'
 // import { } from '../../types/game.types'
+
+const dummyAction = {
+  type: '',
+  payload: {},
+  error: false,
+  meta: {
+    now: -1
+  }
+}
+
+
 /**
  * Set the game to paused (i.e. stop counting the time)
  */
 export const pauseGame__AC = () => {
   return {
+    ...dummyAction,
     type: GAME__AT.PAUSE,
-    payload: {}
   }
 }
 
@@ -16,15 +27,12 @@ export const pauseGame__AC = () => {
  */
 export const resumeGame__AC = (action: IAction, duration: number) : IResumeGameAction => {
   return {
+    ...dummyAction,
     ...action,
     type: GAME__AT.RESUME,
     payload: {
       ...action.payload,
       pauseDuration: duration
-    },
-    error: false,
-    meta: {
-      now: -1
     }
   }
 }
@@ -34,12 +42,8 @@ export const resumeGame__AC = (action: IAction, duration: number) : IResumeGameA
  */
 export const endGame__AC = () => {
   return {
-    type: GAME__AT.END,
-    payload: {},
-    error: false,
-    meta: {
-      now: -1
-    }
+    ...dummyAction,
+    type: GAME__AT.END
   }
 }
 
@@ -53,13 +57,10 @@ export const endGame__AC = () => {
  */
 export const initialiseGame__AC = (gameConfigID : number) => {
   return {
+    ...dummyAction,
     type: GAME__AT.INITIALISE,
     payload: {
       id: gameConfigID
-    },
-    error: false,
-    meta: {
-      now: -1
     }
   }
 }
@@ -87,26 +88,42 @@ export const initialiseGameFull__AC = (_game : IGameActive, _meta : IMeta) => {
  */
 export const startGame__AC = (_id: number) => {
   return {
+    ...dummyAction,
     type: GAME__AT.START,
     payload: {
       id: _id
-    },
-    error: false,
-    meta: {
-      now: -1
     }
   }
 }
 
 export const gameMachineState__AC = (stateMachineState: GAME_STATE) : IAction => {
   return {
+    ...dummyAction,
     type: GAME__AT.STATE_MACHINE,
     payload: {
       stateMachine: stateMachineState
-    },
-    error: false,
-    meta: {
-      now: -1
+    }
+  }
+}
+
+
+export const addPlayerToGame__AC = (_id: number) : IAction => {
+  return {
+    ...dummyAction,
+    type: GAME__AT.ADD_PLAYER,
+    payload: {
+      id: _id
+    }
+  }
+}
+
+
+export const addFullPlayerToGame__AC = (_player: IPlayerSimple) : IAction => {
+  return {
+    ...dummyAction,
+    type: GAME_PLAYERS__AT.ADD,
+    payload: {
+      player: _player
     }
   }
 }

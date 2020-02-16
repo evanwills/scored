@@ -7,10 +7,11 @@ import { IHasName, IPlayerSimple } from '../types/scored'
  * @param items
  */
 export const isDuplicateName = (newName: string, items: IHasName[]) : number => {
-  const findFunc = (item : IHasName) : boolean => (item.name === newName)
+  const findFunc = (item : IHasName) : boolean => {
+    return (item.name === newName)
+  }
   const index = items.findIndex(findFunc)
-
-  return (index > -1 ) ? items[index].id : -1
+  return (index > -1) ? items[index].id : -1
 }
 
 /**

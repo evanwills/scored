@@ -20,11 +20,10 @@ import error__AC from '../errors/error.action'
  *
  * @param {Store} store Redux store
  */
-const gameConfigMiddleware : Middleware = (store) => (next) => (action) => {
+const gameConfig__MW : Middleware = (store) => (next) => (action) => {
   const { gameConfigs } = store.getState()
   let sanitised : string = ''
   let payload = action.payload
-  console.log('inside gameConfigMiddleware()', action)
 
   switch (action.type) {
     case GAME_CONFIG__AT.ADD:
@@ -100,4 +99,4 @@ const gameConfigMiddleware : Middleware = (store) => (next) => (action) => {
 }
 
 
-export default gameConfigMiddleware
+export default gameConfig__MW

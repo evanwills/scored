@@ -38,9 +38,9 @@ export const stateMachine__R : Reducer = (state, action) => {
 
   switch (action.type) {
     case GAME__AT.CHOOSING:
-      return state
+      // return state
     case GAME__AT.INITIALISE:
-    case GAME__AT.ADD_PLAYERS:
+    case GAME__AT.ADD_PLAYER:
     case GAME__AT.MOVE_PLAYER:
     case GAME__AT.REMOVE_PLAYER:
     case GAME__AT.START:

@@ -1,7 +1,7 @@
 import { Reducer } from 'redux'
 
-const uiState : Reducer = (state = [], action) => {
+const uiState__R : Reducer = (state = [], action) => {
   return state
 }
 
-export default uiState
+export default uiState__R

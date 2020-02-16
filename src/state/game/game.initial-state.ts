@@ -28,7 +28,8 @@ export const intialGameConfig : IConfigGame = {
   name: '',
   playOrder: PLAY_ORDER.SEATING_POSTION,
   scoreBonuses: false,
-  trackTime: true
+  trackTime: true,
+  url: ''
 }
 
 export const initialGame : IGameActive = {

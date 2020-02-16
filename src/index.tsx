@@ -4,11 +4,17 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+// =================================================================
+// START: state stuff
+
+import { initialiseGame__AC, gameMachineState__AC, addPlayerToGame__AC, startGame__AC } from './state/game/game.action'
+import { GAME_STATE } from './state/types/scored-enums'
 import scoredStore from './state/index'
-import { initialiseGame__AC } from './state/game/game.action';
-import { END_MODE, PLAY_ORDER } from './state/types/scored-enums';
-import { newGameConf__AC } from './state/gameConfig/gameConfig.action'
-import { addNewPlayer__AC } from './state/player/player.action'
+// import { newGameConf__AC } from './state/gameConfig/gameConfig.action';
+import { movePlayerToGame__AC } from './state/player/player.action';
+
+//  END:  state stuff
+// =================================================================
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
@@ -17,36 +23,12 @@ ReactDOM.render(<App />, document.getElementById('root'));
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
 
-scoredStore.dispatch(addNewPlayer__AC('Evan'))
-scoredStore.dispatch(addNewPlayer__AC('Georgie'))
-scoredStore.dispatch(addNewPlayer__AC('Mallee'))
-scoredStore.dispatch(addNewPlayer__AC('Ada'))
-scoredStore.dispatch(addNewPlayer__AC('Anika'))
-scoredStore.dispatch(addNewPlayer__AC('Ryan'))
 
-scoredStore.dispatch(newGameConf__AC({
-  id: 1,
-  active: true,
-  allowNegative: false,
-  endMode: END_MODE.CURRENT_PLAYER,
-  minScore: 0,
-  maxScore: 0,
-  name: 'Quirkle',
-  playOrder: PLAY_ORDER.SEATING_POSTION,
-  scoreBonuses: false,
-  trackTime: true
-}))
-scoredStore.dispatch(newGameConf__AC({
-  id: 2,
-  active: true,
-  allowNegative: false,
-  endMode: END_MODE.CURRENT_PLAYER,
-  minScore: 0,
-  maxScore: 0,
-  name: 'Scrabble',
-  playOrder: PLAY_ORDER.SEATING_POSTION,
-  scoreBonuses: false,
-  trackTime: true
-}))
+scoredStore.dispatch(gameMachineState__AC(GAME_STATE.CHOOSING_GAME))
 scoredStore.dispatch(initialiseGame__AC(1))
-console.log(scoredStore.getState())
+scoredStore.dispatch(addPlayerToGame__AC(2))
+scoredStore.dispatch(addPlayerToGame__AC(1))
+scoredStore.dispatch(addPlayerToGame__AC(4))
+scoredStore.dispatch(addPlayerToGame__AC(3))
+scoredStore.dispatch(movePlayerToGame__AC(3,1))
+scoredStore.dispatch(startGame__AC(2))

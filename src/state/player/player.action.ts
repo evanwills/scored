@@ -16,13 +16,26 @@ export const addPlayerToGame__AC = (_player: IPlayerSimple) : IAction => {
   }
 }
 
-export const updatePlayer__AC = (_id : number, _name : string, _position: number) : IAction => {
+export const movePlayerToGame__AC = (_id: number, _position: number) : IAction => {
   return {
     type: GAME_PLAYERS__AT.REARRANGE,
     payload: {
       id: _id,
-      name: _name,
       position: _position
+    },
+    error: false,
+    meta: {
+      now: -1
+    }
+  }
+}
+
+export const updatePlayer__AC = (_id : number, _name : string) : IAction => {
+  return {
+    type: GAME_PLAYERS__AT.UPDATE_NAME,
+    payload: {
+      id: _id,
+      name: _name
     },
     error: false,
     meta: {

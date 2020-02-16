@@ -1,8 +1,8 @@
 
-import { Middleware, Store } from 'redux'
+import { Middleware } from 'redux'
 
-import { IAction, IWholeScored, IPlayerSimple, IHasId, IHasName } from '../types/scored'
-import { ERROR__AT, ALL_PLAYERS__AT, GAME_PLAYERS__AT } from '../types/scored-enums'
+import { IWholeScored, IPlayerSimple, IHasId, IHasName } from '../types/scored'
+import { ERROR__AT, ALL_PLAYERS__AT, GAME_PLAYERS__AT, GAME__AT } from '../types/scored-enums'
 
 import { isIdPayload__TG, isPlayerSimple__TG } from '../types/typeguards'
 
@@ -10,16 +10,17 @@ import { isDuplicateName, sanitiseName } from '../utilities/name.utils'
 import { getItemById, itemMatchesID } from '../utilities/item-by-id.utils'
 import error__AC from '../errors/error.action'
 
+// import {allPlayers, } from '../game/game.mocs'
 
 // ========================================================
 // START: Redux reducer
 
-export const GamePlayersMiddleware : Middleware = (store) => (next) => (action) => {
+export const gamePlayers__MW : Middleware = (store) => (next) => (action) => {
   switch (action.type) {
-    case GAME_PLAYERS__AT.ADD:
-      const {allPlayers, currentGame} : IWholeScored = store.getState()
+    case GAME__AT.ADD_PLAYER:
+      const { currentGame, allPlayers } : IWholeScored = store.getState()
 
-      if (isIdPayload__TG(action.payload)) {
+      if (!isIdPayload__TG(action.payload)) {
         throw new Error('No ID has been specified')
       }
 
@@ -53,6 +54,7 @@ export const GamePlayersMiddleware : Middleware = (store) => (next) => (action) 
           // All good!!! Go and do what needs doing
           return next({
             ...action,
+            type: GAME_PLAYERS__AT.ADD,
             payload: {
               player: {..._player}
             }
@@ -79,17 +81,20 @@ export const GamePlayersMiddleware : Middleware = (store) => (next) => (action) 
           )
         )
       }
+    case GAME__AT.REMOVE_PLAYER:
+      break;
 
-    default:
-      next(action)
+    case GAME__AT.MOVE_PLAYER:
+      break;
   }
+  next(action)
 }
 
 /**
  * Validate player names before adding them to the system
  * @param store
  */
-export const PlayersAllMiddleware : Middleware = (store) => (next) => (action) => {
+export const allPlayers__MW : Middleware = (store) => (next) => (action) => {
   switch (action.type) {
     case ALL_PLAYERS__AT.UPDATE:
     case ALL_PLAYERS__AT.ADD:
@@ -107,7 +112,7 @@ export const PlayersAllMiddleware : Middleware = (store) => (next) => (action) =
       }
       const _currentState : IWholeScored = store.getState()
 
-      if (isDuplicateName(_sanitised, _currentState.allPlayers.players)) {
+      if (isDuplicateName(_sanitised, _currentState.allPlayers.players) > 0) {
         // Can't work around a duplicate name
         return next(
           error__AC(
@@ -132,5 +137,5 @@ export const PlayersAllMiddleware : Middleware = (store) => (next) => (action) =
 }
 
 
-//  END:  Redux reducer
-// ========================================================
+// //  END:  Redux reducer
+// // ========================================================

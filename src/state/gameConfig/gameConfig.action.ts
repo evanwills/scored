@@ -9,7 +9,7 @@ import { GAME_CONFIG__AT } from '../types/scored-enums'
  * @param _type   Type value for the action (ADD or UPDATE)
  * @param _config Game config to be added or updated.
  */
-const addUpdateConf = (_type : GAME_CONFIG__AT, _config: IConfigGame) : IConfigGameAction => {
+const addUpdateConf = (_type : GAME_CONFIG__AT.ADD | GAME_CONFIG__AT.UPDATE, _config: IConfigGame) : IConfigGameAction => {
   return {
     type: _type,
     payload: {
@@ -26,19 +26,19 @@ const addUpdateConf = (_type : GAME_CONFIG__AT, _config: IConfigGame) : IConfigG
 
 export const newGameConf__AC = (config: IConfigGame) : IAction => {
   // I'll leave validation of min & max to
-  // gameConfigMiddleware()
+  // gameConfig__MW()
   return addUpdateConf(GAME_CONFIG__AT.ADD, config)
 }
 
 export const updateGameConf__AC = (config: IConfigGame) : IAction => {
   // I'll leave validation of min & max to
-  // gameConfigMiddleware()
+  // gameConfig__MW()
   return addUpdateConf(GAME_CONFIG__AT.UPDATE, config)
 }
 
 export const removeGameConf__AC = (_id: number) : IAction => {
   // I'll leave validation of min & max to
-  // gameConfigMiddleware()
+  // gameConfig__MW()
   return {
     type: GAME_CONFIG__AT.REMOVE,
     payload: {
@@ -53,7 +53,7 @@ export const removeGameConf__AC = (_id: number) : IAction => {
 
 export const cloneGameConf__AC = (_id: number, _name: string) : IAction => {
   // I'll leave validation of min & max to
-  // gameConfigMiddleware()
+  // gameConfig__MW()
   return {
     type: GAME_CONFIG__AT.CLONE,
     payload: {

@@ -1,6 +1,6 @@
 import { Middleware } from 'redux'
 
-import { IWholeScored, IGameActive } from '../types/scored'
+import { IGameActive } from '../types/scored'
 import { ERROR__AT, GAME__AT } from '../types/scored-enums'
 
 import { resumeGame__AC } from './game.action'
@@ -17,14 +17,17 @@ import error__AC from '../errors/error.action'
  *
  * @param {Store} store Redux store
  */
-export const pauseResumeMiddleware : Middleware = (store) => (next) => (action) => {
+const pauseResume__MW : Middleware = (store) => (next) => (action) => {
+  // const currentStore : IWholeScored = store.getState()
+  // const { pause } : IGameActive = currentStore.currentGame
+  const { pause } : IGameActive = store.getState()
 
-  const currentStore : IWholeScored = store.getState()
-  const { pause } : IGameActive = currentStore.currentGame
-
-  console.log('inside pauseResumeMiddleware()')
 
   switch (action.type) {
+    // NOTE: This switch has no default because each case has an IF
+    //       statement. Thus to reduce code duplication we return
+    //       next() at the end of the function
+
     case GAME__AT.RESUME:
       if (pause.start > 0 && pause.isPaused === true) {
         // dispatch an additional action to trigger unpausing of the
@@ -64,3 +67,4 @@ export const pauseResumeMiddleware : Middleware = (store) => (next) => (action) 
   }
   return next(action)
 }
+export default pauseResume__MW

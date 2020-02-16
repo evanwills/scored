@@ -7,7 +7,7 @@ import { Middleware } from 'redux'
  * Note: this is taken directly from the redux documentation
  *       with a little typescript type checking thrown in.
  */
-const loggerMiddleware : Middleware = (store) => (next) => (action) => {
+const logger__MW : Middleware = (store) => (next) => (action) => {
   console.group(action.type)
   // let func = 'info'
   if (action.error === true) {
@@ -28,4 +28,4 @@ const loggerMiddleware : Middleware = (store) => (next) => (action) => {
   return result
 }
 
-export default loggerMiddleware
+export default logger__MW

@@ -1,24 +1,22 @@
 import { Middleware } from 'redux'
 
-import { IWholeScored, IActionStamped } from '../types/scored'
-import { TURN__AT, ROUND__AT } from '../types/scored-enums'
-// import { } from '../../types/round.types'
+import { IMeta } from '../types/scored'
+import { TURN__AT } from '../types/scored-enums'
 import { getTotalScore } from '../score/score.utils'
 
 import { endTurn__AC, startTurn__AC, scoreTurn__AC } from '../round/turns.action'
 import { initialiseRound__AC, finaliseRound__AC } from '../round/round.action'
-// import { initialRound, initialTurn } from '../round/round.initital-states'
 
 
-const roundMiddleWare : Middleware = (store) => (next) => (action) => {
-  const currentState : IWholeScored = store.getState()
-  const { config, end, players, round, scores } = currentState.currentGame
+const round__MW : Middleware = (store) => (next) => (action) => {
+  // const currentState : IWholeScored = store.getState()
+  // const { config, end, players, round, scores } = currentState.currentGame
+  const { config, end, players, round, scores } = store.getState()
 
-  console.log('inside roundMiddleWare()')
   switch (action.type) {
     case TURN__AT.SCORE:
       // We don't want an infinite loop so lets add
-      if (typeof (action.meta.dispatched as IActionStamped) === 'undefined') {
+      if (typeof (action.meta as IMeta).dispatched === 'undefined') {
         store.dispatch(
           scoreTurn__AC(
             action.payload.score,
@@ -59,25 +57,28 @@ const roundMiddleWare : Middleware = (store) => (next) => (action) => {
       }
       break
 
-    case TURN__AT.END:
-      if (round.playersInOrder.length === (players.playersSeatOrder.length - 1)) {
-        return next(action)
-      }
-      break
+    // case TURN__AT.END:
+    //   if (round.playersInOrder.length === (players.playersSeatOrder.length - 1)) {
+    //     return next(action)
+    //   } else {
+    //     return next(action)
+    //   }
+    //   break
 
-    case ROUND__AT.INITIALISE:
-      return next(action)
+    // case ROUND__AT.INITIALISE:
+    //   return next(action)
 
-    case ROUND__AT.ADD_TURN:
-      return next(action)
+    // case ROUND__AT.ADD_TURN:
+    //   return next(action)
 
-    case ROUND__AT.UPDATE_TURN:
-      return next(action)
+    // case ROUND__AT.UPDATE_TURN:
+    //   return next(action)
 
-    case ROUND__AT.FINALISE:
-      return next(action)
+    // case ROUND__AT.FINALISE:
+    //   return next(action)
   }
 
+  return next(action)
 }
 
-export default roundMiddleWare
+export default round__MW

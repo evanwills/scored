@@ -20,7 +20,7 @@ export const initialRound : IRound = {
   index: 0,
   playersInOrder: [],
   playOrderIndex: 0,
-  stateMachine: ROUND_STATES.ROUND_FINALISED,
+  stateMachine: ROUND_STATES.NO_ROUND,
   turns: {
     index: 0,
     current: initialTurn,

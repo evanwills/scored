@@ -5,7 +5,7 @@ import { Store, createStore, combineReducers, applyMiddleware } from 'redux'
 
 
 import { pause__R } from './game/pause.reducer'
-import { gameStartEnd__R, gameID__R, gameConfig__R, gameState__R } from './game/game.reducer'
+import { gameEnd__R, gameID__R, gameConfig__R, gameStart__R, gameState__R } from './game/game.reducer'
 import { gamePlayer__R, allPlayer__R } from './player/player.reducer'
 import { scores__R } from './score/scores.reducer'
 import { round__R } from './round/round.reducer'
@@ -20,12 +20,13 @@ import uiState__R from './ui-state/ui-state.reducer'
 // START: middleware imports
 
 
-import addMetaToActionMiddleware from './middleware/add-now-to-action.middleware'
-import { pauseResumeMiddleware } from './game/pause-resume.middleware'
-import loggerMiddleware from './middleware/logger.middleware'
-import roundMiddleWare from './round/round.middleware'
-import gameConfigMiddleware from './gameConfig/gameConfig.middleware'
+import addMetaToAction__MW from './middleware/add-now-to-action.middleware'
+import logger__MW from './middleware/logger.middleware'
+import gameConfig__MW from './gameConfig/gameConfig.middleware'
 import gameMiddleWare from './game/game.middleware'
+import pauseResume__MW from './game/pause-resume.middleware'
+import round__MW from './round/round.middleware'
+import { allPlayers__MW, gamePlayers__MW } from './player/player.middleware'
 import initialState from './initial-state'
 
 
@@ -39,31 +40,34 @@ const scoredStore : Store = createStore(
     allPlayers: allPlayer__R,
     currentGame: combineReducers({
       id: gameID__R,
-      end: gameStartEnd__R,
+      end: gameEnd__R,
       config: gameConfig__R,
       pause: pause__R,
       players: gamePlayer__R,
       round: round__R,
       scores: scores__R,
-      start: gameStartEnd__R,
-      state: gameState__R
+      start: gameStart__R,
+      stateMachine: gameState__R
     }),
-    errorLog: errorLog__R,      // fully implemented
-    gameConfigs: gameConfigs__R, // fully implemented
+    errorLog: errorLog__R,
+    gameConfigs: gameConfigs__R,
     pastGames: pastGame__R,
     uiState: uiState__R
   }),
   initialState,
   applyMiddleware(
-    addMetaToActionMiddleware,
-    // crashReporter,
-    loggerMiddleware,
-    gameConfigMiddleware,
+    addMetaToAction__MW,
+    logger__MW,
+    allPlayers__MW,
+    gameConfig__MW,
     gameMiddleWare, // handles validating game state transitions
-    pauseResumeMiddleware,
-    roundMiddleWare
+    gamePlayers__MW,
+    pauseResume__MW,
+    round__MW
   )
 )
+
+
 
 //  END:  creating redux store
 // -------------------------------------
