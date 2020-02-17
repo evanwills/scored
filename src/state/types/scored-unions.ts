@@ -7,7 +7,7 @@ import {
 import {
   END_MODE, PLAY_ORDER, SCORE_SORT_METHOD,
   FILTER_BY_PROP, PAUSE_LOG_TYPE, TURN_SORT_FIELDS, GAME_STATE,
-  ROUND_STATES, TURN_STATES,
+  ROUND_STATE, TURN_STATES,
   // GAME__AT, ERROR__AT, GAME_PLAYERS__AT, ALL_PLAYERS__AT,
   // ROUND__AT, TURN__AT, E_LOG_TYPE
 } from './scored-enums'
@@ -37,12 +37,12 @@ export type HasName = IHasName | IIdNamePayload | IPlayerResult |
                       IConfigGame | IPlayerSimple
 
 
-export type AllowableStates = GAME_STATE | ROUND_STATES | TURN_STATES
+export type AllowableStates = GAME_STATE | ROUND_STATE | TURN_STATES
 
-export type AllEnums = END_MODE | PLAY_ORDER | SCORE_SORT_METHOD | FILTER_BY_PROP | PAUSE_LOG_TYPE | TURN_SORT_FIELDS | GAME_STATE | ROUND_STATES | TURN_STATES
+export type AllEnums = END_MODE | PLAY_ORDER | SCORE_SORT_METHOD | FILTER_BY_PROP | PAUSE_LOG_TYPE | TURN_SORT_FIELDS | GAME_STATE | ROUND_STATE | TURN_STATES
 
 export interface StateTransitions {
-  next: Array<GAME_STATE | ROUND_STATES|TURN_STATES>,
-  previous: Array<GAME_STATE | ROUND_STATES | TURN_STATES>,
+  next: Array<GAME_STATE | ROUND_STATE|TURN_STATES>,
+  previous: Array<GAME_STATE | ROUND_STATE | TURN_STATES>,
   hasSubState: boolean
 }

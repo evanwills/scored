@@ -12,6 +12,7 @@ import { GAME_STATE } from './state/types/scored-enums'
 import scoredStore from './state/index'
 // import { newGameConf__AC } from './state/gameConfig/gameConfig.action';
 import { movePlayerToGame__AC } from './state/player/player.action';
+import { startTurn__AC } from './state/round/turns.action';
 
 //  END:  state stuff
 // =================================================================
@@ -32,3 +33,13 @@ scoredStore.dispatch(addPlayerToGame__AC(4))
 scoredStore.dispatch(addPlayerToGame__AC(3))
 scoredStore.dispatch(movePlayerToGame__AC(3,1))
 scoredStore.dispatch(startGame__AC(2))
+scoredStore.dispatch(startTurn__AC())
+
+
+const { currentGame } = scoredStore.getState()
+const { round } = currentGame
+const { turns } = round
+
+console.log('currentGame:', currentGame)
+console.log('round:', round)
+console.log('turns:', turns)

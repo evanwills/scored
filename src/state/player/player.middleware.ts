@@ -37,7 +37,9 @@ export const gamePlayers__MW : Middleware = (store) => (next) => (action) => {
           error__AC(
             [(_alreadyPlayer as IPlayerSimple).name, `{_playerID}`],
             ERROR__AT.PLAYER_ALREADY_ADDED,
-            action
+            action,
+            37,
+            'player.middleware.ts'
           )
         )
       }
@@ -66,7 +68,9 @@ export const gamePlayers__MW : Middleware = (store) => (next) => (action) => {
             error__AC(
               [(_player as IHasName).name, `{_playerID}`],
               ERROR__AT.CANT_ADD_INACTIVE_PLAYER,
-              action
+              action,
+              68,
+              'player.middleware.ts'
             )
           )
         }
@@ -77,7 +81,9 @@ export const gamePlayers__MW : Middleware = (store) => (next) => (action) => {
           error__AC(
             ['player', `{_playerID}`],
             ERROR__AT.NOT_FOUND_BY_ID,
-            action
+            action,
+            81,
+            'player.middleware.ts'
           )
         )
       }
@@ -106,7 +112,8 @@ export const allPlayers__MW : Middleware = (store) => (next) => (action) => {
             [_sanitised],
             ERROR__AT.BAD_NAME,
             action,
-
+            111,
+            'player.middleware.ts'
           )
         )
       }
@@ -118,7 +125,9 @@ export const allPlayers__MW : Middleware = (store) => (next) => (action) => {
           error__AC(
             ['player', _sanitised],
             ERROR__AT.DUPLICATE_NAME,
-            action
+            action,
+            125,
+            'player.middleware.ts'
           )
         )
       } else {

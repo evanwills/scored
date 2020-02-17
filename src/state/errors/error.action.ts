@@ -103,6 +103,13 @@ export const errorTypes : IErrorType = {
     code: 253,
     replacements: 3,
     logType: E_LOG_TYPE.ERROR
+  },
+  INVALID_ACTION: {
+    name: ERROR__AT.INVALID_ACTION,
+    message: 'Action is invalid in current state (game: "$1", round: "$2")',
+    code: 254,
+    replacements: 2,
+    logType: E_LOG_TYPE.ERROR
   }
 
   //  END:  Unrecoverable system errors
@@ -129,7 +136,9 @@ export const errorTypes : IErrorType = {
 const error__AC = (
   _replacements: string[],
   _errorType: ERROR__AT,
-  _action: IActionStamped
+  _action: IActionStamped,
+  _line: number,
+  _file: string
 ) : IErrorAction => {
   const {name, code, message, replacements, logType} = errorTypes[_errorType] as ErrorInfo
 
@@ -143,7 +152,9 @@ const error__AC = (
         message,
         replacements
       ),
-      type: _errorType
+      type: _errorType,
+      line: _line,
+      file: _file
     },
     error: true,
     meta: {

@@ -1,6 +1,6 @@
 import { IActionStamped } from '../types/scored'
 import { Middleware } from 'redux'
-import { GAME_STATE, ROUND_STATES } from '../types/scored-enums'
+import { GAME_STATE, ROUND_STATE } from '../types/scored-enums'
 
 /**
  * Redux middleware addMetaToAction__MW() appends a
@@ -33,9 +33,9 @@ const addMetaToAction__MW : Middleware = (store) => (next) => (action) => {
          ..._meta,
         now: _now,
         // gameState: currentGame.stateMachine,
-        // roundState: currentGame.round.stateMachine
         gameState: GAME_STATE.NO_GAME,
-        roundState: ROUND_STATES.NO_ROUND
+        // roundState: currentGame.round.stateMachine
+        roundState: ROUND_STATE.NO_ROUND
      } : _meta
     }
     return next(_modifiedAction)

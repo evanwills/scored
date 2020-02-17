@@ -1,5 +1,5 @@
 import { AnyAction, Reducer } from 'redux';
-import { END_MODE, PLAY_ORDER, SCORE_SORT_METHOD, PAUSE_LOG_TYPE, GAME__AT, GAME_STATE, ROUND_STATES, ERROR__AT, ROUND__AT, TURN__AT, E_LOG_TYPE } from './scored-enums'
+import { END_MODE, PLAY_ORDER, SCORE_SORT_METHOD, PAUSE_LOG_TYPE, GAME__AT, GAME_STATE, ROUND_STATE, ERROR__AT, ROUND__AT, TURN__AT, E_LOG_TYPE } from './scored-enums'
 import { StateSlice, StateTransitions } from './scored-unions'
 
 
@@ -331,6 +331,14 @@ export interface IMeta {
   now: number // Timestamp
 }
 
+export interface IMetaStamped extends IMeta {
+  code?: number,
+  dispatched?: boolean,
+  gameState: GAME_STATE,
+  now: number // Timestamp
+  roundState: ROUND_STATE
+}
+
 
 export interface IErrorMeta extends IMeta {
   now: number,
@@ -413,7 +421,7 @@ export interface IPayload {
   position?: number,
   score?: number,
   state?: StateSlice,
-  stateMachine?: GAME_STATE | ROUND_STATES
+  stateMachine?: GAME_STATE | ROUND_STATE
   totalScore?: number,
   turn?: ITurnComplete,
   turns?: ITurnComplete[],
@@ -481,7 +489,7 @@ export interface ITotalScorePayload extends IScorePayload {
   totalScore: number
 }
 export interface IStateMachinePayload extends IScorePayload {
-  stateMachine: GAME_STATE | ROUND_STATES
+  stateMachine: GAME_STATE | ROUND_STATE
 }
 export interface ITurnCompletePayload extends IPayload {
   turn: ITurnComplete
@@ -494,7 +502,9 @@ export interface IErrorPayload extends IPayload {
   action: IActionStamped,
   code: number,
   message: string,
-  type: ERROR__AT
+  type: ERROR__AT,
+  line: number,
+  file: string
 }
 
 export interface IResumeGamePayload extends IPayload {
@@ -604,7 +614,7 @@ export type IRound = {
   leaderID?: number
   playersInOrder: IPlayerSimple[],
   playOrderIndex: number,
-  stateMachine: ROUND_STATES,
+  stateMachine: ROUND_STATE,
   turns: IRoundTurns,
   winnerID?: number
 }

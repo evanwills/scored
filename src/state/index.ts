@@ -24,11 +24,13 @@ import appSettings__R from './app-settings/app-settings.reducer'
 import addMetaToAction__MW from './middleware/add-now-to-action.middleware'
 import logger__MW from './middleware/logger.middleware'
 import gameConfig__MW from './gameConfig/gameConfig.middleware'
-import gameMiddleWare from './game/game.middleware'
+import game__MW from './game/game.middleware'
 import pauseResume__MW from './game/pause-resume.middleware'
 import round__MW from './round/round.middleware'
 import { allPlayers__MW, gamePlayers__MW } from './player/player.middleware'
 import initialState from './initial-state'
+import errorReporter from './errors/error.reporter'
+import stateMachine__MW from './middleware/state-machine.middleware'
 
 
 //  END:  middleware imports
@@ -62,12 +64,15 @@ const scoredStore : Store = createStore(
     logger__MW,
     allPlayers__MW,
     gameConfig__MW,
-    gameMiddleWare, // handles validating game state transitions
+    game__MW, // handles validating game state transitions
     gamePlayers__MW,
     pauseResume__MW,
-    round__MW
+    round__MW,
+    stateMachine__MW
   )
 )
+
+const unsubscribeErrorreporter = scoredStore.subscribe(errorReporter(scoredStore))
 
 
 

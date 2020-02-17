@@ -1,14 +1,15 @@
 import { Reducer } from 'redux'
 
-import { IPlayerSimple, IRoundTurns, ITurn, ITurnComplete, IRound } from '../types/scored'
-import { PLAY_ORDER, SCORE_SORT_METHOD, GAME__AT, ROUND__AT, TURN__AT, ROUND_STATES } from '../types/scored-enums'
+import { IPlayerSimple, IRoundTurns, ITurn, ITurnComplete, IRound, IIdPayload } from '../types/scored'
+import { PLAY_ORDER, SCORE_SORT_METHOD, GAME__AT, ROUND__AT, TURN__AT, ROUND_STATE } from '../types/scored-enums'
 // import { } from '../../types/round.types'
 
 // import { } from '../round/turns.action'
 import { sortTurns } from '../score/score.utils'
 import { initialRound, initialTurn } from './round.initital-states'
 import { isPlayersPayload__TG } from '../types/typeguards'
-import { stateMachine__R } from '../game/start-end.reducer'
+import { getItemIndexByID } from '../utilities/item-by-id.utils'
+// import {} from '../game/start-end.reducer'
 // import { pastGames } from '../game/game.mocs'
 
 
@@ -28,13 +29,39 @@ import { stateMachine__R } from '../game/start-end.reducer'
  */
 export const round__R : Reducer = (state = initialRound, action) : IRound => {
   const {type, payload} = action
+  console.log('inside round__R()')
+  console.log('type: ', action.type)
+
   switch (type) {
-    // GAME__AT.START is handled differently because it just starts with
+    case GAME__AT.START:
+      console.log('inside round__R() > GAME__AT.START ("' + GAME__AT.START + '")')
+      console.log('state:', state)
+      console.log('action:', action)
+      // It is assumed that all players listed for the
+      // previous game will play the first round
+
+      if (isPlayersPayload__TG(payload) && payload.players.length > 1) {
+        return {
+          ...initialRound,
+          firstPlayerID: payload.players.id,
+          index: 0,
+          playersInOrder: payload.players,
+          // record the ID of the first player
+          stateMachine: ROUND_STATE.ROUND_INITIALISED
+        }
+      } else {
+        throw new Error
+      }
+      break;
+
     case ROUND__AT.INITIALISE:
       // --------------------------------------------------
       // START: initialisation
+      console.log('inside ROUND__AT.INITIALISE ("' + ROUND__AT.INITIALISE + '")')
+      console.log('state:', state)
+      console.log('action:', action)
 
-      let starterID : number = state.firstPlayerID
+      let starterID : number = ((action.payload as IIdPayload).id > 0) ? action.payload.id : state.firstPlayerID
       let increment : boolean = false
 
       switch (payload.playOrder) {
@@ -68,7 +95,7 @@ export const round__R : Reducer = (state = initialRound, action) : IRound => {
         playersInOrder: playersInOrder.filter((player : IPlayerSimple) => player.active),
         playOrderIndex: 1,
         // record the ID of the first player
-        stateMachine: ROUND_STATES.ROUND_INITIALISED
+        stateMachine: ROUND_STATE.ROUND_INITIALISED
       }
 
       //  END:  initialisation
@@ -128,7 +155,7 @@ export const round__R : Reducer = (state = initialRound, action) : IRound => {
         ...state,
         // record the overall game leader
         leaderID: _gameLeader,
-        stateMachine: ROUND_STATES.ROUND_FINALISED,
+        stateMachine: ROUND_STATE.ROUND_FINALISED,
         turns: {
           ...state.turns,
           played: _rankedturns
@@ -215,22 +242,8 @@ export const round__R : Reducer = (state = initialRound, action) : IRound => {
           (player : IPlayerSimple) => (player.id !== completedTurn.playerID)
         )
       }
-
-    case GAME__AT.INITIALISE:
-      // It is assumed that all players listed for the
-      // previous game will play the first round
-
-      if (isPlayersPayload__TG(payload) && payload.players.length > 1) {
-        return {
-          ...initialRound,
-          firstPlayerID: payload.players[0].id,
-          index: 0,
-          playersInOrder: payload.players,
-          // record the ID of the first player
-          stateMachine: ROUND_STATES.ROUND_INITIALISED
-        }
-      }
     }
+
     return state
 }
 
@@ -242,46 +255,6 @@ export const round__R : Reducer = (state = initialRound, action) : IRound => {
 
 
 
-/**
- * Get the index of the player who should start the next
- * round of play
- *
- * @param starterID ID of the player who should start this
- *                  round
- * @param players   List of all players in this game
- *                  (in seating order)
- * @param getNext   Don't return the index of the specified
- *                  player, return the index of the next
- *                  player in line.
- */
-const getStarterIndex = (starterID: number, players: IPlayerSimple[], getNext : boolean = false) : number => {
-  for (let a = 0; a < players.length; a += 1) {
-    if (players[a].id === starterID) {
-      if (getNext === true || players[a].active === false) {
-        // find the next active player
-        for (let b = a + 1; b < players.length; b += 1) {
-          if (players[a].active === true) {
-            return b
-          }
-        }
-        // No active players at the end of the list so
-        // try to find the next active player from the
-        // beginning of the list
-        for (let b = 0; b < a; b += 1) {
-          if (players[b].active === true) {
-            return b
-          }
-        }
-      } else {
-        // We found the right player! Return their index
-        return a
-      }
-    }
-  }
-  // Something weird happened.
-  // Couldn't find any valid starter.
-  return 0
-}
 
 /**
  * Returns the players in the order they should play the next
@@ -297,14 +270,27 @@ const getPlayersInOrder = (
   starterID : number,
   getNext : boolean = false
 ) : IPlayerSimple[] => {
-  const starterIndex = getStarterIndex(starterID, players, getNext)
-
+  let starterIndex = getItemIndexByID(starterID, players)
+  if (starterIndex < 0) {
+    console.log('players:', players)
+    throw new Error('could not find item with ID ' + starterID + ' in list of players')
+  }
+  if (getNext === true) {
+    if (starterIndex = players.length - 1) {
+      starterIndex = 0
+    }
+  }
+  console.log('starterID:', starterID)
+  console.log('players:', players)
+  console.log('getNext:', getNext)
+  console.log('players.slice(' + starterIndex + '):', players.slice(starterIndex))
+  console.log('players.slice(0, ' + starterIndex + '):', players.slice(0, starterIndex))
   // Get new array with the starter player first
   const firstGroup = players.slice(starterIndex)
 
   // Get what was the start of the array (up to but not including
   // the player who should start the next round)
-  const nextGroup = (starterIndex > 0) ? players.slice(0, starterIndex - 1) : [players[0]]
+  const nextGroup = (starterIndex > 0) ? players.slice(0, starterIndex) : [players[0]]
 
   // Return a new array with all the players but in a new order.
   // (But with the inactive players removed)

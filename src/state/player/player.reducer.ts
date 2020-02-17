@@ -36,6 +36,7 @@ export const gamePlayer__R : Reducer = (state = initialPlayers, action) => {
 
     case GAME_PLAYERS__AT.REARRANGE:
       const _players : IPlayerSimple[] = [...state.playersSeatOrder].filter(__player => (__player.id !== action.payload.id))
+      console.log('_players:', _players)
       const _movedPlayer = getItemById(action.payload.id, state.playersSeatOrder)
       const _pos = action.payload.position - 1
 

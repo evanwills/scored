@@ -7,7 +7,7 @@ import { itemMatchesID } from '../utilities/item-by-id.utils'
 import { isDuplicateName, sanitiseName } from '../utilities/name.utils'
 
 import error__AC from '../errors/error.action'
-// import gameMiddleWare from '../game/game.middleware'
+// import game__MW from '../game/game.middleware'
 
 /**
  * pauseResume() handles adding the paused time (in seconds) to
@@ -34,7 +34,9 @@ const gameConfig__MW : Middleware = (store) => (next) => (action) => {
           error__AC(
             ['game', payload.name, duplicateID],
             ERROR__AT.DUPLICATE_NAME,
-            action
+            action,
+            34,
+            'gameConfig.middleware.ts'
           )
         )
       } else {
@@ -44,7 +46,9 @@ const gameConfig__MW : Middleware = (store) => (next) => (action) => {
             error__AC(
               ['game', payload.name],
               ERROR__AT.BAD_NAME,
-              action
+              action,
+              46,
+              'gameConfig.middleware.ts'
             )
           )
           return next({
@@ -70,7 +74,9 @@ const gameConfig__MW : Middleware = (store) => (next) => (action) => {
             error__AC(
               ['game', payload.name],
               ERROR__AT.BAD_NAME,
-              action
+              action,
+              74,
+              'gameConfig.middleware.ts'
             )
           )
           return next({
@@ -88,7 +94,9 @@ const gameConfig__MW : Middleware = (store) => (next) => (action) => {
           error__AC(
             ['game config', payload.id],
             ERROR__AT.NOT_FOUND_BY_ID,
-            action
+            action,
+            94,
+            'gameConfig.middleware.ts'
           )
         )
       }

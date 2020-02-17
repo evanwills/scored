@@ -1,5 +1,5 @@
 import { ITurn, IRound } from '../types/scored'
-import { ROUND_STATES } from '../types/scored-enums'
+import { ROUND_STATE } from '../types/scored-enums'
 
 export const initialTurn : ITurn = {
   id: -1,
@@ -21,7 +21,7 @@ export const initialRound : IRound = {
   leaderID: -1,
   playersInOrder: [],
   playOrderIndex: 0,
-  stateMachine: ROUND_STATES.NO_ROUND,
+  stateMachine: ROUND_STATE.NO_ROUND,
   turns: {
     index: 0,
     current: initialTurn,

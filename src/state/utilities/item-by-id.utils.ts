@@ -31,3 +31,12 @@ export const getItemById = <T extends IHasId>(id: number, items: Array<T>) : T|I
 
   return (index > -1) ? items[index] : { id: -1 }
 }
+
+
+/**
+ * Find the index of the item matching the specified ID
+ *
+ * @param id    (needle) ID for desired item
+ * @param items (haystack) list of items to be searched
+ */
+export const getItemIndexByID = (id: number, items: Array<IHasId>) : number => items.findIndex(findFunc(id))

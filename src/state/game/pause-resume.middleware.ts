@@ -45,7 +45,9 @@ const pauseResume__MW : Middleware = (store) => (next) => (action) => {
           error__AC(
             ['Resume failed because game was not paused'],
             ERROR__AT.PAUSE_RESUME_FAILURE,
-            action
+            action,
+            45,
+            'pause-resume.middleware.ts'
           )
         )
       }
@@ -60,7 +62,9 @@ const pauseResume__MW : Middleware = (store) => (next) => (action) => {
           error__AC(
             ['Pause failed because game was already paused'],
             ERROR__AT.PAUSE_RESUME_FAILURE,
-            action
+            action,
+            62,
+            'pause-resume.middleware.ts'
           )
         )
       }
