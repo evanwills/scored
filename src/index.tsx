@@ -31,7 +31,6 @@ scoredStore.dispatch(initialiseGame__AC(1))
 // Add Georgie to players
 scoredStore.dispatch(addPlayerToGame__AC(2))
 console.log(scoredStore.getState())
-throw new Error()
 
 // Add Evan to players
 scoredStore.dispatch(addPlayerToGame__AC(1))

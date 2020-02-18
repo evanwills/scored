@@ -2,7 +2,7 @@
 import { Middleware } from 'redux'
 
 import { GamePlayers, IConfigGame, IMeta } from '../types/scored'
-import { GAME_STATE, ERROR__AT, GAME__AT, ROUND__AT, TURN__AT, ROUND_STATE } from '../types/scored-enums'
+import { GAME_STATE, ERROR__AT, GAME__AT, ROUND_STATE } from '../types/scored-enums'
 
 import { gameMachineState__AC, initialiseGameFull__AC } from '../game/game.action'
 import { initialPause } from '../game/game.initial-state'
@@ -125,7 +125,11 @@ const game__MW : Middleware = (store) => (next) => (action) => {
 
     case GAME__AT.START:
       if (stateMachine === GAME_STATE.MANAGE_PLAYERS) {
-        if (players.playersSeatOrder.length >= 2 && typeof (action.meta as IMeta).dispatched === 'undefined') {
+        console.log('action:', action)
+        if (players.playersSeatOrder.length >= 2) {
+          if (typeof (action.meta as IMeta).dispatched !== 'undefined') {
+            return next(action)
+          }
           store.dispatch({
             ...action,
             meta: {
@@ -150,7 +154,7 @@ const game__MW : Middleware = (store) => (next) => (action) => {
             error__AC(
               [
                 stateMachine,
-                GAME_STATE.MANAGE_PLAYERS,
+                GAME_STATE.PLAYING_GAME,
                 'because you need more than one player to start a game'
               ],
               ERROR__AT.STATE_TRANSITION_FAILURE_SPECIAL,

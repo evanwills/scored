@@ -1,7 +1,7 @@
 import { Reducer } from 'redux'
 
 import { IPlayerSimple } from '../types/scored'
-import { GAME_PLAYERS__AT } from '../types/scored-enums'
+import { GAME_PLAYERS__AT, GAME__AT } from '../types/scored-enums'
 // import { } from '../../types/player.types'
 // import { TURN__AT } from '../../types/round.types'
 import { initialPlayers } from '../player/player.initial-state'
@@ -12,7 +12,9 @@ import { isPlayerSimple__TG } from '../types/typeguards'
 
 const gamePlayer__R : Reducer = (state = initialPlayers, action) => {
   switch (action.type) {
-    case GAME_PLAYERS__AT.ADD:
+    // case GAME_PLAYERS__AT.ADD: // invoked by user interaction, only
+                                  // contains ID of user to be added
+    case GAME__AT.ADD_PLAYER: // contains full (simple) player object
       return {
         ...state,
         playersSeatOrder: [...state.playersSeatOrder, action.payload.player]

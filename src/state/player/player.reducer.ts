@@ -1,7 +1,7 @@
 import { Reducer } from 'redux'
 
 import { IPlayerSimple } from '../types/scored'
-import { ALL_PLAYERS__AT, GAME_PLAYERS__AT } from '../types/scored-enums'
+import { ALL_PLAYERS__AT } from '../types/scored-enums'
 // import { } from '../../types/player.types'
 // import { TURN__AT } from '../../types/round.types'
 import { initialGamePlayers } from './player.initial-state'

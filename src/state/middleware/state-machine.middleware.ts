@@ -1,5 +1,5 @@
 import { Middleware } from 'redux'
-import { gameFiniteStateMachine } from '../game/game.initial-state'
+// import { gameFiniteStateMachine } from '../game/game.initial-state'
 import { GAME__AT, GAME_STATE, ROUND__AT, ROUND_STATE } from '../types/scored-enums'
 import { gameMachineState__AC } from '../game/game.action'
 import { roundStateMachine__AC } from '../round/round.action'
@@ -23,40 +23,46 @@ const stateMachine__MW : Middleware = (store) => (next) => (action) => {
     case GAME__AT.START:
       console.log('inside stateMachine__MW() > GAME__AT.START ("' + GAME__AT.START + '")')
       console.log('action')
-      store.dispatch(action)
+      next(action)
       return next(gameMachineState__AC(GAME_STATE.PLAYING_GAME))
 
-    case GAME__AT.START:
-      store.dispatch(action)
-      return next(gameMachineState__AC(GAME_STATE.PLAYING_GAME))
+    // case GAME__AT.START:
+    //   next(action)
+    //   return next(gameMachineState__AC(GAME_STATE.PLAYING_GAME))
 
     case GAME__AT.ADD_PLAYER:
       if (currentGame.stateMachine === GAME_STATE.GAME_INITIALISED) {
-        store.dispatch(action)
+        next(action)
         return next(gameMachineState__AC(GAME_STATE.MANAGE_PLAYERS))
       }
+      break;
+
     case GAME__AT.END:
-      store.dispatch(action)
+      next(action)
       return next(gameMachineState__AC(GAME_STATE.GAME_ENDED))
 
     case PAST_GAME__AT.ADD:
-      store.dispatch(action)
+      next(action)
       return next(gameMachineState__AC(GAME_STATE.GAME_FINALISED))
 
     case ROUND__AT.INITIALISE:
-      store.dispatch(action)
+      next(action)
       return next(roundStateMachine__AC(ROUND_STATE.ROUND_INITIALISED))
 
     case ROUND__AT.ADD_TURN:
       if (currentGame.round.stateMachine === ROUND_STATE.ROUND_INITIALISED) {
-        store.dispatch(action)
+        next(action)
         return next(roundStateMachine__AC(ROUND_STATE.ROUND_TAKING_TURNS))
       }
+      break;
 
     case ROUND__AT.FINALISE:
-      store.dispatch(action)
+      next(action)
       return next(roundStateMachine__AC(ROUND_STATE.ROUND_FINALISED))
   }
+
+  console.log('At the end of stateMachine__MW')
+  console.log('action:', action)
   return next(action)
 }
 

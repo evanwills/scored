@@ -2,7 +2,7 @@
 import { Middleware } from 'redux'
 
 import { IWholeScored } from '../types/scored'
-import { ERROR__AT, ALL_PLAYERS__AT, GAME_PLAYERS__AT, GAME__AT } from '../types/scored-enums'
+import { ERROR__AT, ALL_PLAYERS__AT } from '../types/scored-enums'
 
 // import { isIdPayload__TG, isPlayerSimple__TG, isPlayerPayload__TG, isDispatchedAction_TG } from '../types/typeguards'
 

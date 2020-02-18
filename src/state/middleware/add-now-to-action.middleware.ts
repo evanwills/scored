@@ -1,6 +1,6 @@
-import { IActionStamped } from '../types/scored'
+import { IActionStamped, IMetaStamped } from '../types/scored'
 import { Middleware } from 'redux'
-import { GAME_STATE, ROUND_STATE } from '../types/scored-enums'
+// import { GAME_STATE, ROUND_STATE } from '../types/scored-enums'
 
 /**
  * Redux middleware stampAction__MW() appends a
@@ -13,10 +13,21 @@ import { GAME_STATE, ROUND_STATE } from '../types/scored-enums'
  * @property {Date} now date object to be used
  */
 const stampAction__MW : Middleware = (store) => (next) => (action) => {
-  console.log('inside gameConfig__MW()')
+  console.log('inside stampAction__MW()')
 
   if (action.meta.now > 0) {
-    return next(action)
+    console.log('old action')
+    if (action.meta.z > 10) {
+      throw new Error('We\'ve seen this action way too many times.')
+    }
+    console.log('sending action onto next middleware')
+    return next({
+      ...action,
+      meta: {
+        ...action.meta,
+        z: action.meta.z + 1
+      }
+    })
   } else {
     // const { currentGame } = store.getState()
     const _now = Date.now()
@@ -24,6 +35,8 @@ const stampAction__MW : Middleware = (store) => (next) => (action) => {
     // that to start with
     const _meta = (typeof action.meta === 'undefined') ? { now: _now } : action.meta
     const _nowState = store.getState()
+    console.log('action.meta:', action.meta)
+    console.log('_meta:', _meta)
 
     const _modifiedAction : IActionStamped = {
       ...action,
@@ -38,8 +51,12 @@ const stampAction__MW : Middleware = (store) => (next) => (action) => {
         // gameState: currentGame.stateMachine,
         gameState: _nowState.currentGame.stateMachine,
         // roundState: currentGame.round.stateMachine
-        roundState: _nowState.currentGame.round.stateMachine
-     } : _meta
+        roundState: _nowState.currentGame.round.stateMachine,
+        z: 1
+      } : {
+        ..._meta,
+        z: _meta.z + 1
+      }
     }
     return next(_modifiedAction)
   }

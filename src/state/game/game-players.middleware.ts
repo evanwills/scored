@@ -20,6 +20,8 @@ const gamePlayers__MW : Middleware = (store) => (next) => (action) => {
 
   switch (action.type) {
     case GAME_PLAYERS__AT.ADD:
+      console.log('inside gamePlayers__MW() > GAME_PLAYERS__AT.ADD ("' + GAME_PLAYERS__AT.ADD + '")')
+      console.log('action:', action)
       if (isDispatchedAction_TG(action)) {
         console.log('Second visit of this action to gamePlayer__MW()')
         console.log('action:', action)

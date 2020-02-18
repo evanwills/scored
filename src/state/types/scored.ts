@@ -336,7 +336,8 @@ export interface IMetaStamped extends IMeta {
   dispatched?: boolean,
   gameState: GAME_STATE,
   now: number // Timestamp
-  roundState: ROUND_STATE
+  roundState: ROUND_STATE,
+  z: number
 }
 
 
