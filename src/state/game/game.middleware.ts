@@ -9,7 +9,7 @@ import { initialPause } from '../game/game.initial-state'
 import error__AC from '../errors/error.action'
 import { getItemById } from '../utilities/item-by-id.utils'
 import { initialRound } from '../round/round.initital-states'
-import { incrementGameIndex__AC, PAST_GAME__AT } from '../pastGames/past-game.actions'
+import { incrementGameIndex__AC, PAST_GAME__AT } from '../past-games/past-game.actions'
 import { initialiseRound__AC, roundStateMachine__AC } from '../round/round.action'
 
 // import { gameConfigs, pastGames} from './game.mocs'

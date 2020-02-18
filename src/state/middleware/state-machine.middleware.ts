@@ -4,7 +4,7 @@ import { GAME__AT, GAME_STATE, ROUND__AT, ROUND_STATE } from '../types/scored-en
 import { gameMachineState__AC } from '../game/game.action'
 import { roundStateMachine__AC } from '../round/round.action'
 import { IWholeScored } from '../types/scored'
-import { PAST_GAME__AT } from '../pastGames/past-game.actions'
+import { PAST_GAME__AT } from '../past-games/past-game.actions'
 
 /**
  * stateMachine__MW() ensures that game & round stateMachines are

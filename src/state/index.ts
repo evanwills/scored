@@ -5,12 +5,13 @@ import { Store, createStore, combineReducers, applyMiddleware } from 'redux'
 
 
 import { pause__R } from './game/pause.reducer'
-import { gameEnd__R, gameID__R, gameConfig__R, gameStart__R, gameState__R } from './game/game.reducer'
-import { gamePlayer__R, allPlayer__R } from './player/player.reducer'
+import { gameEnd__R, gameID__R, currentGameConfig__R, gameStart__R, gameState__R } from './game/game.reducer'
+import gamePlayer__R from './game/game-players.reducer'
+import allPlayer__R from './player/player.reducer'
 import { scores__R } from './score/scores.reducer'
 import { round__R } from './round/round.reducer'
-import { pastGame__R } from './pastGames/past-games.reducer'
-import gameConfigs__R from './gameConfig/gameConfig.reducer'
+import { pastGame__R } from './past-games/past-games.reducer'
+import gameConfigs__R from './game-config/game-config.reducer'
 import errorLog__R from './errors/errorLog.reducer'
 import uiState__R from './ui-state/ui-state.reducer'
 import appSettings__R from './app-settings/app-settings.reducer'
@@ -23,12 +24,12 @@ import appSettings__R from './app-settings/app-settings.reducer'
 
 import stampAction__MW from './middleware/add-now-to-action.middleware'
 import logger__MW from './middleware/logger.middleware'
-import gameConfig__MW from './gameConfig/gameConfig.middleware'
+import gameConfig__MW from './game-config/game-config.middleware'
 import game__MW from './game/game.middleware'
 import pauseResume__MW from './game/pause-resume.middleware'
 import round__MW from './round/round.middleware'
 import allPlayers__MW from './player/player.middleware'
-import gamePlayers__MW from './player/player.middleware'
+import gamePlayers__MW from './game/game-players.middleware'
 import initialState from './initial-state'
 import errorReporter from './errors/error.reporter'
 import stateMachine__MW from './middleware/state-machine.middleware'
@@ -46,7 +47,7 @@ const scoredStore : Store = createStore(
     currentGame: combineReducers({
       id: gameID__R,
       end: gameEnd__R,
-      config: gameConfig__R,
+      config: currentGameConfig__R,
       pause: pause__R,
       players: gamePlayer__R,
       round: round__R,
@@ -67,8 +68,8 @@ const scoredStore : Store = createStore(
     gameConfig__MW,
     game__MW, // handles validating game state transitions
     gamePlayers__MW,
-    // pauseResume__MW,
-    // round__MW,
+    pauseResume__MW,
+    round__MW,
     stateMachine__MW
   )
 )

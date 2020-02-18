@@ -1,15 +1,15 @@
 
 import { Middleware } from 'redux'
 
-import { IWholeScored, IPlayerSimple, IHasId, IHasName } from '../types/scored'
+import { IWholeScored } from '../types/scored'
 import { ERROR__AT, ALL_PLAYERS__AT, GAME_PLAYERS__AT, GAME__AT } from '../types/scored-enums'
 
-import { isIdPayload__TG, isPlayerSimple__TG, isPlayerPayload__TG, isDispatchedAction_TG } from '../types/typeguards'
+// import { isIdPayload__TG, isPlayerSimple__TG, isPlayerPayload__TG, isDispatchedAction_TG } from '../types/typeguards'
 
 import { isDuplicateName, sanitiseName } from '../utilities/name.utils'
-import { getItemById, itemMatchesID } from '../utilities/item-by-id.utils'
+// import { getItemById, itemMatchesID } from '../utilities/item-by-id.utils'
 import error__AC from '../errors/error.action'
-import { addFullPlayerToGame__AC } from '../game/game.action'
+// import { addFullPlayerToGame__AC } from '../game/game.action'
 
 // import {allPlayers, } from '../game/game.mocs'
 

@@ -44,7 +44,7 @@ export const gameEnd__R : Reducer = (state : number = -1, action) : number => {
 // export const gameTurns__R : Reducer = (state: [], action) => {
 // }
 
-export const gameConfig__R : Reducer = (state : IConfigGame = intialGameConfig, action) : IConfigGame => {
+export const currentGameConfig__R : Reducer = (state : IConfigGame = intialGameConfig, action) : IConfigGame => {
   switch (action.type) {
     case GAME__AT.INITIALISE:
     case GAME__AT.CONFIG:

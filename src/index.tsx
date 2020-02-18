@@ -10,7 +10,7 @@ import * as serviceWorker from './serviceWorker';
 import { initialiseGame__AC, gameMachineState__AC, addPlayerToGame__AC, startGame__AC } from './state/game/game.action'
 import { GAME_STATE } from './state/types/scored-enums'
 import scoredStore from './state/index'
-// import { newGameConf__AC } from './state/gameConfig/gameConfig.action';
+// import { newGameConf__AC } from './state/game-config/game-config.action';
 import { movePlayerToGame__AC } from './state/player/player.action';
 import { startTurn__AC } from './state/round/turns.action';
 
