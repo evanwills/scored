@@ -22,7 +22,7 @@ import appSettings__R from './app-settings/app-settings.reducer'
 // START: middleware imports
 
 
-import stampAction__MW from './middleware/add-now-to-action.middleware'
+import stampAction__MW from './middleware/stamp-action.middleware'
 import logger__MW from './middleware/logger.middleware'
 import gameConfig__MW from './game-config/game-config.middleware'
 import game__MW from './game/game.middleware'
