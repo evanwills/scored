@@ -18,10 +18,11 @@ import error__AC from '../errors/error.action'
  * @param {Store} store Redux store
  */
 const pauseResume__MW : Middleware = (store) => (next) => (action) => {
+  console.log('inside pauseResume__MW()')
+
   // const currentStore : IWholeScored = store.getState()
   // const { pause } : IGameActive = currentStore.currentGame
   const { pause } : IGameActive = store.getState()
-
 
   switch (action.type) {
     // NOTE: This switch has no default because each case has an IF

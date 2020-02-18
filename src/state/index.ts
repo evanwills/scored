@@ -21,13 +21,14 @@ import appSettings__R from './app-settings/app-settings.reducer'
 // START: middleware imports
 
 
-import addMetaToAction__MW from './middleware/add-now-to-action.middleware'
+import stampAction__MW from './middleware/add-now-to-action.middleware'
 import logger__MW from './middleware/logger.middleware'
 import gameConfig__MW from './gameConfig/gameConfig.middleware'
 import game__MW from './game/game.middleware'
 import pauseResume__MW from './game/pause-resume.middleware'
 import round__MW from './round/round.middleware'
-import { allPlayers__MW, gamePlayers__MW } from './player/player.middleware'
+import allPlayers__MW from './player/player.middleware'
+import gamePlayers__MW from './player/player.middleware'
 import initialState from './initial-state'
 import errorReporter from './errors/error.reporter'
 import stateMachine__MW from './middleware/state-machine.middleware'
@@ -60,14 +61,14 @@ const scoredStore : Store = createStore(
   }),
   initialState,
   applyMiddleware(
-    addMetaToAction__MW,
+    stampAction__MW,
     logger__MW,
     allPlayers__MW,
     gameConfig__MW,
     game__MW, // handles validating game state transitions
     gamePlayers__MW,
-    pauseResume__MW,
-    round__MW,
+    // pauseResume__MW,
+    // round__MW,
     stateMachine__MW
   )
 )

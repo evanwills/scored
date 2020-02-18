@@ -3,7 +3,7 @@ import { gameFiniteStateMachine } from '../game/game.initial-state'
 import { GAME__AT, GAME_STATE, ROUND__AT, ROUND_STATE } from '../types/scored-enums'
 import { gameMachineState__AC } from '../game/game.action'
 import { roundStateMachine__AC } from '../round/round.action'
-import { IGameActive, IWholeScored } from '../types/scored'
+import { IWholeScored } from '../types/scored'
 import { PAST_GAME__AT } from '../pastGames/past-game.actions'
 
 /**
@@ -16,10 +16,13 @@ import { PAST_GAME__AT } from '../pastGames/past-game.actions'
  * @param store Redux store
  */
 const stateMachine__MW : Middleware = (store) => (next) => (action) => {
+  console.log('inside stateMachine__MW()')
   const { currentGame } : IWholeScored = store.getState()
 
   switch (action.type) {
     case GAME__AT.START:
+      console.log('inside stateMachine__MW() > GAME__AT.START ("' + GAME__AT.START + '")')
+      console.log('action')
       store.dispatch(action)
       return next(gameMachineState__AC(GAME_STATE.PLAYING_GAME))
 
@@ -44,9 +47,17 @@ const stateMachine__MW : Middleware = (store) => (next) => (action) => {
       store.dispatch(action)
       return next(roundStateMachine__AC(ROUND_STATE.ROUND_INITIALISED))
 
-    default:
-      return next(action)
+    case ROUND__AT.ADD_TURN:
+      if (currentGame.round.stateMachine === ROUND_STATE.ROUND_INITIALISED) {
+        store.dispatch(action)
+        return next(roundStateMachine__AC(ROUND_STATE.ROUND_TAKING_TURNS))
+      }
+
+    case ROUND__AT.FINALISE:
+      store.dispatch(action)
+      return next(roundStateMachine__AC(ROUND_STATE.ROUND_FINALISED))
   }
+  return next(action)
 }
 
 export default stateMachine__MW

@@ -1,20 +1,8 @@
-import { IAction, IPlayerSimple } from '../types/scored'
+import { IAction } from '../types/scored'
 import { GAME_PLAYERS__AT, ALL_PLAYERS__AT } from '../types/scored-enums'
 // import { } from '../../types/player.types'
 
 
-export const addPlayerToGame__AC = (_player: IPlayerSimple) : IAction => {
-  return {
-    type: GAME_PLAYERS__AT.ADD,
-    payload: {
-      player: _player
-    },
-    error: false,
-    meta: {
-      now: -1
-    }
-  }
-}
 
 export const movePlayerToGame__AC = (_id: number, _position: number) : IAction => {
   return {

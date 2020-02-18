@@ -3,7 +3,7 @@ import { Middleware } from 'redux'
 import { GAME_STATE, ROUND_STATE } from '../types/scored-enums'
 
 /**
- * Redux middleware addMetaToAction__MW() appends a
+ * Redux middleware stampAction__MW() appends a
  * "now" property to an Iaction's payload object before
  * passing it to the next middleware.
  *
@@ -12,7 +12,9 @@ import { GAME_STATE, ROUND_STATE } from '../types/scored-enums'
  *
  * @property {Date} now date object to be used
  */
-const addMetaToAction__MW : Middleware = (store) => (next) => (action) => {
+const stampAction__MW : Middleware = (store) => (next) => (action) => {
+  console.log('inside gameConfig__MW()')
+
   if (action.meta.now > 0) {
     return next(action)
   } else {
@@ -21,6 +23,7 @@ const addMetaToAction__MW : Middleware = (store) => (next) => (action) => {
     // If the action already has a meta property we'll use
     // that to start with
     const _meta = (typeof action.meta === 'undefined') ? { now: _now } : action.meta
+    const _nowState = store.getState()
 
     const _modifiedAction : IActionStamped = {
       ...action,
@@ -33,13 +36,13 @@ const addMetaToAction__MW : Middleware = (store) => (next) => (action) => {
          ..._meta,
         now: _now,
         // gameState: currentGame.stateMachine,
-        gameState: GAME_STATE.NO_GAME,
+        gameState: _nowState.currentGame.stateMachine,
         // roundState: currentGame.round.stateMachine
-        roundState: ROUND_STATE.NO_ROUND
+        roundState: _nowState.currentGame.round.stateMachine
      } : _meta
     }
     return next(_modifiedAction)
   }
 }
 
-export default addMetaToAction__MW
+export default stampAction__MW

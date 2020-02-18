@@ -25,6 +25,8 @@ import { initialiseRound__AC, roundStateMachine__AC } from '../round/round.actio
  * @param store
  */
 const game__MW : Middleware = (store) => (next) => (action) => {
+  console.log('inside game__MW()')
+
   const { currentGame, gameConfigs, pastGames } = store.getState()
   const { config, players, stateMachine } = currentGame
 
@@ -122,15 +124,8 @@ const game__MW : Middleware = (store) => (next) => (action) => {
 
 
     case GAME__AT.START:
-      console.log('inside game__MW > GAME__AT.START (' + GAME__AT.START + ')')
       if (stateMachine === GAME_STATE.MANAGE_PLAYERS) {
-        console.log('players.playersSeatOrder.length:', players.playersSeatOrder.length)
-        console.log('action.meta:', action.meta)
-        console.log('(' + players.playersSeatOrder.length + ' >= 2):', (players.playersSeatOrder.length >= 2))
-        console.log('(' + action.meta.dispatch + ' >= FALSE):', (action.meta.dispatch === false))
         if (players.playersSeatOrder.length >= 2 && typeof (action.meta as IMeta).dispatched === 'undefined') {
-          console.log('dispatching gameMachineState__AC(GAME_STATE.PLAYING_GAME)')
-          console.log('dispatching primary action')
           store.dispatch({
             ...action,
             meta: {
@@ -138,7 +133,6 @@ const game__MW : Middleware = (store) => (next) => (action) => {
               dispatched: true
             }
           })
-          console.log('dispatching initialiseRound__AC()')
           console.log(initialiseRound__AC(
             players.playersSeatOrder,
             config.playOrder,

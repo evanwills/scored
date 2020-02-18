@@ -28,6 +28,8 @@ const okAction = (meta: IMetaStamped) : boolean => {
  * @param store Redux store
  */
 const round__MW : Middleware = (store) => (next) => (action) => {
+  console.log('inside round__MW()')
+
   const currentState : IWholeScored = store.getState()
   const { config, end, players, round, scores } = currentState.currentGame
 

@@ -1,4 +1,4 @@
-import { IAction, IGameActive, IMeta, IResumeGameAction, IPlayerSimple } from '../types/scored'
+import { IAction, IGameActive, IMeta, IResumeGameAction, IPlayerSimple, IMetaStamped } from '../types/scored'
 import { GAME_STATE, GAME__AT, GAME_PLAYERS__AT } from '../types/scored-enums'
 // import { } from '../../types/game.types'
 
@@ -110,7 +110,7 @@ export const gameMachineState__AC = (stateMachineState: GAME_STATE) : IAction =>
 export const addPlayerToGame__AC = (_id: number) : IAction => {
   return {
     ...dummyAction,
-    type: GAME__AT.ADD_PLAYER,
+    type: GAME_PLAYERS__AT.ADD,
     payload: {
       id: _id
     }
@@ -118,12 +118,23 @@ export const addPlayerToGame__AC = (_id: number) : IAction => {
 }
 
 
-export const addFullPlayerToGame__AC = (_player: IPlayerSimple) : IAction => {
+export const addFullPlayerToGame__AC = (_player: IPlayerSimple, _meta: IMetaStamped) : IAction => {
+  const _code = (typeof _meta.code === 'undefined') ? 1 : _meta.code + 1
+
+  if (_code > 100) {
+    throw new Error('WTF is going on here why is this being called so many times?')
+  }
+
   return {
     ...dummyAction,
-    type: GAME_PLAYERS__AT.ADD,
+    type: GAME__AT.ADD_PLAYER,
     payload: {
       player: _player
+    },
+    meta: {
+      ..._meta,
+      dispatched: true,
+      code: _code
     }
   }
 }

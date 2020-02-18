@@ -7,7 +7,7 @@ import {
   IPositionPayload,
   IResumePayload,
   IScorePayload, ITotalScorePayload,
-  ITurn, ITurnComplete, ITurnCompletePayload, ITurnsCompletePayload, IHasId
+  ITurn, ITurnComplete, ITurnCompletePayload, ITurnsCompletePayload, IHasId, IAction, IMeta
 } from './scored'
 
 import { PLAY_ORDER } from './scored-enums'
@@ -28,6 +28,7 @@ export const isObjectWithID__TG = (item: IHasName) : boolean => {
 // START: Payload typeguards
 
 export const isIdPayload__TG = (payload: IPayload | IIdPayload) : boolean => {
+  console.log(payload)
   return (
     typeof (payload as IIdPayload).id === 'number'
     && (payload as IIdPayload).id > 0
@@ -65,6 +66,8 @@ export const isResumePayload__TG = (payload: IPayload | IResumePayload) : boolea
 
 
 export const isPlayerPayload__TG = (payload: IPayload | IPlayerPayload) : boolean => {
+  console.log('payload:', payload)
+  console.log('typeof (payload as IPlayerPayload).player:', typeof (payload as IPlayerPayload).player)
   return (
     typeof (payload as IPlayerPayload).player !== 'undefined'
     && isPlayerSimple__TG((payload as IPlayerPayload).player)
@@ -175,3 +178,10 @@ export const isTurnComplete__TG = (turn: ITurnComplete) : boolean => {
 
 //  END:  turnComplete typeguards
 // ----------------------------------------------
+// START: action typeguards
+
+export const isDispatchedAction_TG = (action: IAction) : boolean => {
+  return (
+    typeof (action.meta as IMeta).dispatched !== 'undefined' && (action.meta as IMeta).dispatched === true
+  )
+}

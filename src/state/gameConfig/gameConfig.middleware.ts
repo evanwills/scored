@@ -21,6 +21,8 @@ import error__AC from '../errors/error.action'
  * @param {Store} store Redux store
  */
 const gameConfig__MW : Middleware = (store) => (next) => (action) => {
+  console.log('inside gameConfig__MW()')
+
   const { gameConfigs } = store.getState()
   let sanitised : string = ''
   let payload = action.payload

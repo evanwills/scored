@@ -50,7 +50,7 @@ export const round__R : Reducer = (state = initialRound, action) : IRound => {
           stateMachine: ROUND_STATE.ROUND_INITIALISED
         }
       } else {
-        throw new Error
+        throw new Error('payload is not IPlayerPayload')
       }
       break;
 
